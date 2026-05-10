@@ -24,9 +24,10 @@
     --spacing-xl: 4rem;
 
     /* Borders & Shadows */
-    --radius: 8px;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
+    --radius: 12px;
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 15px 30px rgba(139, 38, 53, 0.15);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Reset */
@@ -100,13 +101,19 @@ img {
 
 /* Buttons */
 .btn {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    border-radius: 50px;
     font-weight: 600;
     cursor: pointer;
     border: none;
     text-align: center;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
 }
 
 .btn-primary {
@@ -114,9 +121,9 @@ img {
     color: var(--white);
 }
 .btn-primary:hover {
-    background-color: #6a1a26;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    background-color: #711f2b;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(139, 38, 53, 0.3);
 }
 
 .btn-secondary {
@@ -125,8 +132,8 @@ img {
 }
 .btn-secondary:hover {
     background-color: #c08d59;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(212, 163, 115, 0.3);
 }
 
 .btn-gofood {
@@ -140,11 +147,13 @@ img {
 
 /* Header & Navigation */
 header {
-    background-color: var(--white);
-    box-shadow: var(--shadow);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: var(--transition);
 }
 
 .nav-container {
@@ -259,5 +268,21 @@ footer a {
     }
     .hero-content h1 {
         font-size: 2rem;
-    }
 }
+
+/* Menu Cards */
+.menu-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.menu-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+

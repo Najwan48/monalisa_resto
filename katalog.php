@@ -43,7 +43,7 @@ $menus = $stmt->fetchAll();
         <?php else: ?>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                 <?php foreach($menus as $menu): ?>
-                <div style="border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background-color: var(--white); transition: var(--transition);" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <div class="menu-card">
                     <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" style="width: 100%; height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x250?text=Foto+Menu'">
                     <div style="padding: 1.5rem;">
                         <span style="display: inline-block; padding: 4px 8px; background-color: var(--bg-light); color: var(--primary-color); border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: bold;"><?= h($menu['kategori']) ?></span>

@@ -17,7 +17,7 @@ $menus = $stmt_menu->fetchAll();
 <section class="hero">
     <div class="hero-content container">
         <h1><?= h($konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah di Jantung Kota Bogor') ?></h1>
-        <p><?= h($konten['pengantar'] ?? 'Selamat datang di Restaurant Monalisa.') ?></p>
+        <p><?= h($konten['pengantar'] ?? 'Selamat datang di Monalisa Resto.') ?></p>
         <div class="hero-buttons">
             <a href="katalog.php" class="btn btn-primary">Lihat Menu</a>
             <a href="#order" class="btn btn-secondary">Order Online</a>
@@ -35,7 +35,7 @@ $menus = $stmt_menu->fetchAll();
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
             <?php foreach($menus as $menu): ?>
-            <div style="border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background-color: var(--bg-light); transition: var(--transition);" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div class="menu-card">
                 <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" style="width: 100%; height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x250?text=Foto+Menu'">
                 <div style="padding: 1.5rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">

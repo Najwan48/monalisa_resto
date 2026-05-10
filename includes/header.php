@@ -13,15 +13,15 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Monalisa Bogor</title>
-    <meta name="description" content="Restaurant Monalisa menyajikan hidangan autentik khas Jawa Tengah di jantung Kota Bogor.">
+    <title>Monalisa Resto</title>
+    <meta name="description" content="Monalisa Resto menyajikan hidangan autentik khas Jawa Tengah di jantung Kota Bogor.">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <header>
     <div class="nav-container container">
-        <a href="index.php" class="logo">Monalisa</a>
+        <a href="index.php" class="logo">Monalisa Resto</a>
         
         <nav class="nav-links">
             <a href="index.php">Beranda</a>

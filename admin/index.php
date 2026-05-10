@@ -4,11 +4,8 @@ session_start();
 
 // Cek apakah sudah login (sederhana)
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    // Jika belum login dan ada file login.php
-    // header("Location: login.php");
-    // exit;
-    // Sementara, untuk testing kita tampilkan pesan
-    die("Akses ditolak. Silakan login terlebih dahulu. (Buat admin/login.php untuk form login)");
+    header("Location: login.php");
+    exit;
 }
 
 require_once '../includes/db.php';

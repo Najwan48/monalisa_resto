@@ -1,6 +1,11 @@
 <?php
 // kontak.php
 require_once 'includes/header.php';
+?>
+<!-- Leaflet CSS for OpenStreetMap -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<?php
 
 // Ambil data konten kontak (sudah ada di header, tapi untuk best practice ambil lagi khusus halaman ini atau pakai global)
 $stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
@@ -78,10 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
                 
-                <!-- Embed Maps (Placeholder) -->
-                <div style="margin-top: 2rem; width: 100%; height: 250px; background-color: #ddd; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
-                    [Google Maps iframe - Jl. Raya Tajur No. 30]
-                </div>
+                <!-- Embed Maps (OpenStreetMap) -->
+                <div id="map" style="margin-top: 2rem; width: 100%; height: 300px; border-radius: var(--radius); border: 1px solid #ddd; z-index: 1;"></div>
             </div>
             
             <!-- Form Kontak -->
@@ -114,3 +117,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </section>
 
 <?php require_once 'includes/footer.php'; ?>
+
+<script>
+    // Initialize Map
+    // Koordinat Monalisa Hotel & Resto (Jl. Raya Tajur No. 30, Bogor)
+    const lat = -6.6335;
+    const lng = 106.8285;
+    
+    const map = L.map('map').setView([lat, lng], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Custom Icon (Optional but nice)
+    const marker = L.marker([lat, lng]).addTo(map)
+        .bindPopup('<b>Monalisa Restaurant</b><br>Jl. Raya Tajur No. 30, Bogor.')
+        .openPopup();
+</script>

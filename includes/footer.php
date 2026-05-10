@@ -5,7 +5,7 @@
     <div class="container">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: left; margin-bottom: 2rem;">
             <div>
-                <h3 style="color: var(--secondary-color);">Restaurant Monalisa</h3>
+                <h3 style="color: var(--secondary-color);">Monalisa Resto</h3>
                 <p>Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga.</p>
             </div>
             <div>
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
-            <p>&copy; <?= date('Y'); ?> Restaurant Monalisa Bogor. Hak Cipta Dilindungi.</p>
+            <p>&copy; <?= date('Y'); ?> Monalisa Resto. Hak Cipta Dilindungi.</p>
         </div>
     </div>
 </footer>
