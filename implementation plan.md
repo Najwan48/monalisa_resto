@@ -1,9 +1,9 @@
-# 📘 PROJECT BRIEF & PROMPT PENGEMBANGAN: WEBSITE COMPANY PROFILE RESTAURANT MONALISA BOGOR
+# PROJECT BRIEF & PROMPT PENGEMBANGAN: WEBSITE COMPANY PROFILE RESTAURANT MONALISA BOGOR
 *(Terverifikasi & Disinkronisasi 100% dengan Proposal_CompanyProfile_Restaurant_Monalisa.docx & BRD_CompanyProfile_Restaurant_Monalisa.docx — April 2026)*
 
 ---
 
-## 🎯 1. INFORMASI DASAR PROYEK
+## 1. INFORMASI DASAR PROYEK
 | Aspek | Detail |
 |-------|--------|
 | **Nama Proyek** | Website Company Profile Restaurant Monalisa Bogor |
@@ -12,13 +12,13 @@
 | **Durasi Proyek** | 12 Minggu (April – Juni 2026) |
 | **Stack Teknologi** | HTML5, CSS3, JavaScript ES6+ Vanilla, PHP Native, MySQL 8.x |
 | **Server** | VPS Linux (Apache/Nginx), konfigurasi manual tanpa container |
-| **Status Dokumen** | Draft for Approval → Konfidensial Internal |
+| **Status Dokumen** | Draft for Approval -> Konfidensial Internal |
 
 ---
 
-## 👁️ 2. VISI & TUJUAN BISNIS
+## 2. VISI & TUJUAN BISNIS
 > **Visi Transformasi Digital:**  
-> *“Menghadirkan wajah digital profesional bagi Restaurant Monalisa agar setiap calon pelanggan—warga lokal maupun wisatawan—dapat menemukan, mengenal, dan merasakan kekayaan kuliner Jawa Tengah restoran ini secara online, sebelum mereka memutuskan untuk datang langsung.”*
+> *"Menghadirkan wajah digital profesional bagi Restaurant Monalisa agar setiap calon pelanggan—warga lokal maupun wisatawan—dapat menemukan, mengenal, dan merasakan kekayaan kuliner Jawa Tengah restoran ini secara online, sebelum mereka memutuskan untuk datang langsung."*
 
 | Kode | Objektif Bisnis | Target Terukur | Prioritas |
 |------|----------------|----------------|-----------|
@@ -28,21 +28,21 @@
 | OBJ-04 | Profil Restoran Informatif | Halaman Tentang Kami komprehensif & mudah dipahami | TINGGI |
 | OBJ-05 | Galeri Visual Menarik | Minimal 20 foto berkualitas tinggi | TINGGI |
 | OBJ-06 | Pengelolaan Konten Mandiri | Update menu/foto/konten tanpa bantuan teknis | TINGGI |
-| OBJ-07 | Peningkatan Jangkauan Pelanggan | ≥20% pelanggan baru non-lokal dalam 3 bulan | SEDANG |
+| OBJ-07 | Peningkatan Jangkauan Pelanggan | >=20% pelanggan baru non-lokal dalam 3 bulan | SEDANG |
 | OBJ-08 | Keamanan & Integritas Sistem | Panel admin terproteksi dari SQLi, XSS, CSRF | TINGGI |
 
 ---
 
-## 🍽️ 3. SPESIFIKASI MENU (SESUAI PROPOSAL BAB 2.3 & BRD BR-01/BR-02)
-> ⚠️ **Instruksi Wajib:** Seluruh struktur, field, dan data awal menu **HARUS** mengikuti spesifikasi berikut secara eksak. Tidak boleh ada penambahan field atau perubahan deskripsi tanpa persetujuan formal.
+## 3. SPESIFIKASI MENU (SESUAI PROPOSAL BAB 2.3 & BRD BR-01/BR-02)
+> **Instruksi Wajib:** Seluruh struktur, field, dan data awal menu **HARUS** mengikuti spesifikasi berikut secara eksak. Tidak boleh ada penambahan field atau perubahan deskripsi tanpa persetujuan formal.
 
-### 📋 Field Database & UI Menu (Wajib)
+### Field Database & UI Menu (Wajib)
 | Field | Tipe | Keterangan | Sumber Dokumen |
 |-------|------|------------|----------------|
 | `id` | INT PK AUTO_INCREMENT | Primary Key | BRD BR-02 |
 | `nama_menu` | VARCHAR(100) | Nama hidangan | Proposal BAB 2.3 |
 | `asal_daerah` | VARCHAR(100) | Asal kuliner (Kudus, Semarang, Kalasan, dll.) | Proposal BAB 2.3 |
-| `deskripsi_singkat` | TEXT | Tampilan di Katalog Menu (≤150 karakter) | BRD BR-01 |
+| `deskripsi_singkat` | TEXT | Tampilan di Katalog Menu (<=150 karakter) | BRD BR-01 |
 | `deskripsi_lengkap` | LONGTEXT | Tampilan di Halaman Detail Menu | BRD BR-01 |
 | `bahan_utama` | TEXT | Komposisi utama hidangan | BRD BR-01 |
 | `info_alergen` | TEXT | Opsional, jika tersedia | BRD BR-01 |
@@ -52,7 +52,7 @@
 | `status` | ENUM('aktif','nonaktif') | Kontrol tampilan publik | BRD BR-02 |
 | `created_at`, `updated_at` | TIMESTAMP | Audit trail | BRD BR-02 |
 
-### 📦 Data Awal Menu (Seed Data Wajib)
+### Data Awal Menu (Seed Data Wajib)
 Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 | No | Nama Menu | Asal Daerah | Deskripsi (Sesuai Dokumen) |
 |----|-----------|-------------|----------------------------|
@@ -64,8 +64,8 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 📦 4. RUANG LINGKUP (SCOPE)
-### ✅ Termasuk (In-Scope)
+## 4. RUANG LINGKUP (SCOPE)
+### Termasuk (In-Scope)
 1. 7 halaman publik: Beranda, Tentang Kami, Katalog Menu, Detail Menu, Galeri Foto, Kontak & Lokasi, Order Online
 2. Tombol/banner GoFood & GrabFood (redirect link langsung ke platform masing-masing)
 3. Panel Admin dengan 4 modul + Dashboard + Log Aktivitas
@@ -74,7 +74,7 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 6. Deployment pada VPS Linux (Apache/Nginx) konfigurasi manual
 7. Dokumentasi teknis lengkap: ERD, SRS, user manual, panduan server, BAST, log mingguan
 
-### ❌ Tidak Termasuk (Out-of-Scope)
+### Tidak Termasuk (Out-of-Scope)
 1. Fitur pemesanan langsung, reservasi meja, atau transaksi online di dalam website
 2. Integrasi API GoFood/GrabFood atau payment gateway
 3. Penggunaan framework PHP (Laravel, CodeIgniter) maupun framework CSS/JS (Bootstrap, React, Tailwind, dll.)
@@ -83,7 +83,7 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 🔧 5. ARSITEKTUR & TEKNOLOGI (WAJIB & TANPA KECUALI)
+## 5. ARSITEKTUR & TEKNOLOGI (WAJIB & TANPA KECUALI)
 | Layer | Teknologi | Catatan Kepatuhan |
 |-------|-----------|-------------------|
 | Frontend | HTML5, CSS3 (Grid & Flexbox native), JavaScript ES6+ Vanilla | Mobile-first, tanpa framework CSS/JS |
@@ -94,7 +94,7 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 🌐 6. STRUKTUR HALAMAN PUBLIK (DIPERBARUI SESUAI BRD BR-01)
+## 6. STRUKTUR HALAMAN PUBLIK (DIPERBARUI SESUAI BRD BR-01)
 | Halaman | Konten Utama | Tujuan |
 |---------|--------------|--------|
 | **Beranda** | Hero image restoran, tagline, highlight menu andalan (Soto Kudus, Lumpia Semarang, dll.), pengantar singkat, navigasi, banner Order Online | Kesan pertama & arahan eksplorasi |
@@ -102,12 +102,12 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 | **Katalog Menu** | Daftar 5+ menu dengan foto, nama, asal daerah, deskripsi singkat, kategori, harga; filter kategori responsif | Membantu perencanaan kunjungan |
 | **Detail Menu** | Foto besar, deskripsi lengkap, asal daerah, bahan utama, info alergen (opsional) | Informasi mendalam per hidangan |
 | **Galeri Foto** | Grid foto suasana, hidangan, area dining; efek hover + lightbox JS vanilla | Daya tarik visual pengalaman bersantap |
-| **Kontak & Lokasi** | Alamat lengkap (Jl. Raya Tajur No. 30), telepon/WhatsApp, jam operasional (07.00–22.00 WIB), embed peta, formulir pesan | Kemudahan kontak & navigasi |
-| **Order Online** | Tombol/banner GoFood & GrabFood menonjol → redirect langsung ke halaman resmi | Memudahkan pemesanan tanpa integrasi API |
+| **Kontak & Lokasi** | Alamat lengkap (Jl. Raya Tajur No. 30), telepon, jam operasional (07.00–22.00 WIB), embed peta, formulir pesan | Kemudahan kontak & navigasi |
+| **Order Online** | Tombol/banner GoFood & GrabFood menonjol -> redirect langsung ke halaman resmi | Memudahkan pemesanan tanpa integrasi API |
 
 ---
 
-## 🔐 7. PANEL ADMIN (CMS) (DIPERBARUI SESUAI BRD BR-02)
+## 7. PANEL ADMIN (CMS) (DIPERBARUI SESUAI BRD BR-02)
 | Modul | Fungsi |
 |-------|--------|
 | **Dashboard** | Ringkasan: jumlah menu aktif, foto galeri, status halaman publik |
@@ -120,22 +120,22 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 🛡️ 8. KEAMANAN & PERFORMA (BR-04)
+## 8. KEAMANAN & PERFORMA (BR-04)
 | Aspek | Implementasi Wajib |
 |-------|-------------------|
 | **Autentikasi** | `password_hash()` (bcrypt), session timeout otomatis |
-| **Database** | `prepared statements` di semua query → proteksi SQL Injection |
-| **Output** | `htmlspecialchars()` + sanitasi input/output → proteksi XSS |
-| **Form Admin** | CSRF token validasi di setiap aksi → proteksi CSRF |
+| **Database** | `prepared statements` di semua query -> proteksi SQL Injection |
+| **Output** | `htmlspecialchars()` + sanitasi input/output -> proteksi XSS |
+| **Form Admin** | CSRF token validasi di setiap aksi -> proteksi CSRF |
 | **Akses** | Middleware autentikasi: halaman admin terkunci tanpa login |
-| **Upload** | Validasi tipe & ukuran file → cegah unggahan berbahaya |
-| **Performa** | Load time ≤ 3 detik (koneksi standar), uptime ≥ 99% (30 hari pertama) |
+| **Upload** | Validasi tipe & ukuran file -> cegah unggahan berbahaya |
+| **Performa** | Load time <= 3 detik (koneksi standar), uptime >= 99% (30 hari pertama) |
 | **Kompatibilitas** | Chrome, Firefox, Safari, Edge; desktop & mobile |
 | **Bug** | 0 bug kritis pasca go-live |
 
 ---
 
-## 📅 9. JADWAL & FASE PENGEMBANGAN (12 MINGGU)
+## 9. JADWAL & FASE PENGEMBANGAN (12 MINGGU)
 | Periode | Fase Utama | Kegiatan Kunci |
 |---------|------------|----------------|
 | **M1–M2** (Apr) | Planning & Requirement | Pembentukan tim, WBS, analisis kebutuhan konten/visual/sistem |
@@ -147,7 +147,7 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 👥 10. STRUKTUR TIM & TANGGUNG JAWAB
+## 10. STRUKTUR TIM & TANGGUNG JAWAB
 | Nama | NPM | Peran | Tanggung Jawab Utama |
 |------|-----|-------|----------------------|
 | Muhammad Najwan Busaman | 231106040884 | Project Manager | Manajemen stakeholder, timeline, sprint review mingguan, koordinasi bisnis-teknis, serah terima & BAST |
@@ -157,7 +157,7 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 💰 11. ANGGARAN & SKEMA PEMBAYARAN
+## 11. ANGGARAN & SKEMA PEMBAYARAN
 | Komponen | Rincian | Total (Rp) |
 |----------|---------|------------|
 | **Honor Tenaga Ahli** | PM (3x5.5jt), Frontend (3x4.5jt), Backend (3x4.5jt), QA (3x4jt) | 55.500.000 |
@@ -165,55 +165,55 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 | **Cadangan 10%** | Antisipasi risiko & biaya tak terduga | 6.690.000 |
 | **TOTAL ANGGARAN** | | **73.590.000** |
 
-### 🔄 Tahap Pembayaran (30% – 40% – 30%)
+### Tahap Pembayaran (30% – 40% – 30%)
 | Tahap | Pemicu | Persentase | Estimasi (Rp) |
 |-------|--------|------------|---------------|
 | **1** | Dokumen proposal disetujui & BAST Tahap 1 ditandatangani | 30% | 22.077.000 |
 | **2** | Laporan Kemajuan M8 (desain Figma approved, frontend/backend 50%) | 40% | 29.436.000 |
 | **3** | UAT selesai, website live, pelatihan selesai, BAST Final & laporan akhir | 30% | 22.077.000 |
 
-> 📌 **Catatan:** Tahap 1 **bukan DP**. Setiap tahap wajib disertai BAST tertanda tangan.
+> **Catatan:** Tahap 1 **bukan DP**. Setiap tahap wajib disertai BAST tertanda tangan.
 
 ---
 
-## 📊 12. KRITERIA KEBERHASILAN & KPI
-### ✅ KPI Fungsional & Operasional (30 Hari Pasca-Launch)
+## 12. KRITERIA KEBERHASILAN & KPI
+### KPI Fungsional & Operasional (30 Hari Pasca-Launch)
 | KPI | Target | Verifikasi |
 |-----|--------|------------|
 | Aksesibilitas menu online | 100% tersedia 24/7 | Audit halaman katalog |
 | Kelengkapan profil digital | 7 halaman + tombol order | Checklist deployment |
-| Galeri foto online | ≥20 foto berkualitas | Hitung manual |
+| Galeri foto online | >=20 foto berkualitas | Hitung manual |
 | Update menu mandiri | Staf bisa tanpa bantuan teknis | Observasi sesi latihan |
 | Visibilitas Google | Muncul dalam 30 hari | Search keyword nama restoran |
 | Respon formulir | Diproses <24 jam | Uji kirim & verifikasi |
 
-### ✅ KPI Kualitas Sistem
+### KPI Kualitas Sistem
 | KPI | Target | Verifikasi |
 |-----|--------|------------|
-| Uptime | ≥99% | Monitoring server |
+| Uptime | >=99% | Monitoring server |
 | Bug kritis pasca go-live | 0 | Laporan QA & ticket |
 | UAT sign-off rate | 100% skenario lulus | Laporan UAT tertanda tangan |
-| Waktu muat halaman | ≤3 detik | Load testing Chrome/Firefox |
-| Kepuasan admin (staf) | ≥80% puas/sangat puas | Survei Likert 1–5 |
+| Waktu muat halaman | <=3 detik | Load testing Chrome/Firefox |
+| Kepuasan admin (staf) | >=80% puas/sangat puas | Survei Likert 1–5 |
 
-### ✅ KPI Bisnis (3 Bulan Pertama)
+### KPI Bisnis (3 Bulan Pertama)
 - Adopsi panel admin: 100% pengelola aktif
 - Kemandirian update konten: 100% tanpa bantuan teknis
-- Peningkatan pelanggan non-lokal: ≥20%
-- Penurunan pertanyaan telepon: ≥50%
+- Peningkatan pelanggan non-lokal: >=20%
+- Penurunan pertanyaan telepon: >=50%
 
-### 🚦 KRITERIA GO / NO-GO (6 Poin Wajib)
-1. 7 halaman publik error-free di ≥3 browser (desktop & mobile)
+### KRITERIA GO / NO-GO (6 Poin Wajib)
+1. 7 halaman publik error-free di >=3 browser (desktop & mobile)
 2. Tombol GoFood/GrabFood redirect ke halaman restoran yang benar
 3. Panel admin login, CRUD, unggah foto, update konten tanpa bug kritis
-4. Load time ≤3 detik pada koneksi standar
+4. Load time <=3 detik pada koneksi standar
 5. 100% skenario UAT lulus & ditandatangani pihak restoran
 6. Pelatihan penggunaan panel admin untuk staf selesai dilaksanakan
 
 ---
 
-## ⚠️ 13. MANAJEMEN RISIKO, CONSTRAINT & ASUMSI
-### 🔍 Matriks Risiko Utama
+## 13. MANAJEMEN RISIKO, CONSTRAINT & ASUMSI
+### Matriks Risiko Utama
 | ID | Risiko | Level | Mitigasi |
 |----|--------|-------|----------|
 | R-01 | Konten restoran terlambat | TINGGI | Checklist konten wajib M1–M2, PM monitor mingguan |
@@ -222,12 +222,12 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 | R-07 | Kehilangan data website | TINGGI | Backup otomatis harian, prosedur restore terdokumentasi |
 | R-08 | Koneksi internet tidak stabil saat pelatihan | RENDAH | Demo localhost, rekam video panduan sebagai backup |
 
-### 🚧 Constraint
+### Constraint
 - Durasi tetap 12 minggu
 - Stack teknologi fixed (vanilla only)
 - Garansi perbaikan bug: 30 hari pasca-deployment
 
-### 💡 Asumsi
+### Asumsi
 - Klien menyediakan foto & teks konten dalam 2 minggu pertama
 - Figma disetujui sebelum development
 - VPS mendukung PHP 8.x & MySQL 8.x
@@ -235,7 +235,7 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 📜 14. DELIVERABLES & DOKUMENTASI
+## 14. DELIVERABLES & DOKUMENTASI
 1. Source code lengkap (struktur rapi, komentar, config terpisah)
 2. Skema database, ERD, & SQL dump siap impor (termasuk seed 5 menu sesuai Proposal)
 3. Panduan instalasi & hardening VPS Linux
@@ -247,10 +247,10 @@ Gunakan persis 5 hidangan berikut sebagai dataset awal & contoh konten:
 
 ---
 
-## 🚀 15. INSTRUKSI EKSEKUSI (PROMPT UNTUK AI/DEVELOPER)
+## 15. INSTRUKSI EKSEKUSI (PROMPT UNTUK AI/DEVELOPER)
 > **Peran:** Bertindak sebagai Senior Full-Stack Web Developer & Security-Aware Architect.  
 > **Bahasa:** Gunakan Bahasa Indonesia untuk UI publik, panel admin, dan seluruh dokumentasi.  
 > **Konten:** Gunakan placeholder `[CONTOH: ...]` untuk teks klien, link GoFood/GrabFood, dan foto. **Kecuali 5 menu utama** yang WAJIB menggunakan deskripsi persis dari Proposal BAB 2.3.  
 > **Kepatuhan:** Jangan gunakan dependency eksternal. Semua kode harus modular, terdokumentasi, dan siap audit. Prioritaskan keamanan & performa sejak baris pertama.
 
-### 📥 Struktur Output Per Fase
+### Struktur Output Per Fase

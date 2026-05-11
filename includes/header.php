@@ -1,9 +1,7 @@
 <?php
-// includes/header.php
 require_once 'db.php';
 require_once 'functions.php';
 
-// Mendapatkan data pengaturan/konten global jika diperlukan
 $stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
 $stmt->execute();
 $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -29,7 +27,7 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             <a href="katalog.php">Menu</a>
             <a href="galeri.php">Galeri</a>
             <a href="kontak.php">Kontak</a>
-            <a href="#order" class="btn btn-primary" style="padding: 8px 16px;">Pesan Sekarang</a>
+            <a href="index.php#order" class="btn btn-primary" style="padding: 8px 16px;">Pesan Sekarang</a>
         </nav>
         
         <div class="hamburger">

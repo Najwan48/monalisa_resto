@@ -1,64 +1,61 @@
 <?php
-// admin/index.php
-session_start();
+$page_title = 'Dashboard';
+require_once '../includes/admin_header.php';
 
-// Cek apakah sudah login (sederhana)
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header("Location: login.php");
-    exit;
-}
-
-require_once '../includes/db.php';
-require_once '../includes/functions.php';
-
-// Ambil summary untuk dashboard
-$jml_menu = $pdo->query("SELECT COUNT(*) FROM menu")->fetchColumn();
+$jml_menu   = $pdo->query("SELECT COUNT(*) FROM menu WHERE status = 'aktif'")->fetchColumn();
 $jml_galeri = $pdo->query("SELECT COUNT(*) FROM galeri")->fetchColumn();
+$jml_konten = $pdo->query("SELECT COUNT(*) FROM konten_halaman")->fetchColumn();
 
+$log_terbaru = $pdo->query(
+    "SELECT l.aksi, l.waktu, u.username
+     FROM log_aktivitas l
+     LEFT JOIN users u ON l.user_id = u.id
+     ORDER BY l.waktu DESC
+     LIMIT 10"
+)->fetchAll();
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Restaurant Monalisa</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; display: flex; background: #f4f4f4; }
-        .sidebar { width: 250px; background: #2B2D42; color: white; height: 100vh; padding: 20px 0; }
-        .sidebar h2 { text-align: center; margin-bottom: 30px; }
-        .sidebar a { display: block; color: white; text-decoration: none; padding: 15px 20px; border-bottom: 1px solid #3f4156; }
-        .sidebar a:hover { background: #8B2635; }
-        .content { flex-grow: 1; padding: 30px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-block; width: 200px; margin-right: 20px; }
-    </style>
-</head>
-<body>
 
-<div class="sidebar">
-    <h2>Monalisa Admin</h2>
-    <a href="index.php">Dashboard</a>
-    <a href="menu.php">Manajemen Menu</a>
-    <a href="galeri.php">Manajemen Galeri</a>
-    <a href="konten.php">Manajemen Konten</a>
-    <a href="akun.php">Manajemen Akun</a>
-    <a href="logout.php">Logout</a>
-</div>
-
-<div class="content">
-    <h1>Dashboard</h1>
-    <p>Selamat datang di Panel Admin Restaurant Monalisa.</p>
-    
-    <div style="margin-top: 30px;">
-        <div class="card">
-            <h3>Total Menu</h3>
-            <p style="font-size: 24px; font-weight: bold; color: #8B2635;"><?= $jml_menu ?></p>
-        </div>
-        <div class="card">
-            <h3>Foto Galeri</h3>
-            <p style="font-size: 24px; font-weight: bold; color: #8B2635;"><?= $jml_galeri ?></p>
-        </div>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="value"><?= $jml_menu ?></div>
+        <div class="label">Menu Aktif</div>
+    </div>
+    <div class="stat-card" style="border-left-color: #D4A373;">
+        <div class="value" style="color: #D4A373;"><?= $jml_galeri ?></div>
+        <div class="label">Foto Galeri</div>
+    </div>
+    <div class="stat-card" style="border-left-color: #2B2D42;">
+        <div class="value" style="color: #2B2D42;"><?= $jml_konten ?></div>
+        <div class="label">Entri Konten</div>
     </div>
 </div>
 
-</body>
-</html>
+<div class="card">
+    <div class="page-actions">
+        <h2>Aktivitas Terbaru</h2>
+    </div>
+    <?php if (empty($log_terbaru)): ?>
+        <p style="color: #666;">Belum ada aktivitas tercatat.</p>
+    <?php else: ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Waktu</th>
+                    <th>Pengguna</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($log_terbaru as $log): ?>
+                <tr>
+                    <td><?= h(date('d M Y H:i', strtotime($log['waktu']))) ?></td>
+                    <td><?= h($log['username'] ?? 'Sistem') ?></td>
+                    <td><?= h($log['aksi']) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>
+
+<?php require_once '../includes/admin_footer.php'; ?>

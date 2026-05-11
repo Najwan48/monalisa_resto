@@ -1,0 +1,277 @@
+<?php
+$page_title = 'Manajemen Menu';
+require_once '../includes/admin_header.php';
+
+$pesan    = '';
+$tipe_pesan = '';
+$aksi     = $_GET['aksi'] ?? 'list';
+$edit_id  = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $pesan = "Validasi keamanan gagal.";
+        $tipe_pesan = 'danger';
+    } else {
+        $action_post = $_POST['action'] ?? '';
+
+        if ($action_post === 'simpan') {
+            $nama_menu        = trim($_POST['nama_menu'] ?? '');
+            $asal_daerah      = trim($_POST['asal_daerah'] ?? '');
+            $deskripsi_singkat = trim($_POST['deskripsi_singkat'] ?? '');
+            $deskripsi_lengkap = trim($_POST['deskripsi_lengkap'] ?? '');
+            $bahan_utama      = trim($_POST['bahan_utama'] ?? '');
+            $info_alergen     = trim($_POST['info_alergen'] ?? '');
+            $kategori         = trim($_POST['kategori'] ?? '');
+            $harga            = (float)($_POST['harga'] ?? 0);
+            $status           = $_POST['status'] ?? 'aktif';
+            $id_edit          = (int)($_POST['id_edit'] ?? 0);
+
+            $foto_url_lama = $_POST['foto_url_lama'] ?? '';
+            $foto_url      = $foto_url_lama;
+
+            if (!empty($_FILES['foto']['name'])) {
+                $allowed_types = ['image/jpeg', 'image/png', 'image/webp'];
+                $max_size      = 2 * 1024 * 1024;
+
+                if (!in_array($_FILES['foto']['type'], $allowed_types)) {
+                    $pesan = "Tipe file tidak diizinkan. Gunakan JPG, PNG, atau WebP.";
+                    $tipe_pesan = 'danger';
+                } elseif ($_FILES['foto']['size'] > $max_size) {
+                    $pesan = "Ukuran file melebihi batas 2MB.";
+                    $tipe_pesan = 'danger';
+                } else {
+                    $upload_dir = '../assets/images/';
+                    $ext        = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+                    $filename   = 'menu_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+                    move_uploaded_file($_FILES['foto']['tmp_name'], $upload_dir . $filename);
+                    $foto_url = 'assets/images/' . $filename;
+                }
+            }
+
+            if (empty($pesan)) {
+                if ($id_edit > 0) {
+                    $stmt = $pdo->prepare(
+                        "UPDATE menu SET nama_menu=?, asal_daerah=?, deskripsi_singkat=?, deskripsi_lengkap=?,
+                         bahan_utama=?, info_alergen=?, kategori=?, harga=?, foto_url=?, status=?
+                         WHERE id=?"
+                    );
+                    $stmt->execute([
+                        $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
+                        $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status, $id_edit
+                    ]);
+                    log_aktivitas($pdo, $_SESSION['admin_id'], "Edit menu: $nama_menu");
+                    $pesan = "Menu berhasil diperbarui.";
+                } else {
+                    $stmt = $pdo->prepare(
+                        "INSERT INTO menu (nama_menu, asal_daerah, deskripsi_singkat, deskripsi_lengkap,
+                         bahan_utama, info_alergen, kategori, harga, foto_url, status)
+                         VALUES (?,?,?,?,?,?,?,?,?,?)"
+                    );
+                    $stmt->execute([
+                        $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
+                        $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status
+                    ]);
+                    log_aktivitas($pdo, $_SESSION['admin_id'], "Tambah menu baru: $nama_menu");
+                    $pesan = "Menu baru berhasil ditambahkan.";
+                }
+                $tipe_pesan = 'success';
+                $aksi = 'list';
+            }
+        }
+
+        if ($action_post === 'hapus') {
+            $hapus_id = (int)($_POST['hapus_id'] ?? 0);
+            $row = $pdo->prepare("SELECT nama_menu FROM menu WHERE id = ?");
+            $row->execute([$hapus_id]);
+            $menu_lama = $row->fetch();
+
+            $stmt = $pdo->prepare("DELETE FROM menu WHERE id = ?");
+            $stmt->execute([$hapus_id]);
+            log_aktivitas($pdo, $_SESSION['admin_id'], "Hapus menu: " . ($menu_lama['nama_menu'] ?? $hapus_id));
+            $pesan = "Menu berhasil dihapus.";
+            $tipe_pesan = 'success';
+            $aksi = 'list';
+        }
+
+        if ($action_post === 'toggle_status') {
+            $toggle_id = (int)($_POST['toggle_id'] ?? 0);
+            $stmt = $pdo->prepare("UPDATE menu SET status = IF(status='aktif','nonaktif','aktif') WHERE id = ?");
+            $stmt->execute([$toggle_id]);
+            log_aktivitas($pdo, $_SESSION['admin_id'], "Toggle status menu ID: $toggle_id");
+            $pesan = "Status menu diperbarui.";
+            $tipe_pesan = 'success';
+            $aksi = 'list';
+        }
+    }
+}
+
+$edit_data = null;
+if ($aksi === 'edit' && $edit_id > 0) {
+    $stmt = $pdo->prepare("SELECT * FROM menu WHERE id = ?");
+    $stmt->execute([$edit_id]);
+    $edit_data = $stmt->fetch();
+    if (!$edit_data) {
+        $aksi = 'list';
+    }
+}
+
+$csrf_token = generate_csrf_token();
+$kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya'];
+?>
+
+<?php if ($pesan): ?>
+    <div class="alert alert-<?= $tipe_pesan ?>"><?= h($pesan) ?></div>
+<?php endif; ?>
+
+<?php if ($aksi === 'list'): ?>
+
+<div class="page-actions">
+    <h2>Daftar Menu</h2>
+    <a href="menu.php?aksi=tambah" class="btn btn-primary">+ Tambah Menu</a>
+</div>
+
+<div class="card" style="padding: 0; overflow: hidden;">
+    <table>
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nama Menu</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $menus = $pdo->query("SELECT * FROM menu ORDER BY created_at DESC")->fetchAll();
+            foreach ($menus as $menu):
+            ?>
+            <tr>
+                <td>
+                    <img src="../<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>"
+                         style="width:60px; height:50px; object-fit:cover; border-radius:10px;"
+                         onerror="this.src='https://via.placeholder.com/60x50?text=N/A'">
+                </td>
+                <td>
+                    <strong><?= h($menu['nama_menu']) ?></strong><br>
+                    <small style="color:#666;"><?= h($menu['asal_daerah']) ?></small>
+                </td>
+                <td><?= h($menu['kategori']) ?></td>
+                <td><?= format_rupiah($menu['harga']) ?></td>
+                <td>
+                    <span class="badge <?= $menu['status'] === 'aktif' ? 'badge-success' : 'badge-secondary' ?>">
+                        <?= h($menu['status']) ?>
+                    </span>
+                </td>
+                <td style="white-space: nowrap;">
+                    <a href="menu.php?aksi=edit&id=<?= $menu['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                    <form method="POST" style="display:inline;" onsubmit="return confirm('Toggle status menu ini?')">
+                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                        <input type="hidden" name="action" value="toggle_status">
+                        <input type="hidden" name="toggle_id" value="<?= $menu['id'] ?>">
+                        <button type="submit" class="btn btn-secondary btn-sm">Toggle</button>
+                    </form>
+                    <form method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus menu ini?')">
+                        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                        <input type="hidden" name="action" value="hapus">
+                        <input type="hidden" name="hapus_id" value="<?= $menu['id'] ?>">
+                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<?php elseif ($aksi === 'tambah' || $aksi === 'edit'): ?>
+
+<div class="page-actions">
+    <h2><?= $aksi === 'edit' ? 'Edit Menu' : 'Tambah Menu Baru' ?></h2>
+    <a href="menu.php" class="btn btn-secondary">Kembali</a>
+</div>
+
+<div class="card">
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+        <input type="hidden" name="action" value="simpan">
+        <input type="hidden" name="id_edit" value="<?= $edit_data['id'] ?? 0 ?>">
+        <input type="hidden" name="foto_url_lama" value="<?= h($edit_data['foto_url'] ?? '') ?>">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label for="nama_menu">Nama Menu</label>
+                <input type="text" id="nama_menu" name="nama_menu" class="form-control"
+                       value="<?= h($edit_data['nama_menu'] ?? '') ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="asal_daerah">Asal Daerah</label>
+                <input type="text" id="asal_daerah" name="asal_daerah" class="form-control"
+                       value="<?= h($edit_data['asal_daerah'] ?? '') ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="kategori">Kategori</label>
+                <select id="kategori" name="kategori" class="form-control" required>
+                    <?php foreach ($kategori_list as $kat): ?>
+                        <option value="<?= h($kat) ?>" <?= ($edit_data['kategori'] ?? '') === $kat ? 'selected' : '' ?>>
+                            <?= h($kat) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="harga">Harga (Rp)</label>
+                <input type="number" id="harga" name="harga" class="form-control"
+                       value="<?= h($edit_data['harga'] ?? '') ?>" required min="0" step="500">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="deskripsi_singkat">Deskripsi Singkat (maks. 150 karakter)</label>
+            <input type="text" id="deskripsi_singkat" name="deskripsi_singkat" class="form-control"
+                   value="<?= h($edit_data['deskripsi_singkat'] ?? '') ?>" maxlength="150" required>
+        </div>
+
+        <div class="form-group">
+            <label for="deskripsi_lengkap">Deskripsi Lengkap</label>
+            <textarea id="deskripsi_lengkap" name="deskripsi_lengkap" class="form-control" rows="4" required><?= h($edit_data['deskripsi_lengkap'] ?? '') ?></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label for="bahan_utama">Bahan Utama</label>
+                <input type="text" id="bahan_utama" name="bahan_utama" class="form-control"
+                       value="<?= h($edit_data['bahan_utama'] ?? '') ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="info_alergen">Info Alergen (opsional)</label>
+                <input type="text" id="info_alergen" name="info_alergen" class="form-control"
+                       value="<?= h($edit_data['info_alergen'] ?? 'Tidak ada') ?>">
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label for="foto">Foto Menu (JPG/PNG/WebP, maks. 2MB)</label>
+                <input type="file" id="foto" name="foto" class="form-control" accept="image/jpeg,image/png,image/webp">
+                <?php if (!empty($edit_data['foto_url'])): ?>
+                    <small style="color:#666;">Foto saat ini: <?= h($edit_data['foto_url']) ?></small>
+                <?php endif; ?>
+            </div>
+            <div class="form-group">
+                <label for="status">Status Tampil</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="aktif" <?= ($edit_data['status'] ?? 'aktif') === 'aktif' ? 'selected' : '' ?>>Aktif</option>
+                    <option value="nonaktif" <?= ($edit_data['status'] ?? '') === 'nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan Menu</button>
+    </form>
+</div>
+
+<?php endif; ?>
+
+<?php require_once '../includes/admin_footer.php'; ?>

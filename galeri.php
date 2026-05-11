@@ -1,8 +1,6 @@
 <?php
-// galeri.php
 require_once 'includes/header.php';
 
-// Ambil data galeri
 $stmt = $pdo->query("SELECT judul, foto_url FROM galeri ORDER BY urutan ASC, created_at DESC");
 $galeri = $stmt->fetchAll();
 ?>
@@ -14,7 +12,6 @@ $galeri = $stmt->fetchAll();
 
 <section class="section">
     <div class="container">
-        
         <?php if(empty($galeri)): ?>
             <p class="text-center">Belum ada foto di galeri.</p>
         <?php else: ?>
@@ -29,11 +26,9 @@ $galeri = $stmt->fetchAll();
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-        
     </div>
 </section>
 
-<!-- Lightbox Modal (Vanilla JS) -->
 <div id="lightbox" style="display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center; flex-direction: column;">
     <span onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
     <img id="lightbox-img" src="" alt="" style="max-width: 90%; max-height: 80vh; object-fit: contain;">
@@ -51,7 +46,7 @@ $galeri = $stmt->fetchAll();
         document.getElementById('lightbox').style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
-    
+
     function closeLightbox() {
         document.getElementById('lightbox').style.display = 'none';
         document.body.style.overflow = 'auto';

@@ -1,19 +1,15 @@
 <?php
-// index.php
 require_once 'includes/header.php';
 
-// Ambil data konten beranda
 $stmt_beranda = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'beranda'");
 $stmt_beranda->execute();
 $konten = $stmt_beranda->fetchAll(PDO::FETCH_KEY_PAIR);
 
-// Ambil menu andalan (Limit 3)
 $stmt_menu = $pdo->prepare("SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, foto_url FROM menu WHERE status = 'aktif' ORDER BY RAND() LIMIT 3");
 $stmt_menu->execute();
 $menus = $stmt_menu->fetchAll();
 ?>
 
-<!-- Hero Section -->
 <section class="hero">
     <div class="hero-content container">
         <h1><?= h($konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah di Jantung Kota Bogor') ?></h1>
@@ -25,14 +21,12 @@ $menus = $stmt_menu->fetchAll();
     </div>
 </section>
 
-<!-- Highlight Menu Section -->
 <section class="section" style="background-color: var(--white);">
     <div class="container">
         <div class="text-center">
             <h2 class="section-title">Menu Andalan Kami</h2>
             <p style="margin-bottom: 2rem;">Sajian otentik yang wajib Anda coba.</p>
         </div>
-        
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
             <?php foreach($menus as $menu): ?>
             <div class="menu-card">
@@ -49,19 +43,16 @@ $menus = $stmt_menu->fetchAll();
             </div>
             <?php endforeach; ?>
         </div>
-        
         <div class="text-center" style="margin-top: 3rem;">
             <a href="katalog.php" class="btn btn-primary">Lihat Seluruh Menu</a>
         </div>
     </div>
 </section>
 
-<!-- Banner Order Online -->
 <section id="order" class="section" style="background-color: var(--bg-dark); color: var(--white); text-align: center;">
     <div class="container">
         <h2 class="section-title" style="color: var(--secondary-color);">Nikmati di Rumah Anda</h2>
         <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Pesan hidangan favorit Anda melalui platform partner kami untuk pengiriman langsung ke depan pintu Anda.</p>
-        
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
             <a href="https://gofood.link/a/BMMv8Pb" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
                 Pesan via GoFood

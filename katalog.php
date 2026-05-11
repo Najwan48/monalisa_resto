@@ -1,15 +1,11 @@
 <?php
-// katalog.php
 require_once 'includes/header.php';
 
-// Ambil kategori untuk filter
 $stmt_cat = $pdo->query("SELECT DISTINCT kategori FROM menu WHERE status = 'aktif'");
 $categories = $stmt_cat->fetchAll(PDO::FETCH_COLUMN);
 
-// Filter
 $kategori_aktif = isset($_GET['kategori']) ? $_GET['kategori'] : 'Semua';
 
-// Query Menu
 $query = "SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, kategori, foto_url FROM menu WHERE status = 'aktif'";
 $params = [];
 if ($kategori_aktif !== 'Semua') {
@@ -28,8 +24,6 @@ $menus = $stmt->fetchAll();
 
 <section class="section">
     <div class="container">
-        
-        <!-- Filter Kategori -->
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
             <a href="katalog.php" class="btn <?= ($kategori_aktif === 'Semua') ? 'btn-primary' : 'btn-secondary' ?>" style="padding: 6px 16px; font-size: 0.9rem;">Semua</a>
             <?php foreach($categories as $cat): ?>
@@ -37,7 +31,6 @@ $menus = $stmt->fetchAll();
             <?php endforeach; ?>
         </div>
 
-        <!-- Grid Menu -->
         <?php if(empty($menus)): ?>
             <p class="text-center">Belum ada menu di kategori ini.</p>
         <?php else: ?>
@@ -46,7 +39,7 @@ $menus = $stmt->fetchAll();
                 <div class="menu-card">
                     <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" style="width: 100%; height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x250?text=Foto+Menu'">
                     <div style="padding: 1.5rem;">
-                        <span style="display: inline-block; padding: 4px 8px; background-color: var(--bg-light); color: var(--primary-color); border-radius: 4px; font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: bold;"><?= h($menu['kategori']) ?></span>
+                        <span style="display: inline-block; padding: 4px 10px; background-color: var(--bg-light); color: var(--primary-color); border-radius: 50px; font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: bold;"><?= h($menu['kategori']) ?></span>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                             <h3 style="margin-bottom: 0; font-size: 1.25rem;"><?= h($menu['nama_menu']) ?></h3>
                         </div>
@@ -61,7 +54,6 @@ $menus = $stmt->fetchAll();
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-        
     </div>
 </section>
 
