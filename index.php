@@ -55,9 +55,11 @@ $menus = $stmt_menu->fetchAll();
         <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Pesan hidangan favorit Anda melalui platform partner kami untuk pengiriman langsung ke depan pintu Anda.</p>
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
             <a href="https://gofood.link/a/BMMv8Pb" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
+                <img src="logo_gofood.png" alt="GoFood">
                 Pesan via GoFood
             </a>
             <a href="https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
+                <img src="logo_grabfood.jpg" alt="GrabFood">
                 Pesan via GrabFood
             </a>
         </div>

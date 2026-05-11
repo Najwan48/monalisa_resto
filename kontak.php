@@ -41,31 +41,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
             <div>
                 <h2 style="margin-bottom: 2rem; color: var(--primary-color);">Informasi Kontak</h2>
-                <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
-                    <div style="width: 40px; height: 40px; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 1rem; flex-shrink: 0;">
+                <div class="contact-info-item">
+                    <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: 0.25rem;">Alamat</h4>
-                        <p><a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank" style="color: inherit; text-decoration: none;"><?= h($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a></p>
+                    <div class="contact-text">
+                        <h4>Alamat</h4>
+                        <p><a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= h($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a></p>
                     </div>
                 </div>
-                <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
-                    <div style="width: 40px; height: 40px; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 1rem; flex-shrink: 0;">
+                <div class="contact-info-item">
+                    <div class="contact-icon">
                         <i class="fas fa-phone-alt"></i>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: 0.25rem;">Telepon</h4>
+                    <div class="contact-text">
+                        <h4>Telepon</h4>
                         <p><?= h($kontak_data['telepon'] ?? '0812-3456-7890') ?></p>
                     </div>
                 </div>
-                <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
-                    <div style="width: 40px; height: 40px; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 1rem; flex-shrink: 0;">
+                <div class="contact-info-item">
+                    <div class="contact-icon">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <div>
-                        <h4 style="margin-bottom: 0.25rem;">Jam Operasional</h4>
-                        <p><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 07.00 - 22.00 WIB') ?></p>
+                    <div class="contact-text">
+                        <h4>Jam Operasional</h4>
+                        <p><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
                     </div>
                 </div>
                 <div id="map" style="margin-top: 2rem; width: 100%; height: 300px; border-radius: var(--radius); border: 1px solid #ddd; z-index: 1;"></div>

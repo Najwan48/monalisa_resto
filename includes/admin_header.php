@@ -19,6 +19,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #8B2635;
@@ -146,6 +147,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
             font-weight: 700;
             color: var(--primary);
         }
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stat-icon {
+            font-size: 2rem;
+            opacity: 0.3;
+        }
         .stat-card .label { color: #666; font-size: 0.9rem; margin-top: 0.25rem; }
 
         .btn {
@@ -240,6 +250,302 @@ $current_page = basename($_SERVER['PHP_SELF']);
             margin-bottom: 1.5rem;
         }
         .page-actions h2 { font-size: 1.2rem; color: var(--dark); }
+
+        /* Enhanced Dashboard Styles */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .quick-actions .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .quick-actions .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .quick-actions .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        .quick-actions .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .quick-actions .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-1px);
+        }
+
+        .stat-trend {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+        .trend-text {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Category List */
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--primary);
+        }
+        .category-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .category-count {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Menu Preview */
+        .menu-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid #D4A373;
+        }
+        .menu-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+        .menu-meta {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .menu-meta .badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+        }
+        .menu-meta .price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .menu-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .menu-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .gallery-thumb {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: #e9ecef;
+        }
+        .gallery-info {
+            padding: 0.75rem;
+        }
+        .gallery-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .gallery-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Content List */
+        .content-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .content-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid #28a745;
+        }
+        .content-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        .content-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .content-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Activity List */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .activity-item {
+            display: grid;
+            grid-template-columns: auto 1fr 2fr;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid #D4A373;
+            align-items: center;
+        }
+        .activity-time {
+            font-size: 0.8rem;
+            color: #666;
+            white-space: nowrap;
+        }
+        .activity-user {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .activity-action {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* System Status */
+        .system-status {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+        }
+        .status-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .status-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-success {
+            color: #28a745;
+        }
+        .status-warning {
+            color: #ffc107;
+        }
+        .status-danger {
+            color: #dc3545;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                flex-direction: column;
+            }
+            .quick-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .activity-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item,
+            .category-item,
+            .content-item,
+            .status-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .menu-actions,
+            .content-actions,
+            .gallery-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
@@ -250,15 +556,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <p>Panel Pengelola Konten</p>
     </div>
     <nav class="sidebar-nav">
-        <a href="index.php" class="<?= $current_page === 'index.php' ? 'active' : '' ?>">Dashboard</a>
-        <a href="menu.php" class="<?= $current_page === 'menu.php' ? 'active' : '' ?>">Manajemen Menu</a>
-        <a href="galeri.php" class="<?= $current_page === 'galeri.php' ? 'active' : '' ?>">Manajemen Galeri</a>
-        <a href="konten.php" class="<?= $current_page === 'konten.php' ? 'active' : '' ?>">Manajemen Konten</a>
-        <a href="akun.php" class="<?= $current_page === 'akun.php' ? 'active' : '' ?>">Manajemen Akun</a>
-        <a href="log.php" class="<?= $current_page === 'log.php' ? 'active' : '' ?>">Log Aktivitas</a>
+        <a href="index.php" class="<?= $current_page === 'index.php' ? 'active' : '' ?>">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="menu.php" class="<?= $current_page === 'menu.php' ? 'active' : '' ?>">
+            <i class="fas fa-utensils"></i> Manajemen Menu
+        </a>
+        <a href="galeri.php" class="<?= $current_page === 'galeri.php' ? 'active' : '' ?>">
+            <i class="fas fa-images"></i> Manajemen Galeri
+        </a>
+        <a href="konten.php" class="<?= $current_page === 'konten.php' ? 'active' : '' ?>">
+            <i class="fas fa-file-alt"></i> Manajemen Konten
+        </a>
+        <a href="akun.php" class="<?= $current_page === 'akun.php' ? 'active' : '' ?>">
+            <i class="fas fa-user-cog"></i> Manajemen Akun
+        </a>
+        <a href="log.php" class="<?= $current_page === 'log.php' ? 'active' : '' ?>">
+            <i class="fas fa-history"></i> Log Aktivitas
+        </a>
     </nav>
     <div class="sidebar-footer">
-        <a href="logout.php">Keluar</a>
+        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Keluar</a>
     </div>
 </aside>
 

@@ -142,12 +142,35 @@ img {
 }
 
 .btn-gofood {
-    background-color: #EE2737;
-    color: white;
+    background-color: var(--white);
+    color: #EE2737;
+    border: 2px solid #EE2737;
+    gap: 10px;
 }
+.btn-gofood:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(238, 39, 55, 0.2);
+}
+.btn-gofood img {
+    height: 24px;
+    width: auto;
+    border-radius: 4px;
+}
+
 .btn-grabfood {
-    background-color: #00B14F;
-    color: white;
+    background-color: var(--white);
+    color: #00B14F;
+    border: 2px solid #00B14F;
+    gap: 10px;
+}
+.btn-grabfood:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 177, 79, 0.2);
+}
+.btn-grabfood img {
+    height: 24px;
+    width: auto;
+    border-radius: 4px;
 }
 
 /* Header & Navigation */
@@ -325,5 +348,44 @@ select:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(139, 38, 53, 0.1);
+}
+
+.contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+}
+
+.contact-info-item:hover .contact-icon {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
+}
+
+.contact-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 1.25rem;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.contact-text h4 {
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.contact-text p {
+    color: var(--text-dark);
+    font-size: 0.95rem;
 }
 
