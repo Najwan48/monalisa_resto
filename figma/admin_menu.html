@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Menu — Admin · Monalisa Resto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin_shared.css">
+</head>
+<body>
+<aside class="sidebar">
+    <div class="sidebar-brand"><span class="sidebar-brand-name">Monalisa Resto</span><span class="sidebar-brand-sub">Panel Administrasi</span></div>
+    <div class="sidebar-section-label">Utama</div>
+    <nav class="sidebar-nav">
+        <a href="admin_dashboard.html"><i class="fas fa-gauge-high"></i> Dashboard</a>
+        <a href="admin_menu.html" class="active"><i class="fas fa-utensils"></i> Manajemen Menu</a>
+        <a href="admin_galeri.html"><i class="fas fa-images"></i> Manajemen Galeri</a>
+        <a href="admin_konten.html"><i class="fas fa-file-alt"></i> Manajemen Konten</a>
+        <div class="sidebar-section-label" style="margin-top:0.5rem;">Sistem</div>
+        <a href="admin_akun.html"><i class="fas fa-user-shield"></i> Manajemen Akun</a>
+        <a href="admin_log.html"><i class="fas fa-history"></i> Log Aktivitas</a>
+    </nav>
+    <div class="sidebar-footer"><a href="admin_login.html"><i class="fas fa-arrow-right-from-bracket"></i> Keluar</a></div>
+</aside>
+<div class="main-content">
+    <header class="topbar">
+        <div class="topbar-left"><div class="topbar-breadcrumb"><span>Admin</span><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i><span class="topbar-title">Manajemen Menu</span></div></div>
+        <div class="topbar-right">
+            <a href="tamu_beranda.html" style="font-size:0.8rem; color: var(--text-muted); display:flex; align-items:center; gap:0.4rem;"><i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> Lihat Website</a>
+            <div class="topbar-user"><div class="topbar-avatar">A</div><span style="font-weight: 600;">admin</span></div>
+        </div>
+    </header>
+    <div class="content-area">
+
+<div class="page-actions">
+    <h2>Daftar Menu</h2>
+    <div style="display: flex; gap: 1rem;">
+        <div style="display: flex; gap: 0.5rem;">
+            <input type="text" class="form-control" placeholder="Cari menu..." style="padding: 6px 12px; font-size: 0.85rem; width: 200px;">
+            <button class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
+        </div>
+        <a href="admin_menu_form.html" class="btn btn-primary">+ Tambah Menu</a>
+    </div>
+</div>
+
+<div class="card" style="padding: 0; overflow: hidden;">
+    <table>
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nama Menu</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th style="text-align: center;">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="https://picsum.photos/56/44?random=80" alt="Lontong Opor" style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"></td>
+                <td><strong style="font-size:0.875rem;">Lontong Opor</strong><br><small style="color: var(--text-muted);">Bogor</small></td>
+                <td><span class="badge badge-secondary">NASI &amp; LONTONG</span></td>
+                <td style="font-weight: 600; color: var(--primary);">Rp 45.000</td>
+                <td><span class="badge badge-success">aktif</span></td>
+                <td style="text-align: center; white-space: nowrap;">
+                    <a href="admin_menu_form.html" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-pen"></i></a>
+                    <button class="btn btn-secondary btn-sm" title="Toggle Status"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                    <button class="btn btn-ghost-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="https://picsum.photos/56/44?random=81" alt="Ayam Kalasan" style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"></td>
+                <td><strong style="font-size:0.875rem;">Ayam Kalasan</strong><br><small style="color: var(--text-muted);">Bogor</small></td>
+                <td><span class="badge badge-secondary">AYAM</span></td>
+                <td style="font-weight: 600; color: var(--primary);">Rp 55.000</td>
+                <td><span class="badge badge-success">aktif</span></td>
+                <td style="text-align: center; white-space: nowrap;">
+                    <a href="admin_menu_form.html" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                    <button class="btn btn-secondary btn-sm"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                    <button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="https://picsum.photos/56/44?random=82" alt="Sup Buntut" style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"></td>
+                <td><strong style="font-size:0.875rem;">Sup Buntut</strong><br><small style="color: var(--text-muted);">Bogor</small></td>
+                <td><span class="badge badge-secondary">SUP &amp; SOTO</span></td>
+                <td style="font-weight: 600; color: var(--primary);">Rp 75.000</td>
+                <td><span class="badge badge-success">aktif</span></td>
+                <td style="text-align: center; white-space: nowrap;">
+                    <a href="admin_menu_form.html" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                    <button class="btn btn-secondary btn-sm"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                    <button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="https://picsum.photos/56/44?random=83" alt="Nasi Goreng Kambing" style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"></td>
+                <td><strong style="font-size:0.875rem;">Nasi Goreng Kambing</strong><br><small style="color: var(--text-muted);">Bogor</small></td>
+                <td><span class="badge badge-secondary">NASI &amp; LONTONG</span></td>
+                <td style="font-weight: 600; color: var(--primary);">Rp 47.500</td>
+                <td><span class="badge badge-secondary">nonaktif</span></td>
+                <td style="text-align: center; white-space: nowrap;">
+                    <a href="admin_menu_form.html" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                    <button class="btn btn-secondary btn-sm"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                    <button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="https://picsum.photos/56/44?random=84" alt="Es Jeruk" style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"></td>
+                <td><strong style="font-size:0.875rem;">Es Jeruk</strong><br><small style="color: var(--text-muted);">Bogor</small></td>
+                <td><span class="badge badge-secondary">MINUMAN DINGIN</span></td>
+                <td style="font-weight: 600; color: var(--primary);">Rp 20.000</td>
+                <td><span class="badge badge-success">aktif</span></td>
+                <td style="text-align: center; white-space: nowrap;">
+                    <a href="admin_menu_form.html" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                    <button class="btn btn-secondary btn-sm"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                    <button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    </div>
+</div>
+</body>
+</html>

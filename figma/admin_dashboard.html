@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Admin · Monalisa Resto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin_shared.css">
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <span class="sidebar-brand-name">Monalisa Resto</span>
+        <span class="sidebar-brand-sub">Panel Administrasi</span>
+    </div>
+    <div class="sidebar-section-label">Utama</div>
+    <nav class="sidebar-nav">
+        <a href="admin_dashboard.html" class="active"><i class="fas fa-gauge-high"></i> Dashboard</a>
+        <a href="admin_menu.html"><i class="fas fa-utensils"></i> Manajemen Menu</a>
+        <a href="admin_galeri.html"><i class="fas fa-images"></i> Manajemen Galeri</a>
+        <a href="admin_konten.html"><i class="fas fa-file-alt"></i> Manajemen Konten</a>
+        <div class="sidebar-section-label" style="margin-top:0.5rem;">Sistem</div>
+        <a href="admin_akun.html"><i class="fas fa-user-shield"></i> Manajemen Akun</a>
+        <a href="admin_log.html"><i class="fas fa-history"></i> Log Aktivitas</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="admin_login.html"><i class="fas fa-arrow-right-from-bracket"></i> Keluar</a>
+    </div>
+</aside>
+
+<div class="main-content">
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="topbar-breadcrumb">
+                <span>Admin</span>
+                <i class="fas fa-chevron-right" style="font-size:0.6rem;"></i>
+                <span class="topbar-title">Dashboard</span>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <a href="tamu_beranda.html" style="font-size:0.8rem; color: var(--text-muted); display:flex; align-items:center; gap:0.4rem;">
+                <i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> Lihat Website
+            </a>
+            <div class="topbar-user">
+                <div class="topbar-avatar">A</div>
+                <span style="font-weight: 600;">admin</span>
+            </div>
+        </div>
+    </header>
+    <div class="content-area">
+
+<div class="page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p>Ringkasan aktivitas dan status konten Monalisa Resto.</p>
+    </div>
+    <a href="admin_menu_form.html" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Menu</a>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-header">
+            <div><div class="value">140</div><div class="label">Menu Aktif</div></div>
+            <div class="stat-icon-wrap" style="background: var(--primary-pale); color: var(--primary);"><i class="fas fa-utensils"></i></div>
+        </div>
+        <div class="stat-trend"><span class="trend-text">0 non-aktif dari 140 total</span></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-header">
+            <div><div class="value">6</div><div class="label">Foto Galeri</div></div>
+            <div class="stat-icon-wrap" style="background: #EFF6FF; color: #3B82F6;"><i class="fas fa-images"></i></div>
+        </div>
+        <div class="stat-trend"><span class="trend-text">6 foto tampil terbaru</span></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-header">
+            <div><div class="value">7</div><div class="label">Entri Konten</div></div>
+            <div class="stat-icon-wrap" style="background: var(--success-pale); color: var(--success);"><i class="fas fa-file-alt"></i></div>
+        </div>
+        <div class="stat-trend"><span class="trend-text">Tersebar di 3 halaman</span></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-header">
+            <div><div class="value">1</div><div class="label">Admin Users</div></div>
+            <div class="stat-icon-wrap" style="background: #FEF3C7; color: var(--warning);"><i class="fas fa-user-shield"></i></div>
+        </div>
+        <div class="stat-trend"><span class="trend-text">Sistem berjalan normal</span></div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">Menu Terbaru</span>
+            <a href="admin_menu.html" class="btn btn-sm btn-secondary">Lihat Semua</a>
+        </div>
+        <div class="menu-preview">
+            <div class="menu-item">
+                <div class="menu-info">
+                    <h3>Lontong Opor</h3>
+                    <div class="menu-meta"><span class="badge badge-secondary">NASI &amp; LONTONG</span><span class="price">Rp 45.000</span></div>
+                    <div class="menu-date">12 Mei 2026</div>
+                </div>
+                <div class="menu-actions"><a href="admin_menu_form.html" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a></div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-info">
+                    <h3>Ayam Kalasan</h3>
+                    <div class="menu-meta"><span class="badge badge-secondary">AYAM</span><span class="price">Rp 55.000</span></div>
+                    <div class="menu-date">12 Mei 2026</div>
+                </div>
+                <div class="menu-actions"><a href="admin_menu_form.html" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a></div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-info">
+                    <h3>Sup Buntut</h3>
+                    <div class="menu-meta"><span class="badge badge-secondary">SUP &amp; SOTO</span><span class="price">Rp 75.000</span></div>
+                    <div class="menu-date">12 Mei 2026</div>
+                </div>
+                <div class="menu-actions"><a href="admin_menu_form.html" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a></div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-info">
+                    <h3>Nasi Goreng Istimewa</h3>
+                    <div class="menu-meta"><span class="badge badge-secondary">NASI &amp; LONTONG</span><span class="price">Rp 37.500</span></div>
+                    <div class="menu-date">12 Mei 2026</div>
+                </div>
+                <div class="menu-actions"><a href="admin_menu_form.html" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a></div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-info">
+                    <h3>Lumpia Semarang</h3>
+                    <div class="menu-meta"><span class="badge badge-secondary">SNACK</span><span class="price">Rp 37.500</span></div>
+                    <div class="menu-date">12 Mei 2026</div>
+                </div>
+                <div class="menu-actions"><a href="admin_menu_form.html" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">Kategori Menu</span>
+            <a href="admin_menu.html" class="btn btn-sm btn-secondary">Kelola</a>
+        </div>
+        <div class="category-list">
+            <div class="category-item"><div class="category-name">MINUMAN DINGIN</div><div class="category-count">23 item</div></div>
+            <div class="category-item"><div class="category-name">SNACK</div><div class="category-count">15 item</div></div>
+            <div class="category-item"><div class="category-name">SAYURAN</div><div class="category-count">15 item</div></div>
+            <div class="category-item"><div class="category-name">MINUMAN PANAS</div><div class="category-count">16 item</div></div>
+            <div class="category-item"><div class="category-name">NASI &amp; LONTONG</div><div class="category-count">12 item</div></div>
+            <div class="category-item"><div class="category-name">SEAFOOD</div><div class="category-count">12 item</div></div>
+            <div class="category-item"><div class="category-name">AYAM</div><div class="category-count">11 item</div></div>
+            <div class="category-item"><div class="category-name">SUP &amp; SOTO</div><div class="category-count">9 item</div></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">Galeri Terbaru</span>
+            <a href="admin_galeri.html" class="btn btn-sm btn-secondary">Lihat Semua</a>
+        </div>
+        <div class="gallery-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem;">
+            <div class="gallery-item" style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);">
+                <div style="height: 120px; overflow: hidden;"><img src="https://picsum.photos/200/150?random=70" alt="Galeri 1" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div style="padding: 0.75rem;"><div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">Selamat datang di Monalisa</div><div style="display: flex; justify-content: flex-end;"><a href="admin_galeri.html" class="btn btn-sm btn-secondary">Kelola</a></div></div>
+            </div>
+            <div class="gallery-item" style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);">
+                <div style="height: 120px; overflow: hidden;"><img src="https://picsum.photos/200/150?random=71" alt="Galeri 2" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div style="padding: 0.75rem;"><div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">Ruang makan luas dan nyaman</div><div style="display: flex; justify-content: flex-end;"><a href="admin_galeri.html" class="btn btn-sm btn-secondary">Kelola</a></div></div>
+            </div>
+            <div class="gallery-item" style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);">
+                <div style="height: 120px; overflow: hidden;"><img src="https://picsum.photos/200/150?random=72" alt="Galeri 3" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div style="padding: 0.75rem;"><div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">Suasana pagi yang cerah</div><div style="display: flex; justify-content: flex-end;"><a href="admin_galeri.html" class="btn btn-sm btn-secondary">Kelola</a></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">Aktivitas Terbaru</span>
+            <a href="admin_log.html" class="btn btn-sm btn-secondary">Log Lengkap</a>
+        </div>
+        <div class="activity-list">
+            <div class="activity-item"><div class="activity-time">12/05 11:35</div><div class="activity-user">admin</div><div class="activity-action">Edit menu: Lontong Opor</div></div>
+            <div class="activity-item"><div class="activity-time">12/05 11:30</div><div class="activity-user">admin</div><div class="activity-action">Tambah menu baru: Soto Kudus</div></div>
+            <div class="activity-item"><div class="activity-time">12/05 11:20</div><div class="activity-user">admin</div><div class="activity-action">Unggah foto galeri: Suasana Pagi</div></div>
+            <div class="activity-item"><div class="activity-time">12/05 10:45</div><div class="activity-user">admin</div><div class="activity-action">Edit konten: halaman=beranda, bagian=tagline</div></div>
+            <div class="activity-item"><div class="activity-time">12/05 10:30</div><div class="activity-user">admin</div><div class="activity-action">Toggle status menu ID: 5</div></div>
+            <div class="activity-item"><div class="activity-time">11/05 22:10</div><div class="activity-user">admin</div><div class="activity-action">Ubah kredensial akun admin</div></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header"><span class="card-title">Status Sistem</span></div>
+        <div class="system-status">
+            <div class="status-item"><div class="status-label">Database</div><div class="status-value status-success"><i class="fas fa-circle" style="font-size:0.5rem;"></i> Aktif</div></div>
+            <div class="status-item"><div class="status-label">Aktivitas Terakhir</div><div class="status-value" style="font-size:0.8rem;">12 Mei 2026, 11:35</div></div>
+            <div class="status-item"><div class="status-label">Total Konten</div><div class="status-value">7 entri</div></div>
+            <div class="status-item"><div class="status-label">Menu Tersedia</div><div class="status-value">140 aktif</div></div>
+        </div>
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);">
+            <p class="card-title" style="margin-bottom: 1rem;">Aksi Cepat</p>
+            <div class="quick-actions">
+                <a href="admin_menu_form.html" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Menu Baru</a>
+                <a href="admin_galeri.html" class="btn btn-secondary btn-sm"><i class="fas fa-camera"></i> Upload Foto</a>
+                <a href="admin_konten.html" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Edit Konten</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+</body>
+</html>

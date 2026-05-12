@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Galeri — Admin · Monalisa Resto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin_shared.css">
+</head>
+<body>
+<aside class="sidebar">
+    <div class="sidebar-brand"><span class="sidebar-brand-name">Monalisa Resto</span><span class="sidebar-brand-sub">Panel Administrasi</span></div>
+    <div class="sidebar-section-label">Utama</div>
+    <nav class="sidebar-nav">
+        <a href="admin_dashboard.html"><i class="fas fa-gauge-high"></i> Dashboard</a>
+        <a href="admin_menu.html"><i class="fas fa-utensils"></i> Manajemen Menu</a>
+        <a href="admin_galeri.html" class="active"><i class="fas fa-images"></i> Manajemen Galeri</a>
+        <a href="admin_konten.html"><i class="fas fa-file-alt"></i> Manajemen Konten</a>
+        <div class="sidebar-section-label" style="margin-top:0.5rem;">Sistem</div>
+        <a href="admin_akun.html"><i class="fas fa-user-shield"></i> Manajemen Akun</a>
+        <a href="admin_log.html"><i class="fas fa-history"></i> Log Aktivitas</a>
+    </nav>
+    <div class="sidebar-footer"><a href="admin_login.html"><i class="fas fa-arrow-right-from-bracket"></i> Keluar</a></div>
+</aside>
+<div class="main-content">
+    <header class="topbar">
+        <div class="topbar-left"><div class="topbar-breadcrumb"><span>Admin</span><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i><span class="topbar-title">Manajemen Galeri</span></div></div>
+        <div class="topbar-right">
+            <a href="tamu_beranda.html" style="font-size:0.8rem; color: var(--text-muted); display:flex; align-items:center; gap:0.4rem;"><i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> Lihat Website</a>
+            <div class="topbar-user"><div class="topbar-avatar">A</div><span style="font-weight: 600;">admin</span></div>
+        </div>
+    </header>
+    <div class="content-area">
+
+<div class="page-header">
+    <div>
+        <h1>Manajemen Galeri</h1>
+        <p>Kelola koleksi foto untuk ditampilkan di halaman galeri website.</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1.5rem; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted);">Unggah Foto Baru</h3>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1.5rem; align-items: end;">
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="judul">Judul/Keterangan Foto</label>
+            <input type="text" id="judul" class="form-control" placeholder="Contoh: Suasana Ruang Utama">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="urutan">Urutan</label>
+            <input type="number" id="urutan" class="form-control" value="0" min="0">
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="foto">Pilih File</label>
+            <input type="file" id="foto" class="form-control" accept="image/jpeg,image/png,image/webp">
+        </div>
+        <button class="btn btn-primary" style="height: 44px; padding: 0 2rem;">Unggah</button>
+    </div>
+</div>
+
+<div class="card" style="padding: 0; overflow: hidden;">
+    <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--border);">
+        <h3 style="font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted);">Daftar Foto</h3>
+    </div>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="padding-left: 1.75rem;">Preview</th>
+                <th>Judul/Keterangan</th>
+                <th>Urutan</th>
+                <th style="padding-right: 1.75rem; text-align: right;">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding-left: 1.75rem; width: 120px;"><div style="width: 100px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);"><img src="https://picsum.photos/100/70?random=90" style="width: 100%; height: 100%; object-fit: cover;"></div></td>
+                <td style="font-weight: 500;">Selamat datang di Monalisa Resto</td>
+                <td><div style="display:flex; gap:0.5rem; align-items:center;"><input type="number" value="1" class="form-control" style="width:70px; padding: 5px 10px;" min="0"><button class="btn btn-secondary btn-sm">Update</button></div></td>
+                <td style="padding-right: 1.75rem; text-align: right;"><button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 1.75rem; width: 120px;"><div style="width: 100px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);"><img src="https://picsum.photos/100/70?random=91" style="width: 100%; height: 100%; object-fit: cover;"></div></td>
+                <td style="font-weight: 500;">Ruang makan yang luas dan nyaman</td>
+                <td><div style="display:flex; gap:0.5rem; align-items:center;"><input type="number" value="2" class="form-control" style="width:70px; padding: 5px 10px;" min="0"><button class="btn btn-secondary btn-sm">Update</button></div></td>
+                <td style="padding-right: 1.75rem; text-align: right;"><button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 1.75rem; width: 120px;"><div style="width: 100px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);"><img src="https://picsum.photos/100/70?random=92" style="width: 100%; height: 100%; object-fit: cover;"></div></td>
+                <td style="font-weight: 500;">Suasana pagi yang cerah</td>
+                <td><div style="display:flex; gap:0.5rem; align-items:center;"><input type="number" value="3" class="form-control" style="width:70px; padding: 5px 10px;" min="0"><button class="btn btn-secondary btn-sm">Update</button></div></td>
+                <td style="padding-right: 1.75rem; text-align: right;"><button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 1.75rem; width: 120px;"><div style="width: 100px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);"><img src="https://picsum.photos/100/70?random=93" style="width: 100%; height: 100%; object-fit: cover;"></div></td>
+                <td style="font-weight: 500;">Berbagai pilihan camilan tradisional</td>
+                <td><div style="display:flex; gap:0.5rem; align-items:center;"><input type="number" value="4" class="form-control" style="width:70px; padding: 5px 10px;" min="0"><button class="btn btn-secondary btn-sm">Update</button></div></td>
+                <td style="padding-right: 1.75rem; text-align: right;"><button class="btn btn-ghost-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    </div>
+</div>
+</body>
+</html>

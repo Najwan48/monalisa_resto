@@ -51,6 +51,8 @@ $label_bagian = [
     'alamat'          => 'Alamat',
     'telepon'         => 'Telepon',
     'jam_operasional' => 'Jam Operasional',
+    'link_gofood'     => 'Link GoFood',
+    'link_grabfood'   => 'Link GrabFood',
 ];
 ?>
 

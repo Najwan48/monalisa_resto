@@ -40,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $pesan = "Ukuran file melebihi batas 2MB.";
                     $tipe_pesan = 'danger';
                 } else {
-                    $upload_dir = '../assets/images/';
+                    $upload_dir = '../assets/images/menu/';
                     $ext        = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
                     $filename   = 'menu_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
                     move_uploaded_file($_FILES['foto']['tmp_name'], $upload_dir . $filename);
-                    $foto_url = 'assets/images/' . $filename;
+                    $foto_url = 'assets/images/menu/' . $filename;
                 }
             }
 
@@ -87,6 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $pdo->prepare("DELETE FROM menu WHERE id = ?");
             $stmt->execute([$hapus_id]);
+
+            if ($menu_lama && !empty($menu_lama['foto_url'])) {
+                $foto_path = '../' . $menu_lama['foto_url'];
+                if (file_exists($foto_path) && strpos($menu_lama['foto_url'], 'assets/images/menu/') === 0) {
+                    unlink($foto_path);
+                }
+            }
+
             log_aktivitas($pdo, $_SESSION['admin_id'], "Hapus menu: " . ($menu_lama['nama_menu'] ?? $hapus_id));
             $pesan = "Menu berhasil dihapus.";
             $tipe_pesan = 'success';
@@ -127,7 +135,13 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
 
 <div class="page-actions">
     <h2>Daftar Menu</h2>
-    <a href="menu.php?aksi=tambah" class="btn btn-primary">+ Tambah Menu</a>
+    <div style="display: flex; gap: 1rem;">
+        <form method="GET" style="display: flex; gap: 0.5rem;">
+            <input type="text" name="q" class="form-control" placeholder="Cari menu..." value="<?= h($_GET['q'] ?? '') ?>" style="padding: 6px 12px; font-size: 0.85rem; width: 200px;">
+            <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
+        </form>
+        <a href="menu.php?aksi=tambah" class="btn btn-primary">+ Tambah Menu</a>
+    </div>
 </div>
 
 <div class="card" style="padding: 0; overflow: hidden;">
@@ -139,44 +153,51 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
                 <th>Kategori</th>
                 <th>Harga</th>
                 <th>Status</th>
-                <th>Aksi</th>
+                <th style="text-align: center;">Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            $menus = $pdo->query("SELECT * FROM menu ORDER BY created_at DESC")->fetchAll();
+            $search = $_GET['q'] ?? '';
+            if ($search) {
+                $stmt_list = $pdo->prepare("SELECT * FROM menu WHERE nama_menu LIKE ? OR kategori LIKE ? ORDER BY created_at DESC");
+                $stmt_list->execute(["%$search%", "%$search%"]);
+                $menus = $stmt_list->fetchAll();
+            } else {
+                $menus = $pdo->query("SELECT * FROM menu ORDER BY created_at DESC")->fetchAll();
+            }
             foreach ($menus as $menu):
             ?>
             <tr>
                 <td>
                     <img src="../<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>"
-                         style="width:60px; height:50px; object-fit:cover; border-radius:10px;"
-                         onerror="this.src='https://via.placeholder.com/60x50?text=N/A'">
+                         style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"
+                         onerror="this.src='https://via.placeholder.com/56x44?text=N/A'">
                 </td>
                 <td>
-                    <strong><?= h($menu['nama_menu']) ?></strong><br>
-                    <small style="color:#666;"><?= h($menu['asal_daerah']) ?></small>
+                    <strong style="font-size:0.875rem;"><?= h($menu['nama_menu']) ?></strong><br>
+                    <small style="color: var(--text-muted);"><?= h($menu['asal_daerah']) ?></small>
                 </td>
-                <td><?= h($menu['kategori']) ?></td>
-                <td><?= format_rupiah($menu['harga']) ?></td>
+                <td><span class="badge badge-secondary"><?= h($menu['kategori']) ?></span></td>
+                <td style="font-weight: 600; color: var(--primary);"><?= format_rupiah($menu['harga']) ?></td>
                 <td>
                     <span class="badge <?= $menu['status'] === 'aktif' ? 'badge-success' : 'badge-secondary' ?>">
                         <?= h($menu['status']) ?>
                     </span>
                 </td>
-                <td style="white-space: nowrap;">
-                    <a href="menu.php?aksi=edit&id=<?= $menu['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                <td style="text-align: center; white-space: nowrap;">
+                    <a href="menu.php?aksi=edit&id=<?= $menu['id'] ?>" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-pen"></i></a>
                     <form method="POST" style="display:inline;" onsubmit="return confirm('Toggle status menu ini?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                         <input type="hidden" name="action" value="toggle_status">
                         <input type="hidden" name="toggle_id" value="<?= $menu['id'] ?>">
-                        <button type="submit" class="btn btn-secondary btn-sm">Toggle</button>
+                        <button type="submit" class="btn btn-secondary btn-sm" title="Toggle Status"><i class="fas fa-arrow-right-arrow-left"></i></button>
                     </form>
                     <form method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus menu ini?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                         <input type="hidden" name="action" value="hapus">
                         <input type="hidden" name="hapus_id" value="<?= $menu['id'] ?>">
-                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        <button type="submit" class="btn btn-ghost-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>
             </tr>
@@ -268,7 +289,12 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan Menu</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <a href="menu.php" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn btn-primary" style="padding: 11px 36px;">
+                <i class="fas fa-save"></i> Simpan Menu
+            </button>
+        </div>
     </form>
 </div>
 

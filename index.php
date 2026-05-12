@@ -1,69 +1,157 @@
 <?php
+$page_title = 'Beranda';
 require_once 'includes/header.php';
 
 $stmt_beranda = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'beranda'");
 $stmt_beranda->execute();
 $konten = $stmt_beranda->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$stmt_menu = $pdo->prepare("SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, foto_url FROM menu WHERE status = 'aktif' ORDER BY RAND() LIMIT 3");
+$stmt_menu = $pdo->prepare("SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, foto_url, kategori FROM menu WHERE status = 'aktif' ORDER BY RAND() LIMIT 3");
 $stmt_menu->execute();
 $menus = $stmt_menu->fetchAll();
 ?>
 
-<section class="hero">
-    <div class="hero-content container">
-        <h1><?= h($konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah di Jantung Kota Bogor') ?></h1>
-        <p><?= h($konten['pengantar'] ?? 'Selamat datang di Monalisa Resto.') ?></p>
-        <div class="hero-buttons">
-            <a href="katalog.php" class="btn btn-primary">Lihat Menu</a>
-            <a href="#order" class="btn btn-secondary">Order Online</a>
+<main>
+
+<section class="hero" aria-label="Hero Section" style="position: relative; overflow: hidden; background: var(--bg-warm);">
+    <div class="hero-text-side" style="position: relative; z-index: 2;">
+        <div class="reveal reveal-up" style="margin-bottom: 2rem;">
+            <span class="eyebrow" style="letter-spacing: 0.3em; opacity: 0.8;">EST. 1998 — BOGOR</span>
+        </div>
+        <h1 class="hero-heading reveal reveal-up delay-1" style="font-size: 5rem; line-height: 1.1; margin-bottom: 2rem; position: relative;">
+            <?php
+            $tagline = $konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah';
+            $tagline_words = explode(' ', $tagline);
+            $first_word = array_shift($tagline_words);
+            $rest_tagline = implode(' ', $tagline_words);
+            ?>
+            <span style="display: block; font-style: italic; color: var(--primary); font-family: 'Cormorant Garamond', serif; font-size: 0.8em; margin-bottom: -0.2em;"><?= h($first_word) ?></span>
+            <?= h($rest_tagline) ?>
+        </h1>
+        <p class="hero-sub reveal reveal-up delay-2" style="max-width: 480px; font-size: 1.1rem; line-height: 1.8; margin-bottom: 3.5rem;">
+            <?= h($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
+        </p>
+        <div class="hero-actions reveal reveal-up delay-3" style="display: flex; gap: 2rem; align-items: center;">
+            <a href="katalog.php" class="btn btn-primary" style="padding: 1.25rem 3rem;">Jelajahi Menu</a>
+            <a href="tentang.php" class="btn-ghost" style="text-decoration: none; font-weight: 700; border-bottom: 1px solid var(--primary);">
+                Cerita Kami
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-image-side" style="position: relative; padding: 4rem;">
+        <div class="reveal reveal-scale delay-2" style="position: relative; width: 100%; height: 100%; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.15);">
+            <img src="assets/images/hero-bg.jpg"
+                 alt="Monalisa Resto"
+                 onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80'"
+                 style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="hero-image-overlay"></div>
+        </div>
+        
+        <div class="hero-badge reveal reveal-up delay-4" style="position: absolute; bottom: 8rem; left: -2rem; z-index: 3; background: var(--surface); padding: 2.5rem; box-shadow: var(--shadow-lg); border-radius: 0; text-align: center; min-width: 180px;">
+            <div style="font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--primary); line-height: 0.8; margin-bottom: 0.5rem; font-weight: 600;">25</div>
+            <div style="font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Tahun Warisan</div>
         </div>
     </div>
 </section>
 
-<section class="section" style="background-color: var(--white);">
+<section class="section" style="background: var(--surface);">
     <div class="container">
-        <div class="text-center">
-            <h2 class="section-title">Menu Andalan Kami</h2>
-            <p style="margin-bottom: 2rem;">Sajian otentik yang wajib Anda coba.</p>
+        <div class="art-content-section">
+            <div class="reveal reveal-left">
+                <span class="eyebrow">Warisan & Seni</span>
+                <h2 class="section-title">Harmoni Rasa<br>dan Estetika</h2>
+                <div class="divider-left"></div>
+                <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                    Di Monalisa Resto, kami percaya bahwa pengalaman kuliner terbaik lahir dari harmoni antara hidangan yang lezat dan suasana yang menginspirasi. Lukisan ikonik "Monalisa Art" di ruang kami menjadi saksi perjalanan rasa yang kami tawarkan.
+                </p>
+                <a href="tentang.php" class="btn btn-outline">Pelajari Sejarah Kami</a>
+            </div>
+            <div class="art-image-wrapper reveal reveal-right delay-2">
+                <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art at Resto" style="width: 100%; border-radius: var(--radius-lg);">
+            </div>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <?php foreach($menus as $menu): ?>
-            <div class="menu-card">
-                <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" style="width: 100%; height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x250?text=Foto+Menu'">
-                <div style="padding: 1.5rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <h3 style="margin-bottom: 0; font-size: 1.25rem;"><?= h($menu['nama_menu']) ?></h3>
-                        <span style="font-weight: bold; color: var(--primary-color);"><?= format_rupiah($menu['harga']) ?></span>
+    </div>
+</section>
+
+<section class="section" style="background: var(--bg-warm);" aria-label="Signature Dishes">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start;">
+            <div style="position: sticky; top: 8rem;" class="reveal reveal-up">
+                <span class="eyebrow">Pilihan Terbaik</span>
+                <h2 class="section-title">Menu<br>Andalan</h2>
+                <div class="divider-left"></div>
+                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem;">Sajian otentik yang wajib Anda coba, disiapkan dengan bahan-bahan pilihan dan cinta yang tulus.</p>
+                <a href="katalog.php" class="btn btn-outline">Semua Menu</a>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+                <?php foreach($menus as $index => $menu): ?>
+                <div class="reveal reveal-up delay-<?= $index + 1 ?>" style="display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; align-items: center; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); <?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
+                    <div class="menu-card-img" style="border-radius: var(--radius); overflow: hidden; height: 200px;">
+                        <img src="<?= h($menu['foto_url']) ?>"
+                             alt="<?= h($menu['nama_menu']) ?>"
+                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;"
+                             onerror="this.src='https://via.placeholder.com/280x200?text=Foto+Menu'">
                     </div>
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> <?= h($menu['asal_daerah']) ?></p>
-                    <p style="font-size: 0.9rem; margin-bottom: 1rem;"><?= h($menu['deskripsi_singkat']) ?></p>
-                    <a href="detail.php?id=<?= $menu['id'] ?>" class="btn btn-secondary" style="display: block; padding: 8px;">Detail Menu</a>
+                    <div>
+                        <span class="menu-card-category"><?= h($menu['kategori'] ?? $menu['asal_daerah']) ?></span>
+                        <h3 style="font-size: 1.75rem; margin-bottom: 0.75rem;"><?= h($menu['nama_menu']) ?></h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;"><?= h($menu['deskripsi_singkat']) ?></p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--primary); font-weight: 600;"><?= format_rupiah($menu['harga']) ?></span>
+                            <a href="detail.php?id=<?= $menu['id'] ?>" class="btn-ghost">
+                                Lihat Detail <i class="fas fa-arrow-right" style="font-size: 0.65rem;"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="background: var(--surface); padding: 5rem 0;" aria-label="Value Propositions">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border);" class="reveal reveal-scale">
+            <?php
+            $props = [
+                ['fas fa-leaf', 'Bahan Segar', 'Kami memilih bahan-bahan segar berkualitas tinggi setiap harinya dari supplier terpercaya.'],
+                ['fas fa-heart', 'Resep Warisan', 'Setiap hidangan dibuat berdasarkan resep keluarga yang telah diwariskan selama generasi.'],
+                ['fas fa-star', 'Pengalaman Premium', 'Lebih dari sekedar makan — kami menghadirkan pengalaman kuliner yang tak terlupakan.'],
+            ];
+            foreach($props as $i => $prop): ?>
+            <div style="padding: 3rem; <?= $i < 2 ? 'border-right: 1px solid var(--border);' : '' ?> text-align: center;">
+                <div style="width: 56px; height: 56px; background: var(--primary-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--primary);">
+                    <i class="<?= $prop[0] ?>"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;"><?= $prop[1] ?></h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;"><?= $prop[2] ?></p>
             </div>
             <?php endforeach; ?>
         </div>
-        <div class="text-center" style="margin-top: 3rem;">
-            <a href="katalog.php" class="btn btn-primary">Lihat Seluruh Menu</a>
-        </div>
     </div>
 </section>
 
-<section id="order" class="section" style="background-color: var(--bg-dark); color: var(--white); text-align: center;">
-    <div class="container">
-        <h2 class="section-title" style="color: var(--secondary-color);">Nikmati di Rumah Anda</h2>
-        <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Pesan hidangan favorit Anda melalui platform partner kami untuk pengiriman langsung ke depan pintu Anda.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="https://gofood.link/a/BMMv8Pb" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
-                <img src="logo_gofood.png" alt="GoFood">
+<section id="order" class="section" style="background: var(--charcoal);" aria-label="Online Order">
+    <div class="container" style="text-align: center; max-width: 700px;">
+        <span class="eyebrow reveal reveal-up" style="color: var(--primary-light);">Pesan Sekarang</span>
+        <h2 class="section-title reveal reveal-up delay-1" style="color: #fff;">Nikmati di Rumah Anda</h2>
+        <div class="divider reveal reveal-up delay-2"></div>
+        <p class="reveal reveal-up delay-3" style="color: rgba(255,255,255,0.55); line-height: 1.85; margin-bottom: 3.5rem;">Hidangan favorit Anda kini bisa dinikmati di rumah. Pesan melalui platform partner terpercaya kami.</p>
+        <div class="reveal reveal-up delay-4" style="display: flex; flex-direction: row; gap: 1rem; justify-content: center; align-items: center;">
+            <a href="<?= h($konten['link_gofood'] ?? 'https://gofood.link/a/BMMv8Pb') ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="padding: 14px 24px; font-size: 0.85rem; display: inline-flex; align-items: center; white-space: nowrap;">
+                <img src="assets/images/logo gofood.png" alt="GoFood" style="height: 20px; margin-right: 8px;">
                 Pesan via GoFood
             </a>
-            <a href="https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
-                <img src="logo_grabfood.jpg" alt="GrabFood">
+            <a href="<?= h($konten['link_grabfood'] ?? 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT') ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="padding: 14px 24px; font-size: 0.85rem; display: inline-flex; align-items: center; white-space: nowrap;">
+                <img src="assets/images/logo grabfood.png" alt="GrabFood" style="height: 20px; margin-right: 8px;">
                 Pesan via GrabFood
             </a>
         </div>
     </div>
 </section>
+
+</main>
 
 <?php require_once 'includes/footer.php'; ?>

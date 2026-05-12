@@ -6,33 +6,59 @@ $stmt->execute();
 $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 ?>
 
-<div style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('assets/images/tentang-bg.jpg') center/cover; color: var(--white); padding: 6rem 0; text-align: center;">
-    <h1 class="section-title" style="color: var(--white); border-bottom-color: var(--secondary-color);">Tentang Kami</h1>
-</div>
+<main>
+
+<section style="background: var(--bg-warm); padding: 10rem 0 6rem; text-align: center;">
+    <div class="container">
+        <span class="eyebrow reveal reveal-up">Warisan Budaya</span>
+        <h1 class="section-title reveal reveal-up delay-1">Cerita Monalisa</h1>
+        <div class="divider reveal reveal-up delay-2"></div>
+        <p class="reveal reveal-up delay-3" style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+            Perjalanan panjang melintasi generasi, menjaga cita rasa autentik di jantung Kota Bogor.
+        </p>
+    </div>
+</section>
 
 <section class="section">
     <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; align-items: center;">
-            <div>
-                <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Kisah Monalisa</h2>
-                <div style="line-height: 1.8; font-size: 1.1rem;">
-                    <?= nl2br(h($konten['sejarah'] ?? '[CONTOH: Berdiri sejak tahun 2010, Restaurant Monalisa lahir dari kecintaan kami terhadap kekayaan rempah Nusantara, khususnya masakan Jawa Tengah. Berawal dari resep warisan keluarga yang dijaga turun-temurun, kami berkomitmen untuk menyajikan hidangan autentik dengan kualitas bahan terbaik.]')) ?>
+        <div class="art-content-section">
+            <div class="reveal reveal-left">
+                <span class="eyebrow">Sejarah Kami</span>
+                <h2 class="section-title">Dedikasi Pada<br>Tradisi</h2>
+                <div class="divider-left"></div>
+                <div style="line-height: 1.8; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;">
+                    <?= nl2br(h($konten['sejarah'] ?? 'Sejak tahun 1972, Restoran Monalisa telah menjadi ikon kuliner di Jalan Raya Tajur, Bogor.')) ?>
                 </div>
             </div>
-            <div>
-                <img src="assets/images/tentang-img.jpg" alt="Restaurant Monalisa Interior" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow);" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+Restoran'">
+            <div class="reveal reveal-right delay-2">
+                <div class="art-image-wrapper">
+                    <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art Piece" 
+                         style="width: 100%; border-radius: var(--radius-lg);">
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" style="background-color: var(--bg-dark); color: var(--white);">
-    <div class="container text-center">
-        <h2 class="section-title" style="color: var(--secondary-color);">Visi Kami</h2>
-        <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto; font-style: italic; line-height: 1.6;">
-            "<?= h($konten['visi'] ?? '[CONTOH: Menjadi restoran pilihan utama keluarga untuk menikmati kuliner tradisional dengan layanan bintang lima.]') ?>"
-        </p>
+<section class="section" style="background-color: var(--surface);">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; align-items: center;">
+            <div class="reveal reveal-scale">
+                <img src="assets/images/galeri/IMG_4224.jpg" alt="Monalisa Resto Interior" 
+                     style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+            </div>
+            <div class="reveal reveal-up">
+                <span class="eyebrow">Visi Kami</span>
+                <h2 class="section-title">Membawa Kehangatan<br>ke Meja Anda</h2>
+                <div class="divider-left"></div>
+                <p style="font-size: 1.4rem; font-style: italic; line-height: 1.6; color: var(--primary); font-family: var(--font-display);">
+                    "<?= h($konten['visi'] ?? 'Monalisa hadir untuk membawa kehangatan rumah ke meja makan Anda melalui resep legendaris yang terjaga.') ?>"
+                </p>
+            </div>
+        </div>
     </div>
 </section>
+
+</main>
 
 <?php require_once 'includes/footer.php'; ?>

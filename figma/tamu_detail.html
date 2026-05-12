@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Menu — Monalisa Resto · Authentic Javanese Cuisine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="tamu_shared.css">
+</head>
+<body>
+
+<header id="main-header">
+    <div class="nav-container">
+        <a href="tamu_beranda.html" class="logo">Monalisa Resto</a>
+        <nav class="nav-links">
+            <a href="tamu_beranda.html">Beranda</a>
+            <a href="tamu_katalog.html">Menu</a>
+            <a href="tamu_galeri.html">Galeri</a>
+            <a href="tamu_kontak.html">Kontak</a>
+            <a href="tamu_tentang.html">Tentang</a>
+            <a href="tamu_beranda.html#order" class="nav-cta">Pesan Sekarang</a>
+        </nav>
+        <button class="hamburger" aria-label="Toggle Menu">&#9776;</button>
+    </div>
+</header>
+
+<main style="padding-top: 7rem;">
+    <div style="background: var(--bg-warm); border-bottom: 1px solid var(--border); padding: 1.25rem 0; margin-bottom: 2rem;">
+        <div class="container">
+            <a href="tamu_katalog.html" class="btn-ghost" style="font-size: 0.75rem;">
+                <i class="fas fa-arrow-left"></i> Kembali ke Katalog Menu
+            </a>
+        </div>
+    </div>
+
+    <section class="section" style="padding-top: 1rem;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: start;">
+                <div>
+                    <div style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: 500px; overflow: hidden;">
+                        <img src="https://picsum.photos/600/500?random=30"
+                             alt="Ayam Kalasan"
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div>
+                    <span class="eyebrow">AYAM</span>
+                    <h1 class="section-title" style="margin-bottom: 1rem;">Ayam Kalasan</h1>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> Khas: Bogor
+                    </p>
+
+                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--primary); font-weight: 600; margin-bottom: 3rem; line-height: 1;">
+                        Rp 55.000
+                    </div>
+
+                    <div style="margin-bottom: 3rem;">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Deskripsi</h3>
+                        <p style="line-height: 1.9; color: var(--text); font-size: 1.05rem;">Ayam Kalasan adalah salah satu menu favorit kami yang disajikan dengan cita rasa autentik. Dimasak dengan bumbu rempah pilihan dan disajikan dengan sambal khas yang menggugah selera. Cocok dinikmati bersama keluarga dan teman-teman tercinta.</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div style="background: var(--surface); padding: 1.75rem; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+                            <h4 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 0.75rem;">Komposisi Utama</h4>
+                            <p style="font-size: 0.95rem;">Ayam kampung, bumbu rempah, santan kelapa</p>
+                        </div>
+
+                        <div style="background: #FFF5F5; padding: 1.75rem; border: 1px solid #FED7D7; border-radius: var(--radius-sm);">
+                            <h4 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #C53030; margin-bottom: 0.75rem;">Informasi Alergen</h4>
+                            <p style="font-size: 0.95rem; color: #742A2A;">Mengandung kacang</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <a href="tamu_beranda.html#order" class="btn btn-primary" style="width: 100%;">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 3rem; text-align: left; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+            <div>
+                <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: #fff; margin-bottom: 1rem;">Monalisa Resto</p>
+                <p style="line-height: 1.8; max-width: 260px;">Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga.</p>
+            </div>
+            <div>
+                <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem;">Jam Operasional</p>
+                <p style="color: rgba(255,255,255,0.8);">Setiap Hari: 08.00 - 21.00 WIB</p>
+            </div>
+            <div>
+                <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem;">Kontak &amp; Lokasi</p>
+                <p style="margin-bottom: 0.5rem; color: rgba(255,255,255,0.8);">Jl. Raya Tajur No.30, Kota Bogor</p>
+                <p style="color: rgba(255,255,255,0.8);">Telp: 0812-3456-7890</p>
+            </div>
+        </div>
+        <p style="font-size: 0.8rem;">&copy; 2026 Monalisa Resto. Hak Cipta Dilindungi.</p>
+    </div>
+</footer>
+
+</body>
+</html>

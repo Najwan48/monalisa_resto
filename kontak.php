@@ -4,115 +4,108 @@ require_once 'includes/header.php';
 $stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
 $stmt->execute();
 $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$csrf_token = generate_csrf_token();
-$pesan_sukses = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (verify_csrf_token($_POST['csrf_token'] ?? '')) {
-        $nama  = h($_POST['nama'] ?? '');
-        $email = h($_POST['email'] ?? '');
-        $pesan = h($_POST['pesan'] ?? '');
-
-        if (!empty($nama) && !empty($email) && !empty($pesan)) {
-            $pesan_sukses = "Terima kasih, $nama. Pesan Anda telah kami terima dan akan segera kami proses.";
-        }
-    } else {
-        $pesan_sukses = "Validasi form gagal. Silakan coba lagi.";
-    }
-}
 ?>
+
+<main>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<div style="background-color: var(--bg-dark); color: var(--white); padding: 4rem 0; text-align: center;">
-    <h1 class="section-title" style="color: var(--secondary-color);">Hubungi Kami</h1>
-    <p>Kami senang mendengar dari Anda.</p>
-</div>
+<section style="background: var(--bg-warm); padding: 10rem 0 6rem; text-align: center;">
+    <div class="container">
+        <span class="eyebrow reveal reveal-up">Hubungan Pelanggan</span>
+        <h1 class="section-title reveal reveal-up delay-1">Terhubung dengan Kami</h1>
+        <div class="divider reveal reveal-up delay-2"></div>
+        <p class="reveal reveal-up delay-3" style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+            Kami selalu siap melayani Anda. Kunjungi kami untuk pengalaman kuliner autentik yang tak terlupakan.
+        </p>
+    </div>
+</section>
 
 <section class="section">
     <div class="container">
-        <?php if($pesan_sukses): ?>
-        <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: var(--radius); margin-bottom: 2rem; border: 1px solid #c3e6cb;">
-            <?= $pesan_sukses ?>
-        </div>
-        <?php endif; ?>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
-            <div>
-                <h2 style="margin-bottom: 2rem; color: var(--primary-color);">Informasi Kontak</h2>
-                <div class="contact-info-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <h2 class="section-title reveal reveal-up" style="font-size: 2.2rem; margin-bottom: 3rem;">Lokasi & Kontak</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
+                    <div class="reveal reveal-up delay-1">
+                        <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Alamat</span>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);">
+                            <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= h($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a>
+                        </p>
                     </div>
-                    <div class="contact-text">
-                        <h4>Alamat</h4>
-                        <p><a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= h($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a></p>
+                    
+                    <div class="reveal reveal-up delay-2">
+                        <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Telepon</span>
+                        <p style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                            <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', h($kontak_data['telepon'] ?? '081234567890')) ?>" 
+                               style="color: var(--primary); text-decoration: none;" 
+                               title="Klik untuk menelepon">
+                                <?= h($kontak_data['telepon'] ?? '0812-3456-7890') ?>
+                            </a>
+                            <button onclick="copyToClipboard('<?= h($kontak_data['telepon'] ?? '0812-3456-7890') ?>', this)" 
+                                    style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; padding: 5px; display: flex; align-items: center; gap: 0.4rem; transition: all 0.3s;"
+                                    title="Salin nomor">
+                                <i class="fas fa-copy"></i>
+                                <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: none;" class="copy-status">Tersalin</span>
+                            </button>
+                        </p>
                     </div>
-                </div>
-                <div class="contact-info-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Telepon</h4>
-                        <p><?= h($kontak_data['telepon'] ?? '0812-3456-7890') ?></p>
-                    </div>
-                </div>
-                <div class="contact-info-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Jam Operasional</h4>
-                        <p><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
+                    
+                    <div class="reveal reveal-up delay-3">
+                        <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
                     </div>
                 </div>
-                <div id="map" style="margin-top: 2rem; width: 100%; height: 300px; border-radius: var(--radius); border: 1px solid #ddd; z-index: 1;"></div>
             </div>
 
-            <div style="background-color: var(--white); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
-                <h2 style="margin-bottom: 2rem; color: var(--primary-color);">Kirim Pesan</h2>
-                <form action="kontak.php" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                    <div style="margin-bottom: 1rem;">
-                        <label for="nama" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Nama Lengkap</label>
-                        <input type="text" id="nama" name="nama" required style="width: 100%;">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email</label>
-                        <input type="email" id="email" name="email" required style="width: 100%;">
-                    </div>
-                    <div style="margin-bottom: 1.5rem;">
-                        <label for="pesan" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Pesan</label>
-                        <textarea id="pesan" name="pesan" rows="5" required style="width: 100%; resize: vertical;"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Pesan</button>
-                </form>
+            <div id="map" class="reveal reveal-scale delay-4" style="width: 100%; height: 450px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Monalisa Art Integration -->
+<section class="section" style="background: var(--bg-warm);">
+    <div class="container">
+        <div class="art-content-section">
+            <div class="reveal reveal-left">
+                <span class="eyebrow">Warisan Monalisa</span>
+                <h2 class="section-title">Nilai Seni dalam<br>Setiap Sajian</h2>
+                <div class="divider-left"></div>
+                <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                    Restoran kami tidak hanya menyajikan makanan, tetapi juga sebuah pengalaman yang menghargai keindahan. "Monalisa Art" adalah jantung dari identitas visual kami, melambangkan keanggunan dan kualitas yang tak lekang oleh waktu.
+                </p>
+            </div>
+            <div class="art-image-wrapper reveal reveal-right delay-2">
+                <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art Piece" style="width: 100%; border-radius: var(--radius-lg);">
             </div>
         </div>
     </div>
 </section>
 
-<?php require_once 'includes/footer.php'; ?>
+</main>
 
 <script>
-    const lat = -6.6263927;
-    const lng = 106.8214916;
+    document.addEventListener('DOMContentLoaded', () => {
+        const lat = -6.6263927;
+        const lng = 106.8214916;
+        const map = L.map('map').setView([lat, lng], 15);
 
-    const map = L.map('map').setView([lat, lng], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+        const marker = L.marker([lat, lng]).addTo(map);
+        
+        marker.bindPopup('<b>Monalisa Restaurant</b><br>Klik pin untuk petunjuk arah.').openPopup();
 
-    const marker = L.marker([lat, lng]).addTo(map);
-    
-    marker.bindPopup('<b>Monalisa Restaurant</b><br>Jl. Raya Tajur No.30, Bogor.<br><a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank" style="color: var(--primary-color); text-decoration: underline;">Petunjuk Arah</a>').openPopup();
+        marker.on('click', () => {
+            window.open('https://maps.app.goo.gl/J5wMuZqK8dnd5nu19', '_blank');
+        });
 
-    marker.on('click', function() {
-        window.open('https://maps.app.goo.gl/J5wMuZqK8dnd5nu19', '_blank');
+        marker.getElement().style.cursor = 'pointer';
     });
-    
-    marker.getElement().style.cursor = 'pointer';
 </script>
+
+<?php require_once 'includes/header.php'; ?>
