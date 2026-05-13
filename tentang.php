@@ -8,7 +8,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 <main>
 
-<section style="background: var(--bg-warm); padding: 10rem 0 6rem; text-align: center;">
+<div class="page-header">
     <div class="container">
         <span class="eyebrow reveal reveal-up">Warisan Budaya</span>
         <h1 class="section-title reveal reveal-up delay-1">Cerita Monalisa</h1>
@@ -17,7 +17,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             Perjalanan panjang melintasi generasi, menjaga cita rasa autentik di jantung Kota Bogor.
         </p>
     </div>
-</section>
+</div>
 
 <section class="section">
     <div class="container">
@@ -42,7 +42,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 <section class="section" style="background-color: var(--surface);">
     <div class="container">
-        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; align-items: center;">
+        <div class="split-section">
             <div class="reveal reveal-scale">
                 <img src="assets/images/galeri/IMG_4224.jpg" alt="Monalisa Resto Interior" 
                      style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">

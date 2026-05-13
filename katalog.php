@@ -37,21 +37,20 @@ $menus = $stmt->fetchAll();
 
 <main>
 
-<div style="background: var(--bg-warm); padding: 10rem 0 6rem; text-align: center;">
+<div class="page-header">
     <div class="container">
         <span class="eyebrow reveal reveal-up">Cita Rasa Otentik</span>
         <h1 class="section-title reveal reveal-up delay-1">Eksplorasi Menu Kami</h1>
         
-        <div class="reveal reveal-up delay-2" style="max-width: 600px; margin: 3rem auto 0;">
-            <form action="katalog.php" method="GET" style="position: relative;">
+        <div class="search-container reveal reveal-up delay-2">
+            <form action="katalog.php" method="GET">
                 <?php if ($kategori_aktif !== 'Semua'): ?>
                     <input type="hidden" name="kategori" value="<?= h($kategori_aktif) ?>">
                 <?php endif; ?>
                 <input type="text" name="q" value="<?= h($search_query) ?>" 
-                       class="form-control" 
-                       placeholder="Cari hidangan favorit Anda..." 
-                       style="padding: 1.5rem 2rem 1.5rem 4rem; border-radius: 50px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); font-size: 1.1rem;">
-                <i class="fas fa-search" style="position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.2rem;"></i>
+                       class="search-input" 
+                       placeholder="Cari hidangan favorit Anda...">
+                <i class="fas fa-search search-icon"></i>
                 <?php if (!empty($search_query)): ?>
                     <a href="katalog.php?kategori=<?= urlencode($kategori_aktif) ?>" style="position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em;">Hapus</a>
                 <?php endif; ?>
@@ -60,25 +59,41 @@ $menus = $stmt->fetchAll();
     </div>
 </div>
 
-<div style="background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; padding: 0;">
+<div style="background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: var(--header-h-small); z-index: 100; padding: 0;">
     <div class="container">
-        <nav style="display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;" aria-label="Filter Kategori">
-            <a href="katalog.php<?= !empty($search_query) ? '?q='.urlencode($search_query) : '' ?>"
-               style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
-                Semua
-            </a>
-            <?php foreach($categories as $cat): ?>
-            <a href="katalog.php?kategori=<?= urlencode($cat) ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
-               style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
-                <?= h($cat) ?>
-            </a>
-            <?php endforeach; ?>
-        </nav>
+        <!-- Desktop Filter -->
+        <div class="category-filter-wrapper">
+            <button class="scroll-arrow left" id="scroll-left"><i class="fas fa-chevron-left"></i></button>
+            <nav class="category-filter-desktop" id="category-nav" aria-label="Filter Kategori">
+                <a href="katalog.php<?= !empty($search_query) ? '?q='.urlencode($search_query) : '' ?>"
+                   style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
+                    Semua
+                </a>
+                <?php foreach($categories as $cat): ?>
+                <a href="katalog.php?kategori=<?= urlencode($cat) ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
+                   style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
+                    <?= h($cat) ?>
+                </a>
+                <?php endforeach; ?>
+            </nav>
+            <button class="scroll-arrow right" id="scroll-right"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div class="category-filter-mobile">
+            <select class="filter-select" id="mobile-category-filter">
+                <option value="katalog.php<?= !empty($search_query) ? '?q='.urlencode($search_query) : '' ?>" <?= $kategori_aktif === 'Semua' ? 'selected' : '' ?>>Semua Kategori</option>
+                <?php foreach($categories as $cat): ?>
+                <option value="katalog.php?kategori=<?= urlencode($cat) ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>" <?= $kategori_aktif === $cat ? 'selected' : '' ?>>
+                    <?= h($cat) ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
 </div>
 
 <section class="section" style="padding-top: 5rem;">
-    <div class="container">
+    <div class="container" id="menu-content-container">
         <?php if(empty($menus)): ?>
         <div style="padding: 10rem 0; text-align: center;" class="reveal reveal-scale">
             <div style="font-size: 4rem; color: var(--primary-pale); margin-bottom: 2rem;">
@@ -112,7 +127,7 @@ $menus = $stmt->fetchAll();
                     <p class="menu-card-desc"><?= h($menu['deskripsi_singkat']) ?></p>
                     <div class="menu-card-footer">
                         <span class="menu-card-price"><?= format_rupiah($menu['harga']) ?></span>
-                        <a href="detail.php?id=<?= $menu['id'] ?>" class="btn btn-ghost" style="padding: 8px 16px; font-size: 0.75rem;">Detail</a>
+                        <a href="detail.php?id=<?= $menu['id'] ?>" class="menu-card-link">Detail <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
             </div>

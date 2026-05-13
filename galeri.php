@@ -7,7 +7,7 @@ $galeri = $stmt->fetchAll();
 
 <main>
 
-<section style="background: var(--bg-warm); padding: 10rem 0 6rem; text-align: center;">
+<div class="page-header">
     <div class="container">
         <span class="eyebrow reveal reveal-up">Eksplorasi Visual</span>
         <h1 class="section-title reveal reveal-up delay-1">Galeri Monalisa</h1>
@@ -16,7 +16,7 @@ $galeri = $stmt->fetchAll();
             Melihat lebih dekat kehangatan suasana dan detail autentik yang kami hadirkan di setiap sudut Monalisa Resto.
         </p>
     </div>
-</section>
+</div>
 
 <!-- Monalisa Art Section -->
 <section class="section" style="background: var(--surface);">

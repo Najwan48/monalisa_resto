@@ -13,12 +13,12 @@ $menus = $stmt_menu->fetchAll();
 
 <main>
 
-<section class="hero" aria-label="Hero Section" style="position: relative; overflow: hidden; background: var(--bg-warm);">
-    <div class="hero-text-side" style="position: relative; z-index: 2;">
-        <div class="reveal reveal-up" style="margin-bottom: 2rem;">
+<section class="hero" aria-label="Hero Section">
+    <div class="hero-text-side">
+        <div class="reveal reveal-up">
             <span class="eyebrow" style="letter-spacing: 0.3em; opacity: 0.8;">EST. 1998 — BOGOR</span>
         </div>
-        <h1 class="hero-heading reveal reveal-up delay-1" style="font-size: 5rem; line-height: 1.1; margin-bottom: 2rem; position: relative;">
+        <h1 class="hero-heading reveal reveal-up delay-1">
             <?php
             $tagline = $konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah';
             $tagline_words = explode(' ', $tagline);
@@ -28,18 +28,18 @@ $menus = $stmt_menu->fetchAll();
             <span style="display: block; font-style: italic; color: var(--primary); font-family: 'Cormorant Garamond', serif; font-size: 0.8em; margin-bottom: -0.2em;"><?= h($first_word) ?></span>
             <?= h($rest_tagline) ?>
         </h1>
-        <p class="hero-sub reveal reveal-up delay-2" style="max-width: 480px; font-size: 1.1rem; line-height: 1.8; margin-bottom: 3.5rem;">
+        <p class="hero-sub reveal reveal-up delay-2">
             <?= h($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
         </p>
-        <div class="hero-actions reveal reveal-up delay-3" style="display: flex; gap: 2rem; align-items: center;">
-            <a href="katalog.php" class="btn btn-primary" style="padding: 1.25rem 3rem;">Jelajahi Menu</a>
+        <div class="hero-actions reveal reveal-up delay-3">
+            <a href="katalog.php" class="btn btn-primary">Jelajahi Menu</a>
             <a href="tentang.php" class="btn-ghost" style="text-decoration: none; font-weight: 700; border-bottom: 1px solid var(--primary);">
                 Cerita Kami
             </a>
         </div>
     </div>
 
-    <div class="hero-image-side" style="position: relative; padding: 4rem;">
+    <div class="hero-image-side">
         <div class="reveal reveal-scale delay-2" style="position: relative; width: 100%; height: 100%; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.15);">
             <img src="assets/images/hero-bg.jpg"
                  alt="Monalisa Resto"
@@ -76,7 +76,7 @@ $menus = $stmt_menu->fetchAll();
 
 <section class="section" style="background: var(--bg-warm);" aria-label="Signature Dishes">
     <div class="container">
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start;">
+        <div class="signature-grid">
             <div style="position: sticky; top: 8rem;" class="reveal reveal-up">
                 <span class="eyebrow">Pilihan Terbaik</span>
                 <h2 class="section-title">Menu<br>Andalan</h2>
@@ -86,11 +86,10 @@ $menus = $stmt_menu->fetchAll();
             </div>
             <div style="display: flex; flex-direction: column; gap: 2.5rem;">
                 <?php foreach($menus as $index => $menu): ?>
-                <div class="reveal reveal-up delay-<?= $index + 1 ?>" style="display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; align-items: center; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); <?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
-                    <div class="menu-card-img" style="border-radius: var(--radius); overflow: hidden; height: 200px;">
+                <div class="signature-item reveal reveal-up delay-<?= $index + 1 ?>" style="<?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
+                    <div class="menu-card-img" style="height: clamp(160px, 20vw, 240px);">
                         <img src="<?= h($menu['foto_url']) ?>"
                              alt="<?= h($menu['nama_menu']) ?>"
-                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;"
                              onerror="this.src='https://via.placeholder.com/280x200?text=Foto+Menu'">
                     </div>
                     <div>
@@ -111,9 +110,9 @@ $menus = $stmt_menu->fetchAll();
     </div>
 </section>
 
-<section style="background: var(--surface); padding: 5rem 0;" aria-label="Value Propositions">
+<section class="section" style="background: var(--surface);" aria-label="Value Propositions">
     <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border);" class="reveal reveal-scale">
+        <div class="props-grid reveal reveal-scale">
             <?php
             $props = [
                 ['fas fa-leaf', 'Bahan Segar', 'Kami memilih bahan-bahan segar berkualitas tinggi setiap harinya dari supplier terpercaya.'],
@@ -121,7 +120,7 @@ $menus = $stmt_menu->fetchAll();
                 ['fas fa-star', 'Pengalaman Premium', 'Lebih dari sekedar makan — kami menghadirkan pengalaman kuliner yang tak terlupakan.'],
             ];
             foreach($props as $i => $prop): ?>
-            <div style="padding: 3rem; <?= $i < 2 ? 'border-right: 1px solid var(--border);' : '' ?> text-align: center;">
+            <div class="prop-item">
                 <div style="width: 56px; height: 56px; background: var(--primary-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--primary);">
                     <i class="<?= $prop[0] ?>"></i>
                 </div>
@@ -139,13 +138,13 @@ $menus = $stmt_menu->fetchAll();
         <h2 class="section-title reveal reveal-up delay-1" style="color: #fff;">Nikmati di Rumah Anda</h2>
         <div class="divider reveal reveal-up delay-2"></div>
         <p class="reveal reveal-up delay-3" style="color: rgba(255,255,255,0.55); line-height: 1.85; margin-bottom: 3.5rem;">Hidangan favorit Anda kini bisa dinikmati di rumah. Pesan melalui platform partner terpercaya kami.</p>
-        <div class="reveal reveal-up delay-4" style="display: flex; flex-direction: row; gap: 1rem; justify-content: center; align-items: center;">
-            <a href="<?= h($konten['link_gofood'] ?? 'https://gofood.link/a/BMMv8Pb') ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="padding: 14px 24px; font-size: 0.85rem; display: inline-flex; align-items: center; white-space: nowrap;">
-                <img src="assets/images/logo gofood.png" alt="GoFood" style="height: 20px; margin-right: 8px;">
+        <div class="order-actions reveal reveal-up delay-4">
+            <a href="<?= h($konten['link_gofood'] ?? 'https://gofood.link/a/BMMv8Pb') ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
+                <img src="assets/images/logo gofood.png" alt="GoFood" style="height: 20px;">
                 Pesan via GoFood
             </a>
-            <a href="<?= h($konten['link_grabfood'] ?? 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT') ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="padding: 14px 24px; font-size: 0.85rem; display: inline-flex; align-items: center; white-space: nowrap;">
-                <img src="assets/images/logo grabfood.png" alt="GrabFood" style="height: 20px; margin-right: 8px;">
+            <a href="<?= h($konten['link_grabfood'] ?? 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT') ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
+                <img src="assets/images/logo grabfood.png" alt="GrabFood" style="height: 20px;">
                 Pesan via GrabFood
             </a>
         </div>

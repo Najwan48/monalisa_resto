@@ -11,7 +11,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<section style="background: var(--bg-warm); padding: 10rem 0 6rem; text-align: center;">
+<div class="page-header">
     <div class="container">
         <span class="eyebrow reveal reveal-up">Hubungan Pelanggan</span>
         <h1 class="section-title reveal reveal-up delay-1">Terhubung dengan Kami</h1>
@@ -20,7 +20,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             Kami selalu siap melayani Anda. Kunjungi kami untuk pengalaman kuliner autentik yang tak terlupakan.
         </p>
     </div>
-</section>
+</div>
 
 <section class="section">
     <div class="container">

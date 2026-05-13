@@ -1,19 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     const header    = document.getElementById('main-header');
-    const hamburger = document.getElementById('hamburger');
-    const navLinks  = document.getElementById('nav-links');
+    const hamburger  = document.getElementById('hamburger');
+    const navLinks   = document.getElementById('nav-links');
+    const navOverlay = document.getElementById('nav-overlay');
 
     if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
+        const toggleMenu = () => {
             const isOpen = navLinks.classList.toggle('active');
+            if (navOverlay) navOverlay.classList.toggle('active', isOpen);
             hamburger.setAttribute('aria-expanded', isOpen);
             hamburger.innerHTML = isOpen ? '&times;' : '&#9776;';
-        });
+            document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+        };
+
+        hamburger.addEventListener('click', toggleMenu);
+        if (navOverlay) navOverlay.addEventListener('click', toggleMenu);
 
         navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                hamburger.innerHTML = '&#9776;';
+            link.addEventListener('click', (e) => {
+                // Brief delay to allow the hover/active animation to be seen
+                setTimeout(() => {
+                    navLinks.classList.remove('active');
+                    if (navOverlay) navOverlay.classList.remove('active');
+                    hamburger.innerHTML = '&#9776;';
+                    document.body.style.overflow = 'auto';
+                }, 200);
             });
         });
     }
@@ -31,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = this.getAttribute('href');
             const url  = new URL(href, window.location.href);
 
+            // Same page smooth scroll
             if (url.pathname === window.location.pathname && url.hash) {
                 const target = document.querySelector(url.hash);
                 if (target) {
@@ -38,15 +50,170 @@ document.addEventListener('DOMContentLoaded', () => {
                     target.scrollIntoView({ behavior: 'smooth' });
                     history.pushState(null, null, url.hash);
                 }
+            } 
+            // Cross page smooth scroll (User's request: scroll to top then navigate)
+            else if (url.hash && url.pathname !== window.location.pathname) {
+                e.preventDefault();
+                
+                const navigate = () => {
+                    // Use a query parameter instead of a hash to prevent the browser from jumping on the new page
+                    const newUrl = url.origin + url.pathname + '?scroll=' + url.hash.substring(1);
+                    window.location.href = newUrl;
+                };
+
+                if (window.scrollY > 100) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTimeout(navigate, 600); // Wait for smooth scroll to top
+                } else {
+                    navigate();
+                }
             }
         });
     });
 
-    const revealObserverOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    initReveals();
 
+    setTimeout(() => {
+        cards.forEach(card => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        });
+    }, 1500);
+
+    // Handle smooth scroll from other pages via query param or direct hash
+    const urlParams = new URLSearchParams(window.location.search);
+    const scrollTargetId = urlParams.get('scroll') || (window.location.hash ? window.location.hash.substring(1) : null);
+    
+    if (scrollTargetId) {
+        const target = document.getElementById(scrollTargetId);
+        if (target) {
+            // If it's a real hash, prevent the browser's default scroll restoration
+            if (window.location.hash && 'scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+                window.scrollTo(0, 0);
+            }
+            
+            // Wait for animations and layout to settle
+            setTimeout(() => {
+                const headerHeight = header ? header.offsetHeight : 0;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Clean up the URL if it was a scroll param
+                if (urlParams.has('scroll')) {
+                    const newUrl = window.location.pathname + (window.location.hash || '');
+                    history.replaceState(null, null, newUrl);
+                }
+            }, 800);
+        }
+    }
+
+    // --- Katalog AJAX Filtering ---
+    const menuContainer = document.getElementById('menu-content-container');
+    const desktopFilters = document.querySelectorAll('.category-filter-desktop a');
+    const mobileFilter = document.getElementById('mobile-category-filter');
+
+    if (menuContainer) {
+        const filterMenu = async (url) => {
+            // Loading state
+            menuContainer.style.opacity = '0.3';
+            menuContainer.style.pointerEvents = 'none';
+            menuContainer.style.transition = 'opacity 0.4s ease';
+
+            try {
+                const response = await fetch(url);
+                const html = await response.text();
+                
+                // Parse the full HTML and extract only the menu container
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newContent = doc.getElementById('menu-content-container');
+                
+                if (newContent) {
+                    menuContainer.innerHTML = newContent.innerHTML;
+                    window.history.pushState({}, '', url);
+
+                    // Update desktop active UI
+                    desktopFilters.forEach(link => {
+                        const linkHref = link.getAttribute('href');
+                        const isActive = linkHref === url || (url.includes(linkHref) && linkHref !== 'katalog.php');
+                        link.style.color = isActive ? 'var(--primary)' : 'var(--text-muted)';
+                        link.style.borderBottomColor = isActive ? 'var(--primary)' : 'transparent';
+                    });
+
+                    // Scroll up slightly to center the results
+                    const filterSection = document.querySelector('.category-filter-desktop')?.closest('.container')?.parentElement;
+                    if (filterSection) {
+                        const topOffset = filterSection.offsetTop - 80;
+                        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+                    }
+                } else {
+                    // Fallback if something went wrong
+                    window.location.href = url;
+                }
+
+            } catch (err) {
+                console.error('Filtering error:', err);
+                window.location.href = url; // Fallback to normal refresh
+            } finally {
+                menuContainer.style.opacity = '1';
+                menuContainer.style.pointerEvents = 'all';
+                // Re-trigger animations
+                initReveals();
+            }
+        };
+
+        desktopFilters.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                filterMenu(link.getAttribute('href'));
+            });
+        });
+
+        // --- Scroll Arrows Logic ---
+        const categoryNav = document.getElementById('category-nav');
+        const scrollLeft = document.getElementById('scroll-left');
+        const scrollRight = document.getElementById('scroll-right');
+
+        if (categoryNav && scrollLeft && scrollRight) {
+            const updateArrows = () => {
+                const scrollLeftPos = categoryNav.scrollLeft;
+                const maxScroll = categoryNav.scrollWidth - categoryNav.clientWidth;
+                
+                scrollLeft.classList.toggle('visible', scrollLeftPos > 10);
+                scrollRight.classList.toggle('visible', scrollLeftPos < maxScroll - 10);
+            };
+
+            scrollLeft.addEventListener('click', () => {
+                categoryNav.scrollBy({ left: -200, behavior: 'smooth' });
+            });
+
+            scrollRight.addEventListener('click', () => {
+                categoryNav.scrollBy({ left: 200, behavior: 'smooth' });
+            });
+
+            categoryNav.addEventListener('scroll', updateArrows);
+            window.addEventListener('resize', updateArrows);
+            
+            // Initial check with a small delay for layout calculation
+            setTimeout(updateArrows, 500);
+        }
+
+        if (mobileFilter) {
+            mobileFilter.addEventListener('change', (e) => {
+                filterMenu(e.target.value);
+            });
+        }
+    }
+});
+
+// --- Animation Initializers ---
+function initReveals() {
+    // Standard reveals
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -54,11 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 revealObserver.unobserve(entry.target);
             }
         });
-    }, revealObserverOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    const cards = document.querySelectorAll('.menu-card');
+    // Menu card specific animation
     const menuObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -69,22 +236,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
 
-    cards.forEach(card => {
+    document.querySelectorAll('.menu-card').forEach(card => {
         if (!card.classList.contains('reveal')) {
             card.style.opacity = '0';
-            card.style.transform = 'translateY(24px)';
+            card.style.transform = 'translateY(30px)';
             card.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
             menuObserver.observe(card);
         }
     });
-
-    setTimeout(() => {
-        cards.forEach(card => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        });
-    }, 1500);
-});
+}
 
 function copyToClipboard(text, btn) {
     navigator.clipboard.writeText(text).then(() => {

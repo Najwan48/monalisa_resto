@@ -14,7 +14,7 @@ if (!$menu) {
 }
 ?>
 
-<main style="padding-top: 7rem;">
+<main style="padding-top: var(--header-h);">
     <div style="background: var(--bg-warm); border-bottom: 1px solid var(--border); padding: 1.25rem 0; margin-bottom: 2rem;">
         <div class="container">
             <a href="katalog.php" class="btn-ghost" style="font-size: 0.75rem;">
@@ -25,9 +25,9 @@ if (!$menu) {
 
     <section class="section" style="padding-top: 1rem;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: start;">
+            <div class="split-section" style="align-items: start; gap: clamp(2rem, 5vw, 4rem);">
                 <div class="reveal reveal-up">
-                    <div class="parallax-wrap" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: 500px;">
+                    <div class="parallax-wrap" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: clamp(300px, 50vh, 500px);">
                         <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" 
                              class="parallax-img"
                              onerror="this.src='https://via.placeholder.com/600x600?text=Foto+Menu'">
