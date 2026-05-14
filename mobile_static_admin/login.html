@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0">
+    <title>Login Admin · Monalisa Resto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary:       #A67C52;
+            --primary-dark:  #8B6543;
+            --charcoal:      #1C1C1C;
+            --text:          #2C2C2C;
+            --text-muted:    #767676;
+            --bg-warm:       #F4F1EA;
+            --surface:       #FFFFFF;
+            --border:        rgba(0,0,0,0.08);
+            --radius:        12px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { width: 390px; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-warm);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            width: 390px;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 70% 20%, rgba(166,124,82,0.06) 0%, transparent 40%),
+                radial-gradient(circle at 10% 80%, rgba(166,124,82,0.06) 0%, transparent 40%);
+            z-index: 0;
+        }
+
+        .login-card {
+            background: var(--surface);
+            padding: 3rem 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+            width: 100%;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-brand {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--charcoal);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-brand-sub {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .form-group { margin-bottom: 1.4rem; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.65rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 13px 16px;
+            background: #FAFAF8;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--charcoal);
+        }
+
+        .form-control:focus {
+            outline: none;
+            background: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(166,124,82,0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--charcoal);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="login-brand">
+        <span class="login-brand-name">Monalisa Resto</span>
+        <span class="login-brand-sub">Panel Administrasi</span>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="username">Nama Pengguna</label>
+            <input type="text" id="username" class="form-control" value="admin" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="password">Kata Sandi</label>
+            <input type="password" id="password" class="form-control" value="password123">
+        </div>
+        <button type="button" class="btn-login" onclick="window.location.href='index.html'">Masuk ke Dashboard</button>
+    </form>
+</div>
+
+</body>
+</html>
