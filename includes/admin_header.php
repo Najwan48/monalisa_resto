@@ -671,6 +671,253 @@ $current_page = basename($_SERVER['PHP_SELF']);
             .stats-grid { grid-template-columns: 1fr; }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 199;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: var(--text);
+            font-size: 1.2rem;
+            line-height: 1;
+            border-radius: var(--radius-sm);
+            transition: background var(--transition);
+        }
+
+        .hamburger-btn:hover { background: var(--bg); }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 200;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .hamburger-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .topbar {
+                padding: 0 1.25rem;
+            }
+
+            .content-area {
+                padding: 1.25rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .page-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .page-actions > div:last-child {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .page-actions form {
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .page-actions form input[type="text"] {
+                flex: 1;
+                width: auto !important;
+            }
+
+            .page-actions a.btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+            .card { padding: 1rem; }
+
+            table thead { display: none; }
+
+            table, table tbody {
+                display: block;
+                width: 100%;
+            }
+
+            table tr {
+                display: grid;
+                grid-template-columns: 88px 1fr;
+                grid-template-rows: auto auto auto auto;
+                column-gap: 0.85rem;
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                margin-bottom: 0.75rem;
+                padding: 0.85rem;
+                background: var(--surface);
+                box-shadow: var(--shadow-xs);
+                align-items: start;
+            }
+
+            table td {
+                display: block;
+                border-bottom: none;
+                padding: 0;
+                font-size: 0.875rem;
+            }
+
+            table td::before {
+                content: attr(data-label);
+                display: block;
+                font-size: 0.62rem;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--text-muted);
+                margin-bottom: 0.2rem;
+            }
+
+            table td[data-label="Foto"] {
+                grid-column: 1;
+                grid-row: 1 / 5;
+                display: flex;
+                align-items: flex-start;
+            }
+
+            table td[data-label="Foto"]::before { display: none; }
+
+            table td[data-label="Foto"] img,
+            table td[data-label="Preview"] img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: var(--radius-sm);
+                display: block;
+            }
+
+            table td[data-label="Preview"] {
+                grid-column: 1;
+                grid-row: 1 / 4;
+            }
+
+            table td[data-label="Preview"] > div {
+                width: 80px !important;
+                height: 80px !important;
+            }
+
+            table td[data-label="Nama Menu"],
+            table td[data-label="Judul"] {
+                grid-column: 2;
+                grid-row: 1;
+                padding-top: 0;
+            }
+
+            table td[data-label="Kategori"],
+            table td[data-label="Urutan"] {
+                grid-column: 2;
+                grid-row: 2;
+                margin-top: 0.35rem;
+            }
+
+            table td[data-label="Harga"] {
+                grid-column: 2;
+                grid-row: 3;
+                margin-top: 0.35rem;
+            }
+
+            table td[data-label="Status"] {
+                grid-column: 2;
+                grid-row: 4;
+                margin-top: 0.35rem;
+            }
+
+            table td[data-label="Aksi"] {
+                grid-column: 1 / 3;
+                grid-row: 5;
+                border-top: 1px solid var(--border);
+                padding-top: 0.75rem;
+                margin-top: 0.75rem;
+                display: flex;
+                justify-content: flex-end;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            table td[data-label="Aksi"]::before { display: none; }
+
+            .activity-item {
+                grid-template-columns: auto 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .activity-action {
+                grid-column: 2;
+            }
+
+            .galeri-form-grid {
+                grid-template-columns: 1fr 1fr !important;
+                grid-template-rows: auto auto;
+            }
+
+            .galeri-form-grid > div:nth-child(1) {
+                grid-column: 1 / 3;
+            }
+
+            .galeri-form-grid > button {
+                grid-column: 1 / 3;
+                height: auto;
+                padding: 12px !important;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .topbar-user span { display: none; }
+
+            .galeri-form-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -709,9 +956,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </div>
 </aside>
 
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
 <div class="main-content">
     <header class="topbar">
         <div class="topbar-left">
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="topbar-breadcrumb">
                 <span>Admin</span>
                 <i class="fas fa-chevron-right" style="font-size:0.6rem;"></i>

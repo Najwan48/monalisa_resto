@@ -60,12 +60,11 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 </div>
             </div>
 
-            <div id="map" class="reveal reveal-scale delay-4" style="width: 100%; height: 450px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1;"></div>
+            <div id="map" class="reveal reveal-scale delay-4 themed-map" style="width: 100%; height: 450px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1;"></div>
         </div>
     </div>
 </section>
 
-<!-- Monalisa Art Integration -->
 <section class="section" style="background: var(--bg-warm);">
     <div class="container">
         <div class="art-content-section">
@@ -108,4 +107,4 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     });
 </script>
 
-<?php require_once 'includes/header.php'; ?>
+<?php require_once 'includes/footer.php'; ?>

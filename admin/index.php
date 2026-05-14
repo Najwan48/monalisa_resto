@@ -165,7 +165,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
             <?php foreach ($galeri_terbaru as $foto): ?>
             <div class="gallery-item" style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);">
                 <div style="height: 120px; overflow: hidden;">
-                    <img src="../<?= h($foto['foto_url']) ?>" alt="<?= h($foto['judul']) ?>" 
+                    <img src="<?= get_image_url($foto['foto_url'], true) ?>" alt="<?= h($foto['judul']) ?>" 
                          style="width: 100%; height: 100%; object-fit: cover;"
                          onerror="this.src='https://via.placeholder.com/200x150?text=No+Image'">
                 </div>

@@ -1,5 +1,14 @@
 <?php
-require_once 'includes/header.php';
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
+
+$is_ajax = isset($_GET['_ajax']) && $_GET['_ajax'] === '1';
+
+if ($is_ajax) {
+    ob_start();
+} else {
+    require_once 'includes/header.php';
+}
 
 $kategori_aktif = $_GET['kategori'] ?? 'Semua';
 $search_query   = $_GET['q'] ?? '';
@@ -33,8 +42,10 @@ $sql = "SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, foto_url, k
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $menus = $stmt->fetchAll();
+
 ?>
 
+<?php if (!$is_ajax): ?>
 <main>
 
 <div class="page-header">
@@ -52,16 +63,15 @@ $menus = $stmt->fetchAll();
                        placeholder="Cari hidangan favorit Anda...">
                 <i class="fas fa-search search-icon"></i>
                 <?php if (!empty($search_query)): ?>
-                    <a href="katalog.php?kategori=<?= urlencode($kategori_aktif) ?>" style="position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em;">Hapus</a>
+                    <a href="katalog.php?kategori=<?= urlencode($kategori_aktif) ?>" class="search-clear">Hapus</a>
                 <?php endif; ?>
             </form>
         </div>
     </div>
 </div>
 
-<div style="background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: var(--header-h-small); z-index: 100; padding: 0;">
+<div id="category-filter-bar" style="background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: var(--header-h-small); z-index: 100; padding: 0;">
     <div class="container">
-        <!-- Desktop Filter -->
         <div class="category-filter-wrapper">
             <button class="scroll-arrow left" id="scroll-left"><i class="fas fa-chevron-left"></i></button>
             <nav class="category-filter-desktop" id="category-nav" aria-label="Filter Kategori">
@@ -94,6 +104,7 @@ $menus = $stmt->fetchAll();
 
 <section class="section" style="padding-top: 5rem;">
     <div class="container" id="menu-content-container">
+<?php endif; ?>
         <?php if(empty($menus)): ?>
         <div style="padding: 10rem 0; text-align: center;" class="reveal reveal-scale">
             <div style="font-size: 4rem; color: var(--primary-pale); margin-bottom: 2rem;">
@@ -135,24 +146,99 @@ $menus = $stmt->fetchAll();
         </div>
 
         <?php if ($total_pages > 1): ?>
-        <div style="margin-top: 5rem; display: flex; justify-content: center; gap: 0.5rem;" class="reveal reveal-up">
-            <?php 
+        <div class="pagebar reveal reveal-up">
+            <?php
             $base_url = "katalog.php?kategori=" . urlencode($kategori_aktif) . ($search_query ? "&q=" . urlencode($search_query) : "");
+            $window   = 2;
+            $rendered = [];
+
+            for ($i = 1; $i <= $total_pages; $i++) {
+                if ($i === 1 || $i === $total_pages || ($i >= $page - $window && $i <= $page + $window)) {
+                    $rendered[] = $i;
+                }
+            }
+
+            $prev = null;
+            foreach ($rendered as $num):
+                if ($prev !== null && $num - $prev > 1):
             ?>
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <a href="<?= $base_url ?>&page=<?= $i ?>" 
-                   class="btn <?= $i === $page ? 'btn-primary' : 'btn-outline' ?>" 
-                   style="min-width: 44px; justify-content: center; border-radius: 50%;">
-                    <?= $i ?>
+                <span class="pagebar-ellipsis">&hellip;</span>
+            <?php
+                endif;
+            ?>
+                <a href="<?= $base_url ?>&page=<?= $num ?>"
+                   class="btn <?= $num === $page ? 'btn-primary' : 'btn-outline' ?> pagebar-btn">
+                    <?= $num ?>
                 </a>
-            <?php endfor; ?>
+            <?php
+                $prev = $num;
+            endforeach;
+            ?>
         </div>
         <?php endif; ?>
 
         <?php endif; ?>
+<?php if (!$is_ajax): ?>
     </div>
 </section>
 
 </main>
+<?php endif; ?>
+
+
+<?php if ($is_ajax):
+    $html = ob_get_clean();
+    header('Content-Type: application/json');
+    echo json_encode(['html' => $html, 'page' => $page, 'total_pages' => $total_pages]);
+    exit;
+endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('menu-content-container');
+    const filterBar = document.getElementById('category-filter-bar');
+
+    function getScrollTarget() {
+        const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h-small')) || 72;
+        const rect = filterBar.getBoundingClientRect();
+        return window.scrollY + rect.top - headerH;
+    }
+
+    function attachPagebarListeners() {
+        container.querySelectorAll('.pagebar-btn').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = new URL(link.href);
+                url.searchParams.set('_ajax', '1');
+
+                container.style.opacity = '0.4';
+                container.style.pointerEvents = 'none';
+                container.style.transition = 'opacity 0.25s ease';
+
+                fetch(url.toString())
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        container.innerHTML = data.html;
+                        container.style.opacity = '1';
+                        container.style.pointerEvents = '';
+
+                        window.history.pushState({}, '', link.href);
+                        window.scrollTo({ top: getScrollTarget(), behavior: 'smooth' });
+
+                        if (window.initReveals) window.initReveals();
+                        attachPagebarListeners();
+                    })
+                    .catch(function() {
+                        container.style.opacity = '1';
+                        container.style.pointerEvents = '';
+                        window.location.href = link.href;
+                    });
+            });
+        });
+    }
+
+    attachPagebarListeners();
+});
+</script>
 
 <?php require_once 'includes/footer.php'; ?>

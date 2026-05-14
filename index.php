@@ -40,17 +40,16 @@ $menus = $stmt_menu->fetchAll();
     </div>
 
     <div class="hero-image-side">
-        <div class="reveal reveal-scale delay-2" style="position: relative; width: 100%; height: 100%; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.15);">
-            <img src="assets/images/hero-bg.jpg"
+        <div class="hero-image-wrapper reveal reveal-scale delay-2">
+            <img src="assets/images/IMG_4339.PNG"
                  alt="Monalisa Resto"
-                 onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80'"
-                 style="width: 100%; height: 100%; object-fit: cover;">
+                 onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80'">
             <div class="hero-image-overlay"></div>
         </div>
         
-        <div class="hero-badge reveal reveal-up delay-4" style="position: absolute; bottom: 8rem; left: -2rem; z-index: 3; background: var(--surface); padding: 2.5rem; box-shadow: var(--shadow-lg); border-radius: 0; text-align: center; min-width: 180px;">
-            <div style="font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--primary); line-height: 0.8; margin-bottom: 0.5rem; font-weight: 600;">25</div>
-            <div style="font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Tahun Warisan</div>
+        <div class="hero-badge reveal reveal-up delay-4">
+            <div class="badge-number">25</div>
+            <div class="badge-label">Tahun Warisan</div>
         </div>
     </div>
 </section>

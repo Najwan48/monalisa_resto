@@ -26,4 +26,12 @@ function log_aktivitas($pdo, $user_id, $aksi) {
     $stmt = $pdo->prepare("INSERT INTO log_aktivitas (user_id, aksi) VALUES (?, ?)");
     $stmt->execute([$user_id, $aksi]);
 }
+
+function get_image_url($path, $is_admin = false) {
+    if (empty($path)) return 'https://via.placeholder.com/300x200?text=No+Image';
+    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
+        return $path;
+    }
+    return ($is_admin ? '../' : '') . $path;
+}
 ?>

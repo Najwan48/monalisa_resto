@@ -99,7 +99,7 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
     <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
         <input type="hidden" name="action" value="unggah">
-        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1.5rem; align-items: end;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1.5rem; align-items: end;" class="galeri-form-grid">
             <div class="form-group" style="margin-bottom: 0;">
                 <label for="judul">Judul/Keterangan Foto</label>
                 <input type="text" id="judul" name="judul" class="form-control" placeholder="Contoh: Suasana Ruang Utama" required>
@@ -136,15 +136,15 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
             <tbody>
                 <?php foreach ($galeri as $item): ?>
                 <tr>
-                    <td style="padding-left: 1.75rem; width: 120px;">
+                    <td data-label="Preview">
                         <div style="width: 100px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);">
-                            <img src="../<?= h($item['foto_url']) ?>" alt="<?= h($item['judul']) ?>"
+                            <img src="<?= get_image_url($item['foto_url'], true) ?>" alt="<?= h($item['judul']) ?>"
                                  style="width: 100%; height: 100%; object-fit: cover;"
                                  onerror="this.src='https://via.placeholder.com/100x70?text=No+Image'">
                         </div>
                     </td>
-                    <td style="font-weight: 500; color: var(--text);"><?= h($item['judul']) ?></td>
-                    <td>
+                    <td data-label="Judul" style="font-weight: 500; color: var(--text);"><?= h($item['judul']) ?></td>
+                    <td data-label="Urutan">
                         <form method="POST" style="display:flex; gap:0.5rem; align-items:center;">
                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                             <input type="hidden" name="action" value="urutan">
@@ -154,7 +154,7 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
                             <button type="submit" class="btn btn-secondary btn-sm">Update</button>
                         </form>
                     </td>
-                    <td style="padding-right: 1.75rem; text-align: right;">
+                    <td data-label="Aksi">
                         <form method="POST" onsubmit="return confirm('Yakin hapus foto ini?')" style="display: inline-block;">
                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                             <input type="hidden" name="action" value="hapus">
@@ -170,5 +170,35 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
         </table>
     <?php endif; ?>
 </div>
+
+<style>
+@media (max-width: 900px) {
+    table tr {
+        grid-template-columns: 88px 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    table td[data-label="Preview"] {
+        grid-column: 1;
+        grid-row: 1 / 3;
+    }
+
+    table td[data-label="Judul"] {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    table td[data-label="Urutan"] {
+        grid-column: 2;
+        grid-row: 2;
+        margin-top: 0.35rem;
+    }
+
+    table td[data-label="Aksi"] {
+        grid-column: 1 / 3;
+        grid-row: 3;
+    }
+}
+</style>
 
 <?php require_once '../includes/admin_footer.php'; ?>

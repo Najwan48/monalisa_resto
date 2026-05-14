@@ -73,12 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initReveals();
 
-    setTimeout(() => {
-        cards.forEach(card => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        });
-    }, 1500);
+
 
     // Handle smooth scroll from other pages via query param or direct hash
     const urlParams = new URLSearchParams(window.location.search);

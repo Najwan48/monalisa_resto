@@ -169,23 +169,23 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             foreach ($menus as $menu):
             ?>
             <tr>
-                <td>
-                    <img src="../<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>"
+                <td data-label="Foto">
+                    <img src="<?= get_image_url($menu['foto_url'], true) ?>" alt="<?= h($menu['nama_menu']) ?>"
                          style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"
                          onerror="this.src='https://via.placeholder.com/56x44?text=N/A'">
                 </td>
-                <td>
+                <td data-label="Nama Menu">
                     <strong style="font-size:0.875rem;"><?= h($menu['nama_menu']) ?></strong><br>
                     <small style="color: var(--text-muted);"><?= h($menu['asal_daerah']) ?></small>
                 </td>
-                <td><span class="badge badge-secondary"><?= h($menu['kategori']) ?></span></td>
-                <td style="font-weight: 600; color: var(--primary);"><?= format_rupiah($menu['harga']) ?></td>
-                <td>
+                <td data-label="Kategori"><span class="badge badge-secondary"><?= h($menu['kategori']) ?></span></td>
+                <td data-label="Harga" style="font-weight: 600; color: var(--primary);"><?= format_rupiah($menu['harga']) ?></td>
+                <td data-label="Status">
                     <span class="badge <?= $menu['status'] === 'aktif' ? 'badge-success' : 'badge-secondary' ?>">
                         <?= h($menu['status']) ?>
                     </span>
                 </td>
-                <td style="text-align: center; white-space: nowrap;">
+                <td data-label="Aksi" style="text-align: center; white-space: nowrap;">
                     <a href="menu.php?aksi=edit&id=<?= $menu['id'] ?>" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-pen"></i></a>
                     <form method="POST" style="display:inline;" onsubmit="return confirm('Toggle status menu ini?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
@@ -220,7 +220,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
         <input type="hidden" name="id_edit" value="<?= $edit_data['id'] ?? 0 ?>">
         <input type="hidden" name="foto_url_lama" value="<?= h($edit_data['foto_url'] ?? '') ?>">
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-grid">
             <div class="form-group">
                 <label for="nama_menu">Nama Menu</label>
                 <input type="text" id="nama_menu" name="nama_menu" class="form-control"
@@ -259,7 +259,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             <textarea id="deskripsi_lengkap" name="deskripsi_lengkap" class="form-control" rows="4" required><?= h($edit_data['deskripsi_lengkap'] ?? '') ?></textarea>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-grid">
             <div class="form-group">
                 <label for="bahan_utama">Bahan Utama</label>
                 <input type="text" id="bahan_utama" name="bahan_utama" class="form-control"
@@ -272,7 +272,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-grid">
             <div class="form-group">
                 <label for="foto">Foto Menu (JPG/PNG/WebP, maks. 2MB)</label>
                 <input type="file" id="foto" name="foto" class="form-control" accept="image/jpeg,image/png,image/webp">
