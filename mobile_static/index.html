@@ -19,6 +19,73 @@
     </div>
 </header>
 
+<div class="nav-overlay-backdrop" id="sidebarBackdrop"></div>
+
+<nav class="nav-overlay" id="navSidebar" aria-label="Menu Navigasi">
+    <div class="nav-overlay-header">
+        <span class="nav-overlay-brand">Monalisa Resto</span>
+        <button class="nav-overlay-close" id="sidebarClose" aria-label="Tutup Menu">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="nav-overlay-links">
+        <a href="index.html" class="nav-overlay-link active">
+            <i class="fas fa-home"></i>
+            Beranda
+        </a>
+        <a href="katalog.html" class="nav-overlay-link">
+            <i class="fas fa-utensils"></i>
+            Katalog Menu
+        </a>
+        <a href="galeri.html" class="nav-overlay-link">
+            <i class="fas fa-images"></i>
+            Galeri
+        </a>
+        <a href="tentang.html" class="nav-overlay-link">
+            <i class="fas fa-info-circle"></i>
+            Tentang Kami
+        </a>
+        <a href="kontak.html" class="nav-overlay-link">
+            <i class="fas fa-map-marker-alt"></i>
+            Kontak
+        </a>
+    </div>
+    <div class="nav-overlay-footer">
+        <p class="nav-overlay-footer-text">Jl. Raya Tajur No. 30, Kota Bogor<br>Setiap Hari · 07.00 – 22.00 WIB</p>
+    </div>
+</nav>
+
+<script>
+    (function () {
+        var hamburger = document.getElementById('hamburger');
+        var sidebar = document.getElementById('navSidebar');
+        var backdrop = document.getElementById('sidebarBackdrop');
+        var closeBtn = document.getElementById('sidebarClose');
+
+        function openSidebar() {
+            sidebar.classList.add('is-open');
+            backdrop.classList.add('is-open');
+            document.body.classList.add('sidebar-open');
+            hamburger.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('is-open');
+            backdrop.classList.remove('is-open');
+            document.body.classList.remove('sidebar-open');
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+
+        hamburger.addEventListener('click', openSidebar);
+        closeBtn.addEventListener('click', closeSidebar);
+        backdrop.addEventListener('click', closeSidebar);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeSidebar();
+        });
+    })();
+</script>
+
 <main>
 
 <section class="hero" aria-label="Hero Section" style="min-height: 100vh;">
