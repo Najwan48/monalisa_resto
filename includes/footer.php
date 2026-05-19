@@ -1,3 +1,4 @@
+
 <?php ?>
 <footer>
     <div class="container">
@@ -19,6 +20,18 @@
         <p style="font-size: 0.8rem;">&copy; <?= date('Y') ?> Monalisa Resto. Hak Cipta Dilindungi.</p>
     </div>
 </footer>
+
+<?php
+$wa_raw = !empty($kontak['whatsapp']) ? $kontak['whatsapp'] : ($kontak['telepon'] ?? '081234567890');
+$clean_wa = preg_replace('/[^0-9]/', '', $wa_raw);
+$wa_number = $clean_wa;
+if (strpos($clean_wa, '0') === 0) {
+    $wa_number = '62' . substr($clean_wa, 1);
+}
+?>
+<a href="https://wa.me/<?= h($wa_number) ?>" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
 
 </body>
 </html>

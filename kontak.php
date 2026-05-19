@@ -54,13 +54,33 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                     </div>
                     
                     <div class="reveal reveal-up delay-3">
+                        <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">WhatsApp</span>
+                        <p style="font-size: 1.1rem; font-weight: 600;">
+                            <?php
+                            $raw_wa = !empty($kontak_data['whatsapp']) ? $kontak_data['whatsapp'] : ($kontak_data['telepon'] ?? '081234567890');
+                            $clean_wa = preg_replace('/[^0-9]/', '', $raw_wa);
+                            $whatsapp_phone = $clean_wa;
+                            if (strpos($clean_wa, '0') === 0) {
+                                $whatsapp_phone = '62' . substr($clean_wa, 1);
+                            }
+                            ?>
+                            <a href="https://wa.me/<?= h($whatsapp_phone) ?>" 
+                               target="_blank"
+                               style="color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;" 
+                               title="Chat via WhatsApp">
+                                <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> Hubungi via WhatsApp
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div class="reveal reveal-up delay-4">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
                         <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
                     </div>
                 </div>
             </div>
 
-            <div id="map" class="reveal reveal-scale delay-4 themed-map" style="width: 100%; height: 450px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1;"></div>
+            <div id="map" class="reveal reveal-scale delay-5 themed-map" style="width: 100%; height: 450px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1;"></div>
         </div>
     </div>
 </section>

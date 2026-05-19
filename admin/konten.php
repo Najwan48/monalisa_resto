@@ -32,9 +32,31 @@ $semua_konten = $pdo->query(
     "SELECT halaman, bagian, isi, updated_at FROM konten_halaman ORDER BY halaman, bagian"
 )->fetchAll();
 
-$konten_per_halaman = [];
+$konten_db = [];
 foreach ($semua_konten as $k) {
-    $konten_per_halaman[$k['halaman']][$k['bagian']] = $k;
+    $konten_db[$k['halaman']][$k['bagian']] = $k;
+}
+
+$struktur_halaman = [
+    'beranda' => ['tagline', 'pengantar', 'link_gofood', 'link_grabfood'],
+    'tentang_kami' => ['sejarah', 'visi'],
+    'kontak' => ['alamat', 'telepon', 'whatsapp', 'jam_operasional']
+];
+
+$konten_per_halaman = [];
+foreach ($struktur_halaman as $halaman => $bagian_list) {
+    foreach ($bagian_list as $bagian) {
+        if (isset($konten_db[$halaman][$bagian])) {
+            $konten_per_halaman[$halaman][$bagian] = $konten_db[$halaman][$bagian];
+        } else {
+            $konten_per_halaman[$halaman][$bagian] = [
+                'halaman' => $halaman,
+                'bagian' => $bagian,
+                'isi' => '',
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+        }
+    }
 }
 
 $label_halaman = [
@@ -50,6 +72,7 @@ $label_bagian = [
     'visi'            => 'Visi Restoran',
     'alamat'          => 'Alamat',
     'telepon'         => 'Telepon',
+    'whatsapp'        => 'WhatsApp Bisnis',
     'jam_operasional' => 'Jam Operasional',
     'link_gofood'     => 'Link GoFood',
     'link_grabfood'   => 'Link GrabFood',
