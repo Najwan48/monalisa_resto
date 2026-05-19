@@ -212,6 +212,25 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-grabfood:hover { box-shadow: 0 6px 20px rgba(0,177,79,0.2); transform: translateY(-2px); }
 .btn-grabfood img { height: 22px; border-radius: 3px; }
 
+.btn-whatsapp {
+    background: #fff;
+    color: #25D366;
+    border: 1.5px solid #25D366;
+    border-radius: var(--radius-sm);
+    gap: 10px;
+}
+.btn-whatsapp:hover { box-shadow: 0 6px 20px rgba(37,211,102,0.2); transform: translateY(-2px); }
+
+.btn-phone {
+    background: #fff;
+    color: var(--charcoal);
+    border: 1.5px solid var(--charcoal);
+    border-radius: var(--radius-sm);
+    gap: 10px;
+}
+.btn-phone:hover { box-shadow: 0 6px 20px rgba(28,28,28,0.15); transform: translateY(-2px); }
+
+
 header {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -1021,6 +1040,35 @@ footer a { color: var(--primary-light); }
 .leaflet-container a.leaflet-popup-close-button {
     color: var(--text-faint) !important;
     padding: 8px 8px 0 0 !important;
+}
+
+.leaflet-bar {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.leaflet-bar a {
+    background-color: var(--surface) !important;
+    color: var(--charcoal) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-sm) !important;
+    box-shadow: var(--shadow-sm) !important;
+    width: 34px !important;
+    height: 34px !important;
+    line-height: 32px !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 6px !important;
+    transition: all 0.3s ease !important;
+}
+
+.leaflet-bar a:hover {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+    border-color: var(--primary) !important;
+}
+
+.leaflet-bar a:last-child {
+    margin-bottom: 0 !important;
 }
 
 

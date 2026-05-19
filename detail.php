@@ -63,8 +63,48 @@ if (!$menu) {
                         <?php endif; ?>
                     </div>
 
-                    <div class="reveal reveal-up delay-5" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border);">
-                        <a href="index.php#order" class="btn btn-primary" style="width: 100%;">Pesan Sekarang</a>
+                    <?php
+                    $stmt_konten = $pdo->query("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'beranda'");
+                    $konten_beranda = $stmt_konten->fetchAll(PDO::FETCH_KEY_PAIR);
+
+                    $stmt_kontak = $pdo->query("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
+                    $kontak_data = $stmt_kontak->fetchAll(PDO::FETCH_KEY_PAIR);
+
+                    $link_gofood = !empty($konten_beranda['link_gofood']) ? $konten_beranda['link_gofood'] : 'https://gofood.link/a/BMMv8Pb';
+                    $link_grabfood = !empty($konten_beranda['link_grabfood']) ? $konten_beranda['link_grabfood'] : 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT';
+                    
+                    $telepon = !empty($kontak_data['telepon']) ? $kontak_data['telepon'] : '0812-3456-7890';
+                    $telepon_link = 'tel:' . str_replace(['-', ' ', '(', ')'], '', $telepon);
+
+                    $raw_wa = !empty($kontak_data['whatsapp']) ? $kontak_data['whatsapp'] : $telepon;
+                    $clean_wa = preg_replace('/[^0-9]/', '', $raw_wa);
+                    $whatsapp_phone = $clean_wa;
+                    if (strpos($clean_wa, '0') === 0) {
+                        $whatsapp_phone = '62' . substr($clean_wa, 1);
+                    }
+                    $wa_text = rawurlencode("Halo Monalisa Resto, saya ingin memesan menu: " . $menu['nama_menu'] . " (" . format_rupiah($menu['harga']) . ").");
+                    $wa_link = "https://wa.me/" . $whatsapp_phone . "?text=" . $wa_text;
+                    ?>
+                    <div class="reveal reveal-up delay-5" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Pesan Menu Ini</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <a href="<?= h($link_gofood) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
+                                <img src="assets/images/logo gofood.png" alt="GoFood"> GoFood
+                            </a>
+                            <a href="<?= h($link_grabfood) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
+                                <img src="assets/images/logo grabfood.png" alt="GrabFood"> GrabFood
+                            </a>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <a href="<?= h($wa_link) ?>" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
+                                <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> WhatsApp
+                            </a>
+                            <a href="<?= h($telepon_link) ?>" class="btn btn-phone" style="width: 100%; text-decoration: none;">
+                                <i class="fas fa-phone-alt"></i> Telepon
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

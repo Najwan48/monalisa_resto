@@ -109,7 +109,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     document.addEventListener('DOMContentLoaded', () => {
         const lat = -6.6263927;
         const lng = 106.8214916;
-        const map = L.map('map').setView([lat, lng], 15);
+        const map = L.map('map', { attributionControl: false }).setView([lat, lng], 15);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap'

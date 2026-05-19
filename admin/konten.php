@@ -1,15 +1,35 @@
 <?php
+ob_start();
 $page_title = 'Manajemen Konten';
 require_once '../includes/admin_header.php';
+
+$label_halaman = [
+    'beranda'      => 'Beranda',
+    'tentang_kami' => 'Tentang Kami',
+    'kontak'       => 'Kontak & Lokasi',
+];
+
+$label_bagian = [
+    'tagline'         => 'Tagline Hero',
+    'pengantar'       => 'Teks Pengantar',
+    'sejarah'         => 'Sejarah Restoran',
+    'visi'            => 'Visi Restoran',
+    'alamat'          => 'Alamat',
+    'telepon'         => 'Telepon',
+    'whatsapp'        => 'WhatsApp Bisnis',
+    'jam_operasional' => 'Jam Operasional',
+    'link_gofood'     => 'Link GoFood',
+    'link_grabfood'   => 'Link GrabFood',
+];
 
 $pesan      = '';
 $tipe_pesan = '';
 $csrf_token = generate_csrf_token();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $status = 'error';
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-        $pesan      = "Validasi keamanan gagal.";
-        $tipe_pesan = 'danger';
+        $pesan = "Validasi keamanan gagal.";
     } else {
         $halaman = $_POST['halaman'] ?? '';
         $bagian  = $_POST['bagian'] ?? '';
@@ -22,10 +42,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             $stmt->execute([$halaman, $bagian, $isi]);
             log_aktivitas($pdo, $_SESSION['admin_id'], "Edit konten: halaman=$halaman, bagian=$bagian");
-            $pesan      = "Konten halaman '$halaman' - bagian '$bagian' berhasil disimpan.";
-            $tipe_pesan = 'success';
+            
+            $nama_halaman = $label_halaman[$halaman] ?? ucfirst($halaman);
+            $nama_bagian = $label_bagian[$bagian] ?? ucfirst($bagian);
+            $pesan = "Konten halaman '$nama_halaman' - bagian '$nama_bagian' berhasil disimpan.";
+            $status = 'success';
+        } else {
+            $pesan = "Data tidak lengkap.";
         }
     }
+
+    if (isset($_POST['ajax'])) {
+        ob_end_clean();
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => $status,
+            'message' => $pesan,
+            'updated_at' => date('d M Y H:i')
+        ]);
+        exit;
+    }
+    
+    $tipe_pesan = $status === 'success' ? 'success' : 'danger';
 }
 
 $semua_konten = $pdo->query(
@@ -59,24 +97,7 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
     }
 }
 
-$label_halaman = [
-    'beranda'      => 'Beranda',
-    'tentang_kami' => 'Tentang Kami',
-    'kontak'       => 'Kontak & Lokasi',
-];
 
-$label_bagian = [
-    'tagline'         => 'Tagline Hero',
-    'pengantar'       => 'Teks Pengantar',
-    'sejarah'         => 'Sejarah Restoran',
-    'visi'            => 'Visi Restoran',
-    'alamat'          => 'Alamat',
-    'telepon'         => 'Telepon',
-    'whatsapp'        => 'WhatsApp Bisnis',
-    'jam_operasional' => 'Jam Operasional',
-    'link_gofood'     => 'Link GoFood',
-    'link_grabfood'   => 'Link GrabFood',
-];
 ?>
 
 <?php if ($pesan): ?>
@@ -117,5 +138,88 @@ $label_bagian = [
     <?php endforeach; ?>
 </div>
 <?php endforeach; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const forms = document.querySelectorAll('form');
+    
+    const showToast = (message, type = 'success') => {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;';
+            document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        toast.style.cssText = 'background: #ffffff; color: #1c1917; border-left: 4px solid ' + (type === 'success' ? 'var(--success)' : 'var(--danger)') + '; padding: 12px 20px; border-radius: var(--radius-sm); box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; font-size: 0.875rem; font-weight: 600; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); min-width: 300px; pointer-events: auto;';
+        
+        const icon = document.createElement('i');
+        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+        icon.style.color = type === 'success' ? 'var(--success)' : 'var(--danger)';
+        icon.style.fontSize = '1.1rem';
+        
+        const text = document.createElement('span');
+        text.textContent = message;
+        
+        toast.appendChild(icon);
+        toast.appendChild(text);
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        }, 10);
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 3500);
+    };
+
+    forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const button = form.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            
+            const formData = new FormData(form);
+            formData.append('ajax', '1');
+            
+            fetch('konten.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                button.disabled = false;
+                button.innerHTML = originalText;
+                
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    const timeTag = form.querySelector('small');
+                    if (timeTag) {
+                        timeTag.textContent = 'Terakhir diperbarui: ' + data.updated_at;
+                    }
+                } else {
+                    showToast(data.message, 'danger');
+                }
+            })
+            .catch(() => {
+                button.disabled = false;
+                button.innerHTML = originalText;
+                showToast('Terjadi kesalahan koneksi.', 'danger');
+            });
+        });
+    });
+});
+</script>
 
 <?php require_once '../includes/admin_footer.php'; ?>

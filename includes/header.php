@@ -33,7 +33,6 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             <a href="galeri.php" class="<?= $halaman_sekarang === 'galeri.php' ? 'active' : '' ?>">Galeri</a>
             <a href="kontak.php" class="<?= $halaman_sekarang === 'kontak.php' ? 'active' : '' ?>">Kontak & Lokasi</a>
             <a href="tentang.php" class="<?= $halaman_sekarang === 'tentang.php' ? 'active' : '' ?>">Tentang</a>
-            <a href="index.php#order" class="nav-cta">Pesan Sekarang</a>
         </nav>
 
         <button class="hamburger" id="hamburger" aria-label="Toggle Menu">&#9776;</button>
