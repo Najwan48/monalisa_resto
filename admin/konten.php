@@ -95,10 +95,20 @@ $label_bagian = [
         <input type="hidden" name="bagian" value="<?= h($bagian) ?>">
         <div class="form-group" style="margin-bottom: 0.75rem;">
             <label><?= h($label_bagian[$bagian] ?? ucfirst($bagian)) ?></label>
-            <?php if (strlen($data['isi']) > 120): ?>
-                <textarea name="isi" class="form-control" rows="4"><?= h($data['isi']) ?></textarea>
+            <?php
+            $nilai_input = $data['isi'];
+            if (empty($nilai_input)) {
+                if ($bagian === 'link_gofood') {
+                    $nilai_input = 'https://gofood.link/a/BMMv8Pb';
+                } elseif ($bagian === 'link_grabfood') {
+                    $nilai_input = 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT';
+                }
+            }
+            ?>
+            <?php if (strlen($nilai_input) > 120): ?>
+                <textarea name="isi" class="form-control" rows="4"><?= h($nilai_input) ?></textarea>
             <?php else: ?>
-                <input type="text" name="isi" class="form-control" value="<?= h($data['isi']) ?>">
+                <input type="text" name="isi" class="form-control" value="<?= h($nilai_input) ?>">
             <?php endif; ?>
             <small style="color:#888;">Terakhir diperbarui: <?= h(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
         </div>

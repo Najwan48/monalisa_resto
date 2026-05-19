@@ -26,17 +26,22 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     <div class="container">
         <div style="max-width: 900px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 4rem;">
-                <h2 class="section-title reveal reveal-up" style="font-size: 2.2rem; margin-bottom: 3rem;">Lokasi & Kontak</h2>
+                <h2 class="section-title reveal reveal-up" style="font-size: 2.2rem; margin-bottom: 3rem;">Kontak & Lokasi</h2>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
                     <div class="reveal reveal-up delay-1">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Alamat</span>
                         <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);">
                             <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= h($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a>
                         </p>
                     </div>
-                    
+
                     <div class="reveal reveal-up delay-2">
+                        <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
+                    </div>
+                    
+                    <div class="reveal reveal-up delay-3">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Telepon</span>
                         <p style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 1rem;">
                             <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', h($kontak_data['telepon'] ?? '081234567890')) ?>" 
@@ -53,7 +58,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                         </p>
                     </div>
                     
-                    <div class="reveal reveal-up delay-3">
+                    <div class="reveal reveal-up delay-4">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">WhatsApp</span>
                         <p style="font-size: 1.1rem; font-weight: 600;">
                             <?php
@@ -71,11 +76,6 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                                 <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> Hubungi via WhatsApp
                             </a>
                         </p>
-                    </div>
-                    
-                    <div class="reveal reveal-up delay-4">
-                        <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
-                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
                     </div>
                 </div>
             </div>

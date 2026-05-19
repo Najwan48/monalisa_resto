@@ -1,23 +1,15 @@
 
 <?php ?>
-<footer>
-    <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 3rem; text-align: left; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
-            <div>
-                <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: #fff; margin-bottom: 1rem; letter-spacing: 0.05em;">Monalisa Resto</p>
-                <p style="line-height: 1.8; max-width: 260px;">Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga yang terus dijaga kelestariannya.</p>
-            </div>
-            <div>
-                <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem;">Jam Operasional</p>
-                <p style="color: rgba(255,255,255,0.8);"><?= h($kontak['jam_operasional'] ?? 'Setiap Hari: 07.00 – 22.00 WIB') ?></p>
-            </div>
-            <div>
-                <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem;">Kontak & Lokasi</p>
-                <p style="margin-bottom: 0.5rem;"><a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank" style="color: rgba(255,255,255,0.8); text-decoration: none;"><?= h($kontak['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a></p>
-                <p style="color: rgba(255,255,255,0.8);">Telp: <?= h($kontak['telepon'] ?? '0812-3456-7890') ?></p>
-            </div>
+<footer style="border-top: 1px solid rgba(255,255,255,0.08);">
+    <div class="container" style="text-align: center; max-width: 600px;">
+        <div style="margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
+            <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: #fff; margin-bottom: 0.75rem; letter-spacing: 0.05em;">Monalisa Resto</p>
+            <p style="line-height: 1.8; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga yang terus dijaga kelestariannya.</p>
+            <a href="kontak.php" style="color: var(--primary-light); text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--primary-light); padding-bottom: 2px;">
+                Hubungi Kami & Lokasi
+            </a>
         </div>
-        <p style="font-size: 0.8rem;">&copy; <?= date('Y') ?> Monalisa Resto. Hak Cipta Dilindungi.</p>
+        <p style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">&copy; <?= date('Y') ?> Monalisa Resto. Hak Cipta Dilindungi.</p>
     </div>
 </footer>
 

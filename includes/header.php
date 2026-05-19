@@ -2,6 +2,8 @@
 require_once 'db.php';
 require_once 'functions.php';
 
+$halaman_sekarang = basename($_SERVER['PHP_SELF']);
+
 $stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
 $stmt->execute();
 $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -26,11 +28,11 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         <a href="index.php" class="logo">Monalisa Resto</a>
 
         <nav class="nav-links" id="nav-links">
-            <a href="index.php">Beranda</a>
-            <a href="katalog.php">Menu</a>
-            <a href="galeri.php">Galeri</a>
-            <a href="kontak.php">Kontak</a>
-            <a href="tentang.php">Tentang</a>
+            <a href="index.php" class="<?= $halaman_sekarang === 'index.php' ? 'active' : '' ?>">Beranda</a>
+            <a href="katalog.php" class="<?= in_array($halaman_sekarang, ['katalog.php', 'detail.php']) ? 'active' : '' ?>">Menu</a>
+            <a href="galeri.php" class="<?= $halaman_sekarang === 'galeri.php' ? 'active' : '' ?>">Galeri</a>
+            <a href="kontak.php" class="<?= $halaman_sekarang === 'kontak.php' ? 'active' : '' ?>">Kontak & Lokasi</a>
+            <a href="tentang.php" class="<?= $halaman_sekarang === 'tentang.php' ? 'active' : '' ?>">Tentang</a>
             <a href="index.php#order" class="nav-cta">Pesan Sekarang</a>
         </nav>
 

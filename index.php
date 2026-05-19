@@ -138,14 +138,18 @@ $menus = $stmt_menu->fetchAll();
         <div class="divider reveal reveal-up delay-2"></div>
         <p class="reveal reveal-up delay-3" style="color: rgba(255,255,255,0.55); line-height: 1.85; margin-bottom: 3.5rem;">Hidangan favorit Anda kini bisa dinikmati di rumah. Pesan melalui platform partner terpercaya kami.</p>
         <div class="order-actions reveal reveal-up delay-4">
-            <a href="<?= h($konten['link_gofood'] ?? 'https://gofood.link/a/BMMv8Pb') ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
+            <?php if (!empty($konten['link_gofood'])): ?>
+            <a href="<?= h($konten['link_gofood']) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
                 <img src="assets/images/logo gofood.png" alt="GoFood" style="height: 20px;">
                 Pesan via GoFood
             </a>
-            <a href="<?= h($konten['link_grabfood'] ?? 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT') ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
+            <?php endif; ?>
+            <?php if (!empty($konten['link_grabfood'])): ?>
+            <a href="<?= h($konten['link_grabfood']) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
                 <img src="assets/images/logo grabfood.png" alt="GrabFood" style="height: 20px;">
                 Pesan via GrabFood
             </a>
+            <?php endif; ?>
         </div>
     </div>
 </section>

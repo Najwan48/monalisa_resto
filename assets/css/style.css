@@ -270,8 +270,14 @@ header.scrolled {
     background: var(--primary);
     transition: width var(--transition-fast);
 }
-.nav-links a:hover { color: var(--charcoal); }
-.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--charcoal);
+}
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
 
 .nav-cta {
     background: var(--charcoal);
@@ -694,10 +700,14 @@ footer a { color: var(--primary-light); }
         background: var(--primary);
         transition: width 0.3s ease;
     }
-    .nav-links a:hover::after, .nav-links a:active::after {
+    .nav-links a:hover::after,
+    .nav-links a:active::after,
+    .nav-links a.active::after {
         width: 100%;
     }
-    .nav-links a:hover, .nav-links a:active {
+    .nav-links a:hover,
+    .nav-links a:active,
+    .nav-links a.active {
         color: var(--primary);
     }
     .nav-cta { 
