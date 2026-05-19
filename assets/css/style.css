@@ -298,18 +298,7 @@ header.scrolled {
     width: 100%;
 }
 
-.nav-cta {
-    background: var(--charcoal);
-    color: #fff !important;
-    padding: 10px 24px;
-    border-radius: var(--radius-xs);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-.nav-cta::after { display: none !important; }
-.nav-cta:hover { background: var(--primary) !important; color: #fff !important; }
+
 
 .hamburger {
     display: none;
@@ -729,11 +718,7 @@ footer a { color: var(--primary-light); }
     .nav-links a.active {
         color: var(--primary);
     }
-    .nav-cta { 
-        margin-top: 1rem;
-        width: 100%;
-        text-align: center;
-    }
+
     
     .hamburger { 
         display: block; 

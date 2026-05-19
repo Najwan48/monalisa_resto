@@ -917,6 +917,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
             .galeri-form-grid {
                 grid-template-columns: 1fr !important;
             }
+
+            .topbar-breadcrumb span:first-child,
+            .topbar-breadcrumb i {
+                display: none !important;
+            }
+
+            .hide-mobile {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -972,7 +981,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
         <div class="topbar-right">
             <a href="../index.php" target="_blank" style="font-size:0.8rem; color: var(--text-muted); display:flex; align-items:center; gap:0.4rem;">
-                <i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> Lihat Website
+                <i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> <span class="hide-mobile">Lihat Website</span>
             </a>
             <div class="topbar-user">
                 <div class="topbar-avatar">

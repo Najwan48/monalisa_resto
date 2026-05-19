@@ -220,7 +220,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
         <input type="hidden" name="id_edit" value="<?= $edit_data['id'] ?? 0 ?>">
         <input type="hidden" name="foto_url_lama" value="<?= h($edit_data['foto_url'] ?? '') ?>">
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-grid">
+        <div class="form-grid" style="gap: 1.5rem;">
             <div class="form-group">
                 <label for="nama_menu">Nama Menu</label>
                 <input type="text" id="nama_menu" name="nama_menu" class="form-control"
@@ -259,7 +259,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             <textarea id="deskripsi_lengkap" name="deskripsi_lengkap" class="form-control" rows="4" required><?= h($edit_data['deskripsi_lengkap'] ?? '') ?></textarea>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-grid">
+        <div class="form-grid" style="gap: 1.5rem;">
             <div class="form-group">
                 <label for="bahan_utama">Bahan Utama</label>
                 <input type="text" id="bahan_utama" name="bahan_utama" class="form-control"
@@ -272,7 +272,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-grid">
+        <div class="form-grid" style="gap: 1.5rem;">
             <div class="form-group">
                 <label for="foto">Foto Menu (JPG/PNG/WebP, maks. 2MB)</label>
                 <input type="file" id="foto" name="foto" class="form-control" accept="image/jpeg,image/png,image/webp">
