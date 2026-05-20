@@ -204,6 +204,72 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+    const waFloatBtn = document.getElementById('waFloatBtn');
+    const waChatPopup = document.getElementById('waChatPopup');
+    const waChatClose = document.getElementById('waChatClose');
+    const waChatSend = document.getElementById('waChatSend');
+    const waChatInput = document.getElementById('waChatInput');
+
+    if (waFloatBtn && waChatPopup) {
+        waFloatBtn.addEventListener('click', () => {
+            waChatPopup.classList.toggle('active');
+            if (waChatPopup.classList.contains('active') && waChatInput) {
+                waChatInput.focus();
+            }
+        });
+
+        if (waChatClose) {
+            waChatClose.addEventListener('click', () => {
+                waChatPopup.classList.remove('active');
+            });
+        }
+
+        const handleSend = () => {
+            if (!waChatInput || !waChatSend) return;
+            const message = waChatInput.value.trim();
+            const phone = waChatSend.getAttribute('data-phone');
+            if (message && phone) {
+                const encodedMessage = encodeURIComponent(message);
+                const url = `https://wa.me/${phone}?text=${encodedMessage}`;
+                window.open(url, '_blank');
+                waChatInput.value = '';
+                waChatPopup.classList.remove('active');
+            }
+        };
+
+        if (waChatSend) {
+            waChatSend.addEventListener('click', handleSend);
+        }
+
+        if (waChatInput) {
+            waChatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSend();
+                }
+            });
+        }
+
+        const quickBtns = waChatPopup.querySelectorAll('.wa-quick-btn');
+        quickBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const message = btn.getAttribute('data-msg');
+                const phone = waChatSend.getAttribute('data-phone');
+                if (message && phone) {
+                    const encodedMessage = encodeURIComponent(message);
+                    const url = `https://wa.me/${phone}?text=${encodedMessage}`;
+                    window.open(url, '_blank');
+                    waChatPopup.classList.remove('active');
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!waChatPopup.contains(e.target) && !waFloatBtn.contains(e.target)) {
+                waChatPopup.classList.remove('active');
+            }
+        });
+    }
 });
 
 // --- Animation Initializers ---

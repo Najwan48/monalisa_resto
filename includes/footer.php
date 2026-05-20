@@ -21,9 +21,39 @@ if (strpos($clean_wa, '0') === 0) {
     $wa_number = '62' . substr($clean_wa, 1);
 }
 ?>
-<a href="https://wa.me/<?= h($wa_number) ?>" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
+<div class="wa-chat-popup" id="waChatPopup">
+    <div class="wa-chat-header">
+        <div class="wa-chat-avatar">
+            <i class="fas fa-utensils"></i>
+        </div>
+        <div class="wa-chat-meta">
+            <span class="wa-chat-title">Monalisa Resto</span>
+            <span class="wa-chat-status">Online</span>
+        </div>
+        <button class="wa-chat-close" id="waChatClose">&times;</button>
+    </div>
+    <div class="wa-chat-body">
+        <div class="wa-chat-bubble">
+            <p>Selamat datang di Monalisa Resto.</p>
+            <p>Ada yang bisa kami bantu? Anda dapat menanyakan detail menu, memesan menu, atau lokasi kami.</p>
+        </div>
+        <div class="wa-chat-quick-options">
+            <button class="wa-quick-btn" data-msg="Halo Monalisa Resto, saya ingin menanyakan detail menu.">Detail Menu</button>
+            <button class="wa-quick-btn" data-msg="Halo Monalisa Resto, saya ingin melakukan pemesanan menu.">Memesan Menu</button>
+            <button class="wa-quick-btn" data-msg="Halo Monalisa Resto, saya ingin menanyakan alamat dan lokasi restoran.">Lokasi</button>
+        </div>
+    </div>
+    <div class="wa-chat-footer">
+        <input type="text" class="wa-chat-input" id="waChatInput" placeholder="Ketik pesan Anda di sini...">
+        <button class="wa-chat-send" id="waChatSend" data-phone="<?= h($wa_number) ?>">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<button class="whatsapp-float" id="waFloatBtn" title="Hubungi kami via WhatsApp">
     <i class="fab fa-whatsapp"></i>
-</a>
+</button>
 
 </body>
 </html>
