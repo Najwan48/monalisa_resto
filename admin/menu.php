@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $tipe_pesan = 'danger';
                 } else {
                     $upload_dir = '../assets/images/menu/';
+                    if (!is_dir($upload_dir)) {
+                        mkdir($upload_dir, 0755, true);
+                    }
                     $ext        = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
                     $filename   = 'menu_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
                     move_uploaded_file($_FILES['foto']['tmp_name'], $upload_dir . $filename);
