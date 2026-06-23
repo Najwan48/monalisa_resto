@@ -1,0 +1,38 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Monalisa Resto" [ref=e4] [cursor=pointer]:
+        - /url: index.php
+      - navigation [ref=e5]
+  - main [ref=e11]:
+    - generic [ref=e13]:
+      - generic [ref=e14]: Cita Rasa Otentik
+      - heading "Eksplorasi Menu Kami" [level=1] [ref=e15]
+      - generic [ref=e17]
+    - generic [ref=e21]:
+      - button ""
+      - navigation "Filter Kategori" [ref=e22]
+      - button ""
+    - generic [ref=e30]:
+      - generic [ref=e31]
+      - generic [ref=e42]
+      - generic [ref=e53]
+      - generic [ref=e64]
+      - generic [ref=e75]
+  - contentinfo [ref=e86]:
+    - generic [ref=e87]:
+      - generic [ref=e88]
+      - paragraph [ref=e92]: © 2026 Monalisa Resto. Hak Cipta Dilindungi.
+  - generic:
+    - generic:
+      - generic
+      - generic
+      - button "×"
+    - generic:
+      - generic
+      - generic
+    - generic:
+      - textbox "Ketik pesan Anda di sini..."
+      - button ""
+  - button "" [ref=e93] [cursor=pointer]:
+    - generic [ref=e94]: 

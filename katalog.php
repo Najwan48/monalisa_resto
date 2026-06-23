@@ -49,6 +49,9 @@ $menus = $stmt->fetchAll();
 <main>
 
 <div class="page-header">
+    <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.25" style="top: 15%; right: 8%;"></div>
+    <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.18" style="bottom: 25%; left: 5%;"></div>
+    <div class="parallax-shape parallax-shape-line parallax-element reveal" data-speed="0.22" style="top: 50%; right: 3%;"></div>
     <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Cita Rasa Otentik</span>
         <h1 class="section-title reveal reveal-up delay-1">Eksplorasi Menu Kami</h1>

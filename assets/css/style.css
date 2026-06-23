@@ -131,18 +131,18 @@ img { max-width: 100%; height: auto; display: block; }
 .reveal {
     opacity: 0;
     transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
 }
 
-.reveal-up { transform: translateY(40px); }
-.reveal-down { transform: translateY(-40px); }
-.reveal-left { transform: translateX(40px); }
-.reveal-right { transform: translateX(-40px); }
-.reveal-scale { transform: scale(0.98); }
+.reveal-up { transform: translate3d(0, 40px, 0); }
+.reveal-down { transform: translate3d(0, -40px, 0); }
+.reveal-left { transform: translate3d(40px, 0, 0); }
+.reveal-right { transform: translate3d(-40px, 0, 0); }
+.reveal-scale { transform: translate3d(0, 0, 0) scale(0.98); }
 
 .revealed {
     opacity: 1;
     transform: translate(0) scale(1);
+    will-change: opacity, transform;
 }
 
 .sticky-sidebar.revealed {
@@ -589,17 +589,19 @@ footer a { color: var(--primary-light); }
     overflow: hidden;
     aspect-ratio: 4/5;
     cursor: pointer;
+    contain: layout style;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--transition-slow);
+    transition: transform var(--transition-slow);
 }
 
 .gallery-item:hover img {
     transform: scale(1.08);
+    will-change: transform;
 }
 
 .gallery-overlay {
@@ -616,6 +618,7 @@ footer a { color: var(--primary-light); }
 
 .gallery-item:hover .gallery-overlay {
     opacity: 1;
+    will-change: opacity;
 }
 
 .gallery-caption {
@@ -901,6 +904,8 @@ footer a { color: var(--primary-light); }
     background: var(--bg-warm);
     padding: clamp(8rem, 15vw, 12rem) 0 clamp(4rem, 8vw, 6rem);
     text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .search-container {
@@ -1349,4 +1354,58 @@ footer a { color: var(--primary-light); }
 
 .wa-quick-btn:hover::after {
     transform: translateX(3px);
+}
+
+.parallax-shape {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.parallax-shape.revealed {
+    opacity: 1;
+}
+
+.parallax-shape-ring {
+    width: clamp(80px, 12vw, 180px);
+    height: clamp(80px, 12vw, 180px);
+    border: 2px solid var(--primary-pale);
+    border-radius: 50%;
+}
+
+.parallax-shape-dot {
+    width: clamp(12px, 2vw, 24px);
+    height: clamp(12px, 2vw, 24px);
+    background: var(--primary-light);
+    border-radius: 50%;
+    opacity: 0.4;
+}
+
+.parallax-shape-dot.revealed {
+    opacity: 0.4;
+}
+
+.parallax-shape-line {
+    width: clamp(40px, 6vw, 80px);
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-pale), transparent);
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero .parallax-shape {
+    opacity: 0;
+}
+
+.hero .parallax-shape.revealed {
+    opacity: 0.6;
+}
+
+.hero .parallax-shape-dot.revealed {
+    opacity: 0.35;
 }

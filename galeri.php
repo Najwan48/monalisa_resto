@@ -8,6 +8,9 @@ $galeri = $stmt->fetchAll();
 <main>
 
 <div class="page-header">
+    <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.25" style="top: 12%; left: 6%;"></div>
+    <div class="parallax-shape parallax-shape-line parallax-element reveal" data-speed="0.2" style="bottom: 30%; right: 5%;"></div>
+    <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.3" style="top: 45%; right: 10%;"></div>
     <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Eksplorasi Visual</span>
         <h1 class="section-title reveal reveal-up delay-1">Galeri Monalisa</h1>
@@ -22,7 +25,7 @@ $galeri = $stmt->fetchAll();
 <section class="section" style="background: var(--surface);">
     <div class="container">
         <div class="art-content-section">
-            <div class="reveal reveal-left">
+            <div class="reveal reveal-left parallax-element" data-speed="0.15">
                 <span class="eyebrow">Monalisa Art</span>
                 <h2 class="section-title">Sentuhan Klasik<br>Penuh Cerita</h2>
                 <div class="divider-left"></div>
@@ -33,7 +36,7 @@ $galeri = $stmt->fetchAll();
                     Setiap elemen dekorasi dipilih dengan teliti untuk menciptakan harmoni antara sejarah, seni, dan kenyamanan kuliner bagi setiap tamu yang datang.
                 </p>
             </div>
-            <div class="art-image-wrapper reveal reveal-right delay-2 parallax-element" data-speed="0.2">
+            <div class="art-image-wrapper reveal reveal-right delay-2">
                 <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Painting" style="width: 100%; border-radius: var(--radius-lg);">
             </div>
         </div>
@@ -52,7 +55,7 @@ $galeri = $stmt->fetchAll();
                 <div class="gallery-item reveal reveal-up delay-<?= ($index % 3) + 1 ?>" 
                      onclick="openLightbox('<?= h($item['foto_url']) ?>', '<?= h($item['judul']) ?>')">
                     
-                    <img src="<?= h($item['foto_url']) ?>" alt="<?= h($item['judul']) ?>" loading="lazy">
+                    <img src="<?= h($item['foto_url']) ?>" alt="<?= h($item['judul']) ?>" loading="lazy" decoding="async">
                     
                     <div class="gallery-overlay">
                         <div class="gallery-caption">

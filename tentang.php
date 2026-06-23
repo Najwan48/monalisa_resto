@@ -9,6 +9,9 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <main>
 
 <div class="page-header">
+    <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.28" style="top: 10%; left: 7%;"></div>
+    <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.2" style="bottom: 22%; right: 6%;"></div>
+    <div class="parallax-shape parallax-shape-line parallax-element reveal" data-speed="0.25" style="top: 55%; right: 4%;"></div>
     <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Warisan Budaya</span>
         <h1 class="section-title reveal reveal-up delay-1">Cerita Monalisa</h1>
@@ -22,7 +25,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <section class="section">
     <div class="container">
         <div class="art-content-section">
-            <div class="reveal reveal-left">
+            <div class="reveal reveal-left parallax-element" data-speed="0.15">
                 <span class="eyebrow">Sejarah Kami</span>
                 <h2 class="section-title">Dedikasi Pada<br>Tradisi</h2>
                 <div class="divider-left"></div>
@@ -31,7 +34,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 </div>
             </div>
             <div class="reveal reveal-right delay-2">
-                <div class="art-image-wrapper parallax-element" data-speed="0.2">
+                <div class="art-image-wrapper">
                     <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Piece"
                          style="width: 100%; border-radius: var(--radius-lg);">
                 </div>
@@ -43,11 +46,11 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <section class="section" style="background-color: var(--surface);">
     <div class="container">
         <div class="split-section">
-            <div class="reveal reveal-scale parallax-element" data-speed="0.2">
+            <div class="reveal reveal-scale">
                 <img src="assets/images/galeri/IMG_4224.webp" alt="Monalisa Resto Interior"
                      style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
             </div>
-            <div class="reveal reveal-up">
+            <div class="reveal reveal-up parallax-element" data-speed="0.15">
                 <span class="eyebrow">Visi Kami</span>
                 <h2 class="section-title">Membawa Kehangatan<br>ke Meja Anda</h2>
                 <div class="divider-left"></div>

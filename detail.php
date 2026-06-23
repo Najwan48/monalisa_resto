@@ -23,17 +23,19 @@ if (!$menu) {
         </div>
     </div>
 
-    <section class="section" style="padding-top: 1rem;">
+    <section class="section" style="padding-top: 1rem; position: relative; overflow: hidden;">
+        <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.25" style="top: 10%; right: 3%;"></div>
+        <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.18" style="bottom: 15%; left: 5%;"></div>
         <div class="container">
             <div class="split-section" style="align-items: start; gap: clamp(2rem, 5vw, 4rem);">
                 <div class="reveal reveal-up">
-                    <div class="parallax-wrap parallax-element" data-speed="0.1" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: clamp(300px, 50vh, 500px);">
-                        <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" 
+                    <div class="parallax-wrap" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: clamp(300px, 50vh, 500px);">
+                        <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>"
                              class="parallax-img"
                              onerror="this.src='https://via.placeholder.com/600x600?text=Foto+Menu'">
                     </div>
                 </div>
-                <div class="reveal reveal-up delay-2">
+                <div class="reveal reveal-up delay-2 parallax-element" data-speed="0.12">
                     <span class="eyebrow"><?= h($menu['kategori']) ?></span>
                     <h1 class="section-title" style="margin-bottom: 1rem;"><?= h($menu['nama_menu']) ?></h1>
                     <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 0.75rem;">

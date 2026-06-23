@@ -14,28 +14,34 @@ $menus = $stmt_menu->fetchAll();
 <main>
 
 <section class="hero" aria-label="Hero Section">
+    <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.3" style="top: 10%; right: 5%;"></div>
+    <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.2" style="bottom: 20%; left: 8%;"></div>
+    <div class="parallax-shape parallax-shape-line parallax-element reveal" data-speed="0.25" style="top: 40%; left: 3%;"></div>
+
     <div class="hero-text-side">
-        <div class="reveal reveal-up">
-            <span class="eyebrow" style="letter-spacing: 0.3em; opacity: 0.8;">EST. 1998 — BOGOR</span>
-        </div>
-        <h1 class="hero-heading reveal reveal-up delay-1">
-            <?php
-            $tagline = $konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah';
-            $tagline_words = explode(' ', $tagline);
-            $first_word = array_shift($tagline_words);
-            $rest_tagline = implode(' ', $tagline_words);
-            ?>
-            <span style="display: block; font-style: italic; color: var(--primary); font-family: 'Cormorant Garamond', serif; font-size: 0.8em; margin-bottom: -0.2em;"><?= h($first_word) ?></span>
-            <?= h($rest_tagline) ?>
-        </h1>
-        <p class="hero-sub reveal reveal-up delay-2">
-            <?= h($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
-        </p>
-        <div class="hero-actions reveal reveal-up delay-3">
-            <a href="katalog.php" class="btn btn-primary">Jelajahi Menu</a>
-            <a href="tentang.php" class="btn-ghost" style="text-decoration: none; font-weight: 700; border-bottom: 1px solid var(--primary);">
-                Cerita Kami
-            </a>
+        <div class="parallax-element" data-speed="0.15">
+            <div class="reveal reveal-up">
+                <span class="eyebrow" style="letter-spacing: 0.3em; opacity: 0.8;">EST. 1998 — BOGOR</span>
+            </div>
+            <h1 class="hero-heading reveal reveal-up delay-1">
+                <?php
+                $tagline = $konten['tagline'] ?? 'Kekayaan Kuliner Jawa Tengah';
+                $tagline_words = explode(' ', $tagline);
+                $first_word = array_shift($tagline_words);
+                $rest_tagline = implode(' ', $tagline_words);
+                ?>
+                <span style="display: block; font-style: italic; color: var(--primary); font-family: 'Cormorant Garamond', serif; font-size: 0.8em; margin-bottom: -0.2em;"><?= h($first_word) ?></span>
+                <?= h($rest_tagline) ?>
+            </h1>
+            <p class="hero-sub reveal reveal-up delay-2">
+                <?= h($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
+            </p>
+            <div class="hero-actions reveal reveal-up delay-3">
+                <a href="katalog.php" class="btn btn-primary">Jelajahi Menu</a>
+                <a href="tentang.php" class="btn-ghost" style="text-decoration: none; font-weight: 700; border-bottom: 1px solid var(--primary);">
+                    Cerita Kami
+                </a>
+            </div>
         </div>
     </div>
 
@@ -46,8 +52,8 @@ $menus = $stmt_menu->fetchAll();
                  onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80'">
             <div class="hero-image-overlay"></div>
         </div>
-        
-        <div class="hero-badge reveal reveal-up delay-4">
+
+        <div class="hero-badge reveal reveal-up delay-4 parallax-element" data-speed="0.25">
             <div class="badge-number">25</div>
             <div class="badge-label">Tahun Warisan</div>
         </div>
@@ -57,7 +63,7 @@ $menus = $stmt_menu->fetchAll();
 <section class="section" style="background: var(--surface);">
     <div class="container">
         <div class="art-content-section">
-            <div class="reveal reveal-left">
+            <div class="reveal reveal-left parallax-element" data-speed="0.15">
                 <span class="eyebrow">Warisan & Seni</span>
                 <h2 class="section-title">Harmoni Rasa<br>dan Estetika</h2>
                 <div class="divider-left"></div>
@@ -76,7 +82,7 @@ $menus = $stmt_menu->fetchAll();
 <section class="section" style="background: var(--bg-warm);" aria-label="Signature Dishes">
     <div class="container">
         <div class="signature-grid">
-            <div style="position: sticky; top: 8rem;" class="reveal reveal-up revealed sticky-sidebar">
+            <div style="position: sticky; top: 8rem;" class="reveal reveal-up revealed sticky-sidebar parallax-element" data-speed="0.12">
                 <span class="eyebrow">Pilihan Terbaik</span>
                 <h2 class="section-title">Menu<br>Andalan</h2>
                 <div class="divider-left"></div>
@@ -85,7 +91,7 @@ $menus = $stmt_menu->fetchAll();
             </div>
             <div style="display: flex; flex-direction: column; gap: 2.5rem;">
                 <?php foreach($menus as $index => $menu): ?>
-                <div class="signature-item reveal reveal-up delay-<?= $index + 1 ?> revealed parallax-element" data-speed="0.2" style="<?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
+                <div class="signature-item reveal reveal-up delay-<?= $index + 1 ?> revealed" style="<?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
                     <div class="menu-card-img" style="height: clamp(160px, 20vw, 240px);">
                         <img src="<?= h($menu['foto_url']) ?>"
                              alt="<?= h($menu['nama_menu']) ?>"
@@ -109,7 +115,9 @@ $menus = $stmt_menu->fetchAll();
     </div>
 </section>
 
-<section class="section" style="background: var(--surface);" aria-label="Value Propositions">
+<section class="section" style="background: var(--surface); position: relative; overflow: hidden;" aria-label="Value Propositions">
+    <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.2" style="top: 15%; left: -5%;"></div>
+    <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.28" style="bottom: 10%; right: -3%;"></div>
     <div class="container">
         <div class="props-grid reveal reveal-scale">
             <?php
@@ -132,7 +140,7 @@ $menus = $stmt_menu->fetchAll();
 </section>
 
 <section id="order" class="section" style="background: var(--charcoal);" aria-label="Online Order">
-    <div class="container" style="text-align: center; max-width: 700px;">
+    <div class="container parallax-element" data-speed="0.15" style="text-align: center; max-width: 700px;">
         <span class="eyebrow reveal reveal-up" style="color: var(--primary-light);">Pesan Sekarang</span>
         <h2 class="section-title reveal reveal-up delay-1" style="color: #fff;">Nikmati di Rumah Anda</h2>
         <div class="divider reveal reveal-up delay-2"></div>

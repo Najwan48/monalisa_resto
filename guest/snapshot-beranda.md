@@ -1,0 +1,112 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Monalisa Resto" [ref=e4] [cursor=pointer]:
+        - /url: index.php
+      - navigation [ref=e5]:
+        - link "Beranda" [ref=e6] [cursor=pointer]:
+          - /url: index.php
+        - link "Menu" [ref=e7] [cursor=pointer]:
+          - /url: katalog.php
+        - link "Galeri" [ref=e8] [cursor=pointer]:
+          - /url: galeri.php
+        - link "Kontak & Lokasi" [ref=e9] [cursor=pointer]:
+          - /url: kontak.php
+        - link "Tentang" [ref=e10] [cursor=pointer]:
+          - /url: tentang.php
+  - main [ref=e11]:
+    - region "Hero Section" [ref=e12]:
+      - generic [ref=e14]:
+        - generic [ref=e16]: EST. 1998 — BOGOR
+        - heading "Kekayaan Kuliner Jawa Tengah di Jantung Kota Bogor" [level=1] [ref=e17]:
+          - generic [ref=e18]: Kekayaan
+          - text: Kuliner Jawa Tengah di Jantung Kota Bogor
+        - paragraph [ref=e19]: Selamat datang di Restaurant Monalisa, destinasi kuliner yang menyajikan cita rasa autentik khas Jawa Tengah. Nikmati hidangan legendaris kami dalam suasana yang nyaman dan hangat.
+        - generic [ref=e20]:
+          - link "Jelajahi Menu" [ref=e21] [cursor=pointer]:
+            - /url: katalog.php
+          - link "Cerita Kami" [ref=e22] [cursor=pointer]:
+            - /url: tentang.php
+      - generic [ref=e23]:
+        - img "Monalisa Resto" [ref=e25]
+        - generic [ref=e27]:
+          - generic [ref=e28]: "25"
+          - generic [ref=e29]: Tahun Warisan
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]: Warisan & Seni
+        - heading "Harmoni Rasa dan Estetika" [level=2] [ref=e35]:
+          - text: Harmoni Rasa
+          - text: dan Estetika
+        - paragraph [ref=e36]: Di Monalisa Resto, kami percaya bahwa pengalaman kuliner terbaik lahir dari harmoni antara hidangan yang lezat dan suasana yang menginspirasi. Lukisan ikonik "Monalisa Art" di ruang kami menjadi saksi perjalanan rasa yang kami tawarkan.
+        - link "Pelajari Sejarah Kami" [ref=e37] [cursor=pointer]:
+          - /url: tentang.php
+      - img "Monalisa Art at Resto" [ref=e39]
+    - region "Signature Dishes" [ref=e40]:
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]: Pilihan Terbaik
+          - heading "Menu Andalan" [level=2] [ref=e45]
+          - paragraph [ref=e46]: Sajian otentik yang wajib Anda coba, disiapkan dengan bahan-bahan pilihan dan cinta yang tulus.
+          - link "Semua Menu" [ref=e47] [cursor=pointer]:
+            - /url: katalog.php
+        - generic [ref=e48]:
+          - generic [ref=e49]
+          - generic [ref=e59]
+          - generic [ref=e69]
+          - generic [ref=e79]
+          - generic [ref=e89]
+    - region "Value Propositions" [ref=e99]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e104]: 
+          - heading "Bahan Segar" [level=3] [ref=e105]
+          - paragraph [ref=e106]: Kami memilih bahan-bahan segar berkualitas tinggi setiap harinya dari supplier terpercaya.
+        - generic [ref=e107]:
+          - generic [ref=e109]: 
+          - heading "Resep Warisan" [level=3] [ref=e110]
+          - paragraph [ref=e111]: Setiap hidangan dibuat berdasarkan resep keluarga yang telah diwariskan selama generasi.
+        - generic [ref=e112]:
+          - generic [ref=e114]: 
+          - heading "Pengalaman Premium" [level=3] [ref=e115]
+          - paragraph [ref=e116]: Lebih dari sekedar makan — kami menghadirkan pengalaman kuliner yang tak terlupakan.
+    - region "Online Order" [ref=e117]:
+      - generic [ref=e118]:
+        - generic [ref=e119]: Pesan Sekarang
+        - heading "Nikmati di Rumah Anda" [level=2] [ref=e120]
+        - paragraph [ref=e122]: Hidangan favorit Anda kini bisa dinikmati di rumah. Pesan melalui platform partner terpercaya kami.
+        - generic [ref=e123]:
+          - link "GoFood Pesan via GoFood" [ref=e124] [cursor=pointer]:
+            - /url: https://gofood.link/a/BMMv8Pb
+          - link "GrabFood Pesan via GrabFood" [ref=e126] [cursor=pointer]:
+            - /url: https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT
+  - contentinfo [ref=e128]:
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - paragraph [ref=e131]: Monalisa Resto
+        - paragraph [ref=e132]: Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga yang terus dijaga kelestariannya.
+        - link "Hubungi Kami & Lokasi" [ref=e133] [cursor=pointer]:
+          - /url: kontak.php
+      - paragraph [ref=e134]: © 2026 Monalisa Resto. Hak Cipta Dilindungi.
+  - generic:
+    - generic:
+      - generic:
+        - generic: 
+      - generic:
+        - generic: Monalisa Resto
+        - generic: Online
+      - button "×"
+    - generic:
+      - generic:
+        - paragraph: Selamat datang di Monalisa Resto.
+        - paragraph: Ada yang bisa kami bantu? Anda dapat menanyakan detail menu, memesan menu, atau lokasi kami.
+      - generic:
+        - button "Detail Menu "
+        - button "Memesan Menu "
+        - button "Lokasi "
+    - generic:
+      - textbox "Ketik pesan Anda di sini..."
+      - button "":
+        - generic: 
+  - button "" [ref=e135] [cursor=pointer]:
+    - generic [ref=e136]: 

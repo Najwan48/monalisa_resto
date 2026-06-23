@@ -1,0 +1,38 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Monalisa Resto" [ref=e4] [cursor=pointer]:
+        - /url: index.php
+      - navigation [ref=e5]
+  - main [ref=e11]:
+    - generic [ref=e13]:
+      - generic [ref=e14]: Eksplorasi Visual
+      - heading "Galeri Monalisa" [level=1] [ref=e15]
+      - paragraph [ref=e17]: Melihat lebih dekat kehangatan suasana dan detail autentik yang kami hadirkan di setiap sudut Monalisa Resto.
+    - generic [ref=e20]:
+      - generic [ref=e21]
+      - img "Monalisa Art Painting" [ref=e27]
+    - generic [ref=e30]:
+      - generic [ref=e31] [cursor=pointer]
+      - generic [ref=e37] [cursor=pointer]
+      - generic [ref=e43] [cursor=pointer]
+      - generic [ref=e49] [cursor=pointer]
+      - generic [ref=e55] [cursor=pointer]
+      - generic [ref=e61] [cursor=pointer]
+  - contentinfo [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69]
+      - paragraph [ref=e73]: © 2026 Monalisa Resto. Hak Cipta Dilindungi.
+  - generic:
+    - generic:
+      - generic
+      - generic
+      - button "×"
+    - generic:
+      - generic
+      - generic
+    - generic:
+      - textbox "Ketik pesan Anda di sini..."
+      - button ""
+  - button "" [ref=e74] [cursor=pointer]:
+    - generic [ref=e75]: 

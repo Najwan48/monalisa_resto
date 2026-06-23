@@ -12,6 +12,9 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <div class="page-header">
+    <div class="parallax-shape parallax-shape-ring parallax-element reveal" data-speed="0.22" style="top: 18%; right: 7%;"></div>
+    <div class="parallax-shape parallax-shape-dot parallax-element reveal" data-speed="0.28" style="bottom: 20%; left: 4%;"></div>
+    <div class="parallax-shape parallax-shape-line parallax-element reveal" data-speed="0.2" style="top: 40%; left: 6%;"></div>
     <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Hubungan Pelanggan</span>
         <h1 class="section-title reveal reveal-up delay-1">Terhubung dengan Kami</h1>
@@ -88,7 +91,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <section class="section" style="background: var(--bg-warm);">
     <div class="container">
         <div class="art-content-section">
-            <div class="reveal reveal-left">
+            <div class="reveal reveal-left parallax-element" data-speed="0.15">
                 <span class="eyebrow">Warisan Monalisa</span>
                 <h2 class="section-title">Nilai Seni dalam<br>Setiap Sajian</h2>
                 <div class="divider-left"></div>
