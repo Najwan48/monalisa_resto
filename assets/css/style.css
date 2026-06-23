@@ -142,7 +142,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .revealed {
     opacity: 1;
-    transform: translate(0) scale(1) !important;
+    transform: translate(0) scale(1);
 }
 
 .sticky-sidebar.revealed {

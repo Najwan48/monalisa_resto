@@ -25,16 +25,17 @@ function applyParallax() {
 
     elements.forEach(element => {
         const speed = parseFloat(element.getAttribute(SPEED_ATTR)) || DEFAULT_SPEED;
-        const yOffset = speed * 200;
+        const yOffset = speed * 500;
 
         gsap.to(element, {
-            y: yOffset,
+            y: -yOffset,
             ease: 'none',
             scrollTrigger: {
                 trigger: element,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: true,
+                start: 'top bottom+=100',
+                end: 'bottom top-=100',
+                scrub: 1.5,
+                invalidateOnRefresh: true,
             },
         });
     });
