@@ -8,7 +8,7 @@ $galeri = $stmt->fetchAll();
 <main>
 
 <div class="page-header">
-    <div class="container">
+    <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Eksplorasi Visual</span>
         <h1 class="section-title reveal reveal-up delay-1">Galeri Monalisa</h1>
         <div class="divider reveal reveal-up delay-2"></div>
@@ -33,7 +33,7 @@ $galeri = $stmt->fetchAll();
                     Setiap elemen dekorasi dipilih dengan teliti untuk menciptakan harmoni antara sejarah, seni, dan kenyamanan kuliner bagi setiap tamu yang datang.
                 </p>
             </div>
-            <div class="art-image-wrapper reveal reveal-right delay-2">
+            <div class="art-image-wrapper reveal reveal-right delay-2 parallax-element" data-speed="0.2">
                 <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Painting" style="width: 100%; border-radius: var(--radius-lg);">
             </div>
         </div>

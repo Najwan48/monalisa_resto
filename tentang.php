@@ -9,7 +9,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <main>
 
 <div class="page-header">
-    <div class="container">
+    <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Warisan Budaya</span>
         <h1 class="section-title reveal reveal-up delay-1">Cerita Monalisa</h1>
         <div class="divider reveal reveal-up delay-2"></div>
@@ -31,7 +31,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 </div>
             </div>
             <div class="reveal reveal-right delay-2">
-                <div class="art-image-wrapper">
+                <div class="art-image-wrapper parallax-element" data-speed="0.2">
                     <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Piece"
                          style="width: 100%; border-radius: var(--radius-lg);">
                 </div>
@@ -43,8 +43,8 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <section class="section" style="background-color: var(--surface);">
     <div class="container">
         <div class="split-section">
-            <div class="reveal reveal-scale">
-                <img src="assets/images/galeri/IMG_4224.webp" alt="Monalisa Resto Interior" 
+            <div class="reveal reveal-scale parallax-element" data-speed="0.2">
+                <img src="assets/images/galeri/IMG_4224.webp" alt="Monalisa Resto Interior"
                      style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
             </div>
             <div class="reveal reveal-up">

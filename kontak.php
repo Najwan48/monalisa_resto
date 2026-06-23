@@ -12,7 +12,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <div class="page-header">
-    <div class="container">
+    <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Hubungan Pelanggan</span>
         <h1 class="section-title reveal reveal-up delay-1">Terhubung dengan Kami</h1>
         <div class="divider reveal reveal-up delay-2"></div>

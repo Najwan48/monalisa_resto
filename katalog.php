@@ -49,7 +49,7 @@ $menus = $stmt->fetchAll();
 <main>
 
 <div class="page-header">
-    <div class="container">
+    <div class="container parallax-element" data-speed="0.15">
         <span class="eyebrow reveal reveal-up">Cita Rasa Otentik</span>
         <h1 class="section-title reveal reveal-up delay-1">Eksplorasi Menu Kami</h1>
         

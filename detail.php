@@ -27,7 +27,7 @@ if (!$menu) {
         <div class="container">
             <div class="split-section" style="align-items: start; gap: clamp(2rem, 5vw, 4rem);">
                 <div class="reveal reveal-up">
-                    <div class="parallax-wrap" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: clamp(300px, 50vh, 500px);">
+                    <div class="parallax-wrap parallax-element" data-speed="0.1" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: clamp(300px, 50vh, 500px);">
                         <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>" 
                              class="parallax-img"
                              onerror="this.src='https://via.placeholder.com/600x600?text=Foto+Menu'">
