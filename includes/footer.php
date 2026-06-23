@@ -55,5 +55,7 @@ if (strpos($clean_wa, '0') === 0) {
     <i class="fab fa-whatsapp"></i>
 </button>
 
+<script type="module" src="assets/js/parallax.js"></script>
+
 </body>
 </html>
