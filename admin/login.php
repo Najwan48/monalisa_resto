@@ -14,8 +14,16 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true
 }
 
 $error = '';
+$ip = $_SERVER['REMOTE_ADDR'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Rate limiting: check failed attempts in last 30 minutes
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM login_attempts WHERE ip_address = ? AND attempt_time > NOW() - INTERVAL 30 MINUTE");
+$stmt->execute([$ip]);
+$attempts = $stmt->fetchColumn();
+
+if ($attempts >= 5) {
+    $error = "Terlalu banyak percobaan gagal. Silakan tunggu 30 menit.";
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         $error = "Validasi form gagal. Silakan muat ulang halaman.";
     } else {
@@ -28,6 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password_hash'])) {
+                // Success: clear attempts
+                $stmt = $pdo->prepare("DELETE FROM login_attempts WHERE ip_address = ?");
+                $stmt->execute([$ip]);
+
                 $_SESSION['admin_logged_in'] = true;
                 $_SESSION['admin_id']        = $user['id'];
                 $_SESSION['admin_user']      = $user['username'];
@@ -35,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: index.php");
                 exit;
             } else {
+                // Failure: record attempt
+                $stmt = $pdo->prepare("INSERT INTO login_attempts (ip_address) VALUES (?)");
+                $stmt->execute([$ip]);
                 $error = "Username atau password salah.";
             }
         } else {

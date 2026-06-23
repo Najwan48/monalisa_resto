@@ -90,10 +90,10 @@ if (!$menu) {
                         
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                             <a href="<?= h($link_gofood) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
-                                <img src="assets/images/logo gofood.png" alt="GoFood"> GoFood
+                                <img src="assets/images/logo gofood.webp" alt="GoFood"> GoFood
                             </a>
                             <a href="<?= h($link_grabfood) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
-                                <img src="assets/images/logo grabfood.png" alt="GrabFood"> GrabFood
+                                <img src="assets/images/logo grabfood.webp" alt="GrabFood"> GrabFood
                             </a>
                         </div>
                         

@@ -1,10 +1,10 @@
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# Disable PHP Error Display
 php_flag display_errors Off
-php_flag display_startup_errors Off
-php_flag log_errors On
-php_value error_reporting 32767
-
-Options -Indexes
-
-<FilesMatch "\.(sql|log|env|git|bak|sh)$">
-    Require all denied
-</FilesMatch>

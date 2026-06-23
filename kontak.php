@@ -97,7 +97,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 </p>
             </div>
             <div class="art-image-wrapper reveal reveal-right delay-2">
-                <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art Piece" style="width: 100%; border-radius: var(--radius-lg);">
+                <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Piece" style="width: 100%; border-radius: var(--radius-lg);">
             </div>
         </div>
     </div>

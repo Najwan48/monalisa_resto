@@ -34,7 +34,7 @@ $galeri = $stmt->fetchAll();
                 </p>
             </div>
             <div class="art-image-wrapper reveal reveal-right delay-2">
-                <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art Painting" style="width: 100%; border-radius: var(--radius-lg);">
+                <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Painting" style="width: 100%; border-radius: var(--radius-lg);">
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@ $galeri = $stmt->fetchAll();
                 <div class="gallery-item reveal reveal-up delay-<?= ($index % 3) + 1 ?>" 
                      onclick="openLightbox('<?= h($item['foto_url']) ?>', '<?= h($item['judul']) ?>')">
                     
-                    <img src="<?= h($item['foto_url']) ?>" alt="<?= h($item['judul']) ?>">
+                    <img src="<?= h($item['foto_url']) ?>" alt="<?= h($item['judul']) ?>" loading="lazy">
                     
                     <div class="gallery-overlay">
                         <div class="gallery-caption">

@@ -15,70 +15,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $action_post = $_POST['action'] ?? '';
 
         if ($action_post === 'simpan') {
-            $nama_menu        = trim($_POST['nama_menu'] ?? '');
-            $asal_daerah      = trim($_POST['asal_daerah'] ?? '');
-            $deskripsi_singkat = trim($_POST['deskripsi_singkat'] ?? '');
-            $deskripsi_lengkap = trim($_POST['deskripsi_lengkap'] ?? '');
-            $bahan_utama      = trim($_POST['bahan_utama'] ?? '');
-            $info_alergen     = trim($_POST['info_alergen'] ?? '');
-            $kategori         = trim($_POST['kategori'] ?? '');
+            $nama_menu        = validate_input($_POST['nama_menu'] ?? '', 'string', 100);
+            $asal_daerah      = validate_input($_POST['asal_daerah'] ?? '', 'string', 100);
+            $deskripsi_singkat = validate_input($_POST['deskripsi_singkat'] ?? '', 'string', 150);
+            $deskripsi_lengkap = validate_input($_POST['deskripsi_lengkap'] ?? '', 'string');
+            $bahan_utama      = validate_input($_POST['bahan_utama'] ?? '', 'string');
+            $info_alergen     = validate_input($_POST['info_alergen'] ?? '', 'string');
+            $kategori         = validate_input($_POST['kategori'] ?? '', 'string');
             $harga            = (float)($_POST['harga'] ?? 0);
-            $status           = $_POST['status'] ?? 'aktif';
+            $status           = in_array($_POST['status'] ?? '', ['aktif', 'nonaktif']) ? $_POST['status'] : 'aktif';
             $id_edit          = (int)($_POST['id_edit'] ?? 0);
 
-            $foto_url_lama = $_POST['foto_url_lama'] ?? '';
-            $foto_url      = $foto_url_lama;
+            if (!$nama_menu || !$asal_daerah || !$deskripsi_singkat || !$deskripsi_lengkap || !$bahan_utama || !$kategori || !in_array($kategori, $kategori_list)) {
+                $pesan = "Data tidak valid atau tidak lengkap.";
+                $tipe_pesan = 'danger';
+            } else {
+                $foto_url_lama = $_POST['foto_url_lama'] ?? '';
+                $foto_url      = $foto_url_lama;
 
-            if (!empty($_FILES['foto']['name'])) {
-                $allowed_types = ['image/jpeg', 'image/png', 'image/webp'];
-                $max_size      = 2 * 1024 * 1024;
+                if (!empty($_FILES['foto']['name'])) {
+                    $finfo = new finfo(FILEINFO_MIME_TYPE);
+                    $file_type = $finfo->file($_FILES['foto']['tmp_name']);
+                    $allowed_types = ['image/jpeg', 'image/png', 'image/webp'];
+                    $max_size      = 2 * 1024 * 1024;
 
-                if (!in_array($_FILES['foto']['type'], $allowed_types)) {
-                    $pesan = "Tipe file tidak diizinkan. Gunakan JPG, PNG, atau WebP.";
-                    $tipe_pesan = 'danger';
-                } elseif ($_FILES['foto']['size'] > $max_size) {
-                    $pesan = "Ukuran file melebihi batas 2MB.";
-                    $tipe_pesan = 'danger';
-                } else {
-                    $upload_dir = '../assets/images/menu/';
-                    if (!is_dir($upload_dir)) {
-                        mkdir($upload_dir, 0755, true);
+                    if (!in_array($file_type, $allowed_types)) {
+                        $pesan = "Tipe file tidak diizinkan. Gunakan JPG, PNG, atau WebP.";
+                        $tipe_pesan = 'danger';
+                    } elseif ($_FILES['foto']['size'] > $max_size) {
+                        $pesan = "Ukuran file melebihi batas 2MB.";
+                        $tipe_pesan = 'danger';
+                    } else {
+                        $upload_dir = '../assets/images/menu/';
+                        if (!is_dir($upload_dir)) {
+                            mkdir($upload_dir, 0755, true);
+                        }
+                        $filename   = 'menu_' . time() . '_' . bin2hex(random_bytes(4)) . '.webp';
+                        if (process_and_save_image($_FILES['foto']['tmp_name'], $upload_dir . $filename)) {
+                            $foto_url = 'assets/images/menu/' . $filename;
+                        } else {
+                            $pesan = "Gagal memproses foto.";
+                            $tipe_pesan = 'danger';
+                        }
                     }
-                    $ext        = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
-                    $filename   = 'menu_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-                    move_uploaded_file($_FILES['foto']['tmp_name'], $upload_dir . $filename);
-                    $foto_url = 'assets/images/menu/' . $filename;
                 }
-            }
 
-            if (empty($pesan)) {
-                if ($id_edit > 0) {
-                    $stmt = $pdo->prepare(
-                        "UPDATE menu SET nama_menu=?, asal_daerah=?, deskripsi_singkat=?, deskripsi_lengkap=?,
-                         bahan_utama=?, info_alergen=?, kategori=?, harga=?, foto_url=?, status=?
-                         WHERE id=?"
-                    );
-                    $stmt->execute([
-                        $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
-                        $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status, $id_edit
-                    ]);
-                    log_aktivitas($pdo, $_SESSION['admin_id'], "Edit menu: $nama_menu");
-                    $pesan = "Menu berhasil diperbarui.";
-                } else {
-                    $stmt = $pdo->prepare(
-                        "INSERT INTO menu (nama_menu, asal_daerah, deskripsi_singkat, deskripsi_lengkap,
-                         bahan_utama, info_alergen, kategori, harga, foto_url, status)
-                         VALUES (?,?,?,?,?,?,?,?,?,?)"
-                    );
-                    $stmt->execute([
-                        $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
-                        $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status
-                    ]);
-                    log_aktivitas($pdo, $_SESSION['admin_id'], "Tambah menu baru: $nama_menu");
-                    $pesan = "Menu baru berhasil ditambahkan.";
+                if (empty($pesan)) {
+                    if ($id_edit > 0) {
+                        $stmt = $pdo->prepare(
+                            "UPDATE menu SET nama_menu=?, asal_daerah=?, deskripsi_singkat=?, deskripsi_lengkap=?,
+                             bahan_utama=?, info_alergen=?, kategori=?, harga=?, foto_url=?, status=?
+                             WHERE id=?"
+                        );
+                        $stmt->execute([
+                            $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
+                            $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status, $id_edit
+                        ]);
+                        log_aktivitas($pdo, $_SESSION['admin_id'], "Edit menu: $nama_menu");
+                        $pesan = "Menu berhasil diperbarui.";
+                    } else {
+                        $stmt = $pdo->prepare(
+                            "INSERT INTO menu (nama_menu, asal_daerah, deskripsi_singkat, deskripsi_lengkap,
+                             bahan_utama, info_alergen, kategori, harga, foto_url, status)
+                             VALUES (?,?,?,?,?,?,?,?,?,?)"
+                        );
+                        $stmt->execute([
+                            $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
+                            $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status
+                        ]);
+                        log_aktivitas($pdo, $_SESSION['admin_id'], "Tambah menu baru: $nama_menu");
+                        $pesan = "Menu baru berhasil ditambahkan.";
+                    }
+                    $tipe_pesan = 'success';
+                    $aksi = 'list';
                 }
-                $tipe_pesan = 'success';
-                $aksi = 'list';
             }
         }
 

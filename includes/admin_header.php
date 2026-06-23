@@ -19,12 +19,31 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? h($page_title) . ' — ' : '' ?>Admin · Monalisa Resto</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Session timeout (e.g., 30 minutes)
+        let inactivityTime = function () {
+            let time;
+            window.onload = resetTimer;
+            document.onmousemove = resetTimer;
+            document.onkeypress = resetTimer;
+
+            function logout() {
+                window.location.href = 'logout.php';
+            }
+            function resetTimer() {
+                clearTimeout(time);
+                time = setTimeout(logout, 1800000); // 30 minutes
+            }
+        };
+        window.onload = inactivityTime;
+    </script>
     <style>
         :root {
             --primary:        #A67C52;
@@ -107,13 +126,26 @@ $current_page = basename($_SERVER['PHP_SELF']);
             margin-bottom: 0.2rem;
         }
 
-        .sidebar-brand-sub {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
         }
+
+        ::-webkit-scrollbar-track {
+            background: #1C1917;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #A67C52;
+            border-radius: var(--radius-sm);
+            border: 2px solid #1C1917;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B6543;
+        }
+
 
         .sidebar-section-label {
             padding: 1.5rem 1.5rem 0.5rem;
@@ -288,6 +320,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .page-actions h2 {
@@ -675,6 +709,20 @@ $current_page = basename($_SERVER['PHP_SELF']);
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: 1fr; }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .topbar-user span { display: none; }
+
+            .galeri-form-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .topbar-breadcrumb span:first-child,
+            .topbar-breadcrumb i {
+                display: none !important;
+            }
+
+            .hide-mobile {
+                display: none !important;
+            }
         }
 
         .sidebar-overlay {

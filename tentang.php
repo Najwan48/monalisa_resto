@@ -32,7 +32,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             </div>
             <div class="reveal reveal-right delay-2">
                 <div class="art-image-wrapper">
-                    <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art Piece" 
+                    <img src="assets/images/monalisa-art.webp" alt="Monalisa Art Piece"
                          style="width: 100%; border-radius: var(--radius-lg);">
                 </div>
             </div>
@@ -44,7 +44,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     <div class="container">
         <div class="split-section">
             <div class="reveal reveal-scale">
-                <img src="assets/images/galeri/IMG_4224.jpg" alt="Monalisa Resto Interior" 
+                <img src="assets/images/galeri/IMG_4224.webp" alt="Monalisa Resto Interior" 
                      style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
             </div>
             <div class="reveal reveal-up">

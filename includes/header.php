@@ -2,6 +2,8 @@
 require_once 'db.php';
 require_once 'functions.php';
 
+set_no_cache_headers();
+
 $halaman_sekarang = basename($_SERVER['PHP_SELF']);
 
 $stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
@@ -15,6 +17,7 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? h($page_title) . ' — ' : '' ?>Monalisa Resto · Authentic Javanese Cuisine</title>
     <meta name="description" content="Monalisa Resto menyajikan kelezatan otentik khas Jawa Tengah di jantung Kota Bogor. Nikmati hidangan legendaris dalam suasana yang nyaman dan penuh seni.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="assets/css/style.css?v=1.2">

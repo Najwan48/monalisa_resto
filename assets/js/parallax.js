@@ -49,6 +49,17 @@ async function initParallax() {
         applyParallax();
     } catch (loadError) {
         console.error('Parallax: failed to load GSAP dependencies.', loadError);
+        const warning = document.createElement('div');
+        warning.style.position = 'fixed';
+        warning.style.bottom = '10px';
+        warning.style.right = '10px';
+        warning.style.background = '#FEF2F2';
+        warning.style.color = '#DC2626';
+        warning.style.padding = '10px';
+        warning.style.borderRadius = '8px';
+        warning.style.zIndex = '9999';
+        warning.innerText = 'Info: Efek animasi tidak dapat dimuat.';
+        document.body.appendChild(warning);
     }
 }
 

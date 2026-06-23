@@ -1,6 +1,7 @@
 <?php
 $page_title = 'Manajemen Galeri';
 require_once '../includes/admin_header.php';
+require_once '../includes/validation.php';
 
 $pesan      = '';
 $tipe_pesan = '';
@@ -14,17 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $action_post = $_POST['action'] ?? '';
 
         if ($action_post === 'unggah') {
-            $judul  = trim($_POST['judul'] ?? '');
-            $urutan = (int)($_POST['urutan'] ?? 0);
+            $judul  = validate_input($_POST['judul'] ?? '', 'string', 100);
+            $urutan = validate_input($_POST['urutan'] ?? 0, 'int');
 
-            if (empty($_FILES['foto']['name'])) {
-                $pesan      = "Pilih file foto terlebih dahulu.";
+            if (!$judul || $urutan === false || empty($_FILES['foto']['name'])) {
+                $pesan      = "Data tidak valid atau file foto belum dipilih.";
                 $tipe_pesan = 'danger';
             } else {
+                $finfo = new finfo(FILEINFO_MIME_TYPE);
+                $file_type = $finfo->file($_FILES['foto']['tmp_name']);
                 $allowed_types = ['image/jpeg', 'image/png', 'image/webp'];
                 $max_size      = 3 * 1024 * 1024;
 
-                if (!in_array($_FILES['foto']['type'], $allowed_types)) {
+                if (!in_array($file_type, $allowed_types)) {
                     $pesan      = "Tipe file tidak diizinkan. Gunakan JPG, PNG, atau WebP.";
                     $tipe_pesan = 'danger';
                 } elseif ($_FILES['foto']['size'] > $max_size) {
@@ -35,47 +38,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (!is_dir($upload_dir)) {
                         mkdir($upload_dir, 0755, true);
                     }
-                    $ext      = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
-                    $filename = 'galeri_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-                    move_uploaded_file($_FILES['foto']['tmp_name'], $upload_dir . $filename);
+                    $filename = 'galeri_' . time() . '_' . bin2hex(random_bytes(4)) . '.webp';
 
-                    $foto_url = 'assets/images/galeri/' . $filename;
-                    $stmt     = $pdo->prepare("INSERT INTO galeri (judul, foto_url, urutan) VALUES (?, ?, ?)");
-                    $stmt->execute([$judul, $foto_url, $urutan]);
-                    log_aktivitas($pdo, $_SESSION['admin_id'], "Unggah foto galeri: $judul");
-                    $pesan      = "Foto berhasil diunggah.";
-                    $tipe_pesan = 'success';
+                    if (process_and_save_image($_FILES['foto']['tmp_name'], $upload_dir . $filename)) {
+                        $foto_url = 'assets/images/galeri/' . $filename;
+                        $stmt     = $pdo->prepare("INSERT INTO galeri (judul, foto_url, urutan) VALUES (?, ?, ?)");
+                        $stmt->execute([$judul, $foto_url, $urutan]);
+                        log_aktivitas($pdo, $_SESSION['admin_id'], "Unggah foto galeri: $judul");
+                        $pesan      = "Foto berhasil diunggah.";
+                        $tipe_pesan = 'success';
+                    } else {
+                        $pesan      = "Gagal memproses foto.";
+                        $tipe_pesan = 'danger';
+                    }
                 }
-            }
-        }
-
-        if ($action_post === 'hapus') {
-            $hapus_id = (int)($_POST['hapus_id'] ?? 0);
-            $row = $pdo->prepare("SELECT judul, foto_url FROM galeri WHERE id = ?");
-            $row->execute([$hapus_id]);
-            $galeri_lama = $row->fetch();
-
-            if ($galeri_lama) {
-                $file_path = '../' . $galeri_lama['foto_url'];
-                if (file_exists($file_path)) {
-                    unlink($file_path);
-                }
-                $stmt = $pdo->prepare("DELETE FROM galeri WHERE id = ?");
-                $stmt->execute([$hapus_id]);
-                log_aktivitas($pdo, $_SESSION['admin_id'], "Hapus foto galeri: " . $galeri_lama['judul']);
-                $pesan      = "Foto berhasil dihapus.";
-                $tipe_pesan = 'success';
             }
         }
 
         if ($action_post === 'urutan') {
-            $urutan_id  = (int)($_POST['urutan_id'] ?? 0);
-            $urutan_val = (int)($_POST['urutan_val'] ?? 0);
-            $stmt       = $pdo->prepare("UPDATE galeri SET urutan = ? WHERE id = ?");
-            $stmt->execute([$urutan_val, $urutan_id]);
-            log_aktivitas($pdo, $_SESSION['admin_id'], "Update urutan galeri ID: $urutan_id");
-            $pesan      = "Urutan berhasil diperbarui.";
-            $tipe_pesan = 'success';
+            $urutan_id  = validate_input($_POST['urutan_id'] ?? 0, 'int');
+            $urutan_val = validate_input($_POST['urutan_val'] ?? 0, 'int');
+
+            if ($urutan_id !== false && $urutan_val !== false) {
+                $stmt       = $pdo->prepare("UPDATE galeri SET urutan = ? WHERE id = ?");
+                $stmt->execute([$urutan_val, $urutan_id]);
+                log_aktivitas($pdo, $_SESSION['admin_id'], "Update urutan galeri ID: $urutan_id");
+                $pesan      = "Urutan berhasil diperbarui.";
+                $tipe_pesan = 'success';
+            }
         }
     }
 }

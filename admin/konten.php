@@ -2,6 +2,7 @@
 ob_start();
 $page_title = 'Manajemen Konten';
 require_once '../includes/admin_header.php';
+require_once '../includes/validation.php';
 
 $label_halaman = [
     'beranda'      => 'Beranda',
@@ -31,24 +32,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         $pesan = "Validasi keamanan gagal.";
     } else {
-        $halaman = $_POST['halaman'] ?? '';
-        $bagian  = $_POST['bagian'] ?? '';
+        $halaman = validate_input($_POST['halaman'] ?? '', 'string');
+        $bagian  = validate_input($_POST['bagian'] ?? '', 'string');
         $isi     = $_POST['isi'] ?? '';
 
-        if (!empty($halaman) && !empty($bagian)) {
-            $stmt = $pdo->prepare(
-                "INSERT INTO konten_halaman (halaman, bagian, isi) VALUES (?, ?, ?)
-                 ON DUPLICATE KEY UPDATE isi = VALUES(isi)"
-            );
-            $stmt->execute([$halaman, $bagian, $isi]);
-            log_aktivitas($pdo, $_SESSION['admin_id'], "Edit konten: halaman=$halaman, bagian=$bagian");
-            
-            $nama_halaman = $label_halaman[$halaman] ?? ucfirst($halaman);
-            $nama_bagian = $label_bagian[$bagian] ?? ucfirst($bagian);
-            $pesan = "Konten halaman '$nama_halaman' - bagian '$nama_bagian' berhasil disimpan.";
-            $status = 'success';
+        if ($halaman && $bagian && array_key_exists($halaman, $label_halaman) && array_key_exists($bagian, $label_bagian)) {
+            // Additional validation for URL fields
+            if (strpos($bagian, 'link_') === 0 && !validate_input($isi, 'url')) {
+                $pesan = "Format link tidak valid.";
+                $status = 'error';
+            } else {
+                $stmt = $pdo->prepare(
+                    "INSERT INTO konten_halaman (halaman, bagian, isi) VALUES (?, ?, ?)
+                     ON DUPLICATE KEY UPDATE isi = VALUES(isi)"
+                );
+                $stmt->execute([$halaman, $bagian, $isi]);
+                log_aktivitas($pdo, $_SESSION['admin_id'], "Edit konten: halaman=$halaman, bagian=$bagian");
+
+                $nama_halaman = $label_halaman[$halaman] ?? ucfirst($halaman);
+                $nama_bagian = $label_bagian[$bagian] ?? ucfirst($bagian);
+                $pesan = "Konten halaman '$nama_halaman' - bagian '$nama_bagian' berhasil disimpan.";
+                $status = 'success';
+            }
         } else {
-            $pesan = "Data tidak lengkap.";
+            $pesan = "Data tidak lengkap atau tidak valid.";
         }
     }
 
@@ -208,6 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (timeTag) {
                         timeTag.textContent = 'Terakhir diperbarui: ' + data.updated_at;
                     }
+                    // Optional: reload the page or fetch new data to ensure state consistency
+                    // window.location.reload();
                 } else {
                     showToast(data.message, 'danger');
                 }

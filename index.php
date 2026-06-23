@@ -6,7 +6,7 @@ $stmt_beranda = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE hala
 $stmt_beranda->execute();
 $konten = $stmt_beranda->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$stmt_menu = $pdo->prepare("SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, foto_url, kategori FROM menu WHERE status = 'aktif' ORDER BY RAND() LIMIT 3");
+$stmt_menu = $pdo->prepare("SELECT id, nama_menu, asal_daerah, deskripsi_singkat, harga, foto_url, kategori FROM menu WHERE status = 'aktif' ORDER BY RAND() LIMIT 5");
 $stmt_menu->execute();
 $menus = $stmt_menu->fetchAll();
 ?>
@@ -41,7 +41,7 @@ $menus = $stmt_menu->fetchAll();
 
     <div class="hero-image-side">
         <div class="hero-image-wrapper reveal reveal-scale delay-2">
-            <img src="assets/images/IMG_4339.PNG"
+            <img src="assets/images/IMG_4339.webp"
                  alt="Monalisa Resto"
                  onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80'">
             <div class="hero-image-overlay"></div>
@@ -67,7 +67,7 @@ $menus = $stmt_menu->fetchAll();
                 <a href="tentang.php" class="btn btn-outline">Pelajari Sejarah Kami</a>
             </div>
             <div class="art-image-wrapper reveal reveal-right delay-2">
-                <img src="assets/images/monalisa-art.jpg" alt="Monalisa Art at Resto" style="width: 100%; border-radius: var(--radius-lg);">
+                <img src="assets/images/monalisa-art.webp" alt="Monalisa Art at Resto" style="width: 100%; border-radius: var(--radius-lg);">
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@ $menus = $stmt_menu->fetchAll();
 <section class="section" style="background: var(--bg-warm);" aria-label="Signature Dishes">
     <div class="container">
         <div class="signature-grid">
-            <div style="position: sticky; top: 8rem;" class="reveal reveal-up">
+            <div style="position: sticky; top: 8rem;" class="reveal reveal-up revealed sticky-sidebar">
                 <span class="eyebrow">Pilihan Terbaik</span>
                 <h2 class="section-title">Menu<br>Andalan</h2>
                 <div class="divider-left"></div>
@@ -85,7 +85,7 @@ $menus = $stmt_menu->fetchAll();
             </div>
             <div style="display: flex; flex-direction: column; gap: 2.5rem;">
                 <?php foreach($menus as $index => $menu): ?>
-                <div class="signature-item reveal reveal-up delay-<?= $index + 1 ?>" style="<?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
+                <div class="signature-item reveal reveal-up delay-<?= $index + 1 ?> revealed parallax-element" data-speed="0.2" style="<?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
                     <div class="menu-card-img" style="height: clamp(160px, 20vw, 240px);">
                         <img src="<?= h($menu['foto_url']) ?>"
                              alt="<?= h($menu['nama_menu']) ?>"
@@ -140,13 +140,13 @@ $menus = $stmt_menu->fetchAll();
         <div class="order-actions reveal reveal-up delay-4">
             <?php if (!empty($konten['link_gofood'])): ?>
             <a href="<?= h($konten['link_gofood']) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
-                <img src="assets/images/logo gofood.png" alt="GoFood" style="height: 20px;">
+                <img src="assets/images/logo gofood.webp" alt="GoFood" style="height: 20px;">
                 Pesan via GoFood
             </a>
             <?php endif; ?>
             <?php if (!empty($konten['link_grabfood'])): ?>
             <a href="<?= h($konten['link_grabfood']) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
-                <img src="assets/images/logo grabfood.png" alt="GrabFood" style="height: 20px;">
+                <img src="assets/images/logo grabfood.webp" alt="GrabFood" style="height: 20px;">
                 Pesan via GrabFood
             </a>
             <?php endif; ?>

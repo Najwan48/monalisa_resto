@@ -115,6 +115,9 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
         <div class="menu-preview">
             <?php foreach ($menu_terbaru as $menu): ?>
             <div class="menu-item">
+                <div class="menu-thumb" style="width: 50px; height: 50px; overflow: hidden; margin-right: 1rem; border-radius: 4px;">
+                    <img src="<?= get_image_url($menu['foto_url'], true) ?>" alt="<?= h($menu['nama_menu']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async">
+                </div>
                 <div class="menu-info">
                     <h3><?= h($menu['nama_menu']) ?></h3>
                     <div class="menu-meta">
@@ -165,9 +168,9 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
             <?php foreach ($galeri_terbaru as $foto): ?>
             <div class="gallery-item" style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);">
                 <div style="height: 120px; overflow: hidden;">
-                    <img src="<?= get_image_url($foto['foto_url'], true) ?>" alt="<?= h($foto['judul']) ?>" 
+                    <img src="<?= get_image_url($foto['foto_url'], true) ?>" alt="<?= h($foto['judul']) ?>"
                          style="width: 100%; height: 100%; object-fit: cover;"
-                         onerror="this.src='https://via.placeholder.com/200x150?text=No+Image'">
+                         onerror="this.src='https://via.placeholder.com/200x150?text=No+Image'" loading="lazy" decoding="async">
                 </div>
                 <div style="padding: 0.75rem;">
                     <div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">

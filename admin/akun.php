@@ -1,6 +1,7 @@
 <?php
 $page_title = 'Manajemen Akun';
 require_once '../includes/admin_header.php';
+require_once '../includes/validation.php';
 
 $pesan      = '';
 $tipe_pesan = '';
@@ -11,18 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pesan      = "Validasi keamanan gagal.";
         $tipe_pesan = 'danger';
     } else {
-        $username_baru = trim($_POST['username'] ?? '');
+        $username_baru = validate_input($_POST['username'] ?? '', 'string', 50);
         $password_lama = $_POST['password_lama'] ?? '';
         $password_baru = $_POST['password_baru'] ?? '';
         $konfirmasi    = $_POST['konfirmasi'] ?? '';
 
-        if (!empty($username_baru) && !empty($password_lama) && !empty($password_baru) && !empty($konfirmasi)) {
+        if ($username_baru && $password_lama && $password_baru && $konfirmasi) {
             $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
             $stmt->execute([$_SESSION['admin_id']]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($password_lama, $user['password_hash'])) {
-                if ($password_baru === $konfirmasi) {
+                if (strlen($password_baru) >= 8 && $password_baru === $konfirmasi) {
                     $hash = password_hash($password_baru, PASSWORD_BCRYPT);
                     $update = $pdo->prepare("UPDATE users SET username = ?, password_hash = ? WHERE id = ?");
                     if ($update->execute([$username_baru, $hash, $_SESSION['admin_id']])) {
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $tipe_pesan = 'danger';
                     }
                 } else {
-                    $pesan      = "Konfirmasi kata sandi baru tidak cocok.";
+                    $pesan      = "Konfirmasi kata sandi baru tidak cocok atau terlalu pendek (min 8 karakter).";
                     $tipe_pesan = 'danger';
                 }
             } else {
