@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
                 $stmt->execute([$halaman, $bagian, $isi]);
 
-                if ($halaman === 'kontak' && $bagian === 'maps_url') {
+                if ($halaman === 'kontak' && $bagian === 'maps_url' && $isi !== '') {
                     $stmt_alamat = $pdo->prepare("SELECT isi FROM konten_halaman WHERE halaman='kontak' AND bagian='alamat'");
                     $stmt_alamat->execute();
                     $alamat_text = $stmt_alamat->fetchColumn();
@@ -155,8 +155,6 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
                     $nilai_input = 'https://gofood.link/a/BMMv8Pb';
                 } elseif ($bagian === 'link_grabfood') {
                     $nilai_input = 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT';
-                } elseif ($bagian === 'maps_url') {
-                    $nilai_input = '';
                 }
             }
             ?>
