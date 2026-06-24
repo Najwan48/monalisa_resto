@@ -35,6 +35,9 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 window.location.reload();
             }
         });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/monalisa_resto/sw.js');
+        }
     </script>
 </head>
 <body>
