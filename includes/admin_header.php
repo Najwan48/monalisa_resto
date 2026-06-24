@@ -7,6 +7,7 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
+set_no_cache_headers();
 
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: login.php");
@@ -235,6 +236,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
             display: flex;
             flex-direction: column;
             min-width: 0;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .topbar {
@@ -245,6 +248,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             justify-content: space-between;
             align-items: center;
             height: 64px;
+            flex-shrink: 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -1086,4 +1090,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
         </div>
     </header>
+    <script>
+        document.querySelector('.sidebar').addEventListener('wheel', function(e) {
+            var main = document.querySelector('.main-content');
+            if (main) {
+                e.preventDefault();
+                main.scrollTop += e.deltaY;
+            }
+        }, { passive: false });
+    </script>
     <div class="content-area">

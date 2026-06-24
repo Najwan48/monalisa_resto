@@ -14,13 +14,14 @@
 </footer>
 
 <?php
-$wa_raw = !empty($kontak['whatsapp']) ? $kontak['whatsapp'] : ($kontak['telepon'] ?? '081234567890');
+$wa_raw = $kontak['whatsapp'] ?? $kontak['telepon'] ?? '';
 $clean_wa = preg_replace('/[^0-9]/', '', $wa_raw);
 $wa_number = $clean_wa;
 if (strpos($clean_wa, '0') === 0) {
     $wa_number = '62' . substr($clean_wa, 1);
 }
 ?>
+<?php if (!empty($wa_number)): ?>
 <div class="wa-chat-popup" id="waChatPopup">
     <div class="wa-chat-header">
         <div class="wa-chat-avatar">
@@ -54,6 +55,7 @@ if (strpos($clean_wa, '0') === 0) {
 <button class="whatsapp-float" id="waFloatBtn" title="Hubungi kami via WhatsApp">
     <i class="ri-whatsapp-line"></i>
 </button>
+<?php endif; ?>
 
 <script type="module" src="assets/js/parallax.js"></script>
 

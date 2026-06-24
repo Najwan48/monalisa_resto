@@ -54,7 +54,6 @@ async function initParallax() {
 
         requestAnimationFrame(() => {
             applyParallax();
-            window.addEventListener('load', () => ScrollTrigger.refresh());
         });
     } catch (loadError) {
         console.error('Parallax: failed to load GSAP dependencies.', loadError);

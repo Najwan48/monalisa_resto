@@ -36,7 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bagian  = validate_input($_POST['bagian'] ?? '', 'string');
         $isi     = $_POST['isi'] ?? '';
 
-        if ($halaman && $bagian && array_key_exists($halaman, $label_halaman) && array_key_exists($bagian, $label_bagian)) {
+        if (in_array($bagian, ['telepon', 'whatsapp']) && !preg_match('/^[0-9+\-\s]+$/', $isi)) {
+            $pesan = "Field '$bagian' hanya boleh berisi angka.";
+            $tipe_pesan = 'danger';
+        } elseif ($halaman && $bagian && array_key_exists($halaman, $label_halaman) && array_key_exists($bagian, $label_bagian)) {
             if (strpos($bagian, 'link_') === 0 && !validate_input($isi, 'url')) {
                 $pesan = "Format link tidak valid.";
                 $status = 'error';
@@ -135,7 +138,7 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
             <?php if (strlen($nilai_input) > 120): ?>
                 <textarea name="isi" class="form-control" rows="4"><?= escapeHtml($nilai_input) ?></textarea>
             <?php else: ?>
-                <input type="text" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>">
+                <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : 'text' ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
             <?php endif; ?>
             <small style="color:#888;">Terakhir diperbarui: <?= escapeHtml(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
         </div>
@@ -214,6 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (timeTag) {
                         timeTag.textContent = 'Terakhir diperbarui: ' + data.updated_at;
                     }
+                    const input = form.querySelector('[name="isi"]');
+                    if (input) input.defaultValue = input.value;
                 } else {
                     showToast(data.message, 'danger');
                 }

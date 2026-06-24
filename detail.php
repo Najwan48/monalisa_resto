@@ -75,7 +75,7 @@ if (!$menu) {
                     $link_gofood = !empty($konten_beranda['link_gofood']) ? $konten_beranda['link_gofood'] : 'https://gofood.link/a/BMMv8Pb';
                     $link_grabfood = !empty($konten_beranda['link_grabfood']) ? $konten_beranda['link_grabfood'] : 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT';
                     
-                    $telepon = !empty($kontak_data['telepon']) ? $kontak_data['telepon'] : '0812-3456-7890';
+                    $telepon = $kontak_data['telepon'] ?? '';
                     $telepon_link = 'tel:' . str_replace(['-', ' ', '(', ')'], '', $telepon);
 
                     $raw_wa = !empty($kontak_data['whatsapp']) ? $kontak_data['whatsapp'] : $telepon;

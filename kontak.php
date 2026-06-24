@@ -35,24 +35,25 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                     <div class="reveal reveal-up delay-1">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Alamat</span>
                         <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);">
-                            <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= escapeHtml($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a>
+                            <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= escapeHtml($kontak_data['alamat']) ?></a>
                         </p>
                     </div>
 
                     <div class="reveal reveal-up delay-2">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
-                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= escapeHtml($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= escapeHtml($kontak_data['jam_operasional']) ?></p>
                     </div>
                     
+                    <?php if (!empty($kontak_data['telepon'])): ?>
                     <div class="reveal reveal-up delay-3">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Telepon</span>
                         <p style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                            <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', escapeHtml($kontak_data['telepon'] ?? '081234567890')) ?>" 
-                               style="color: var(--primary); text-decoration: none;" 
+                            <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', escapeHtml($kontak_data['telepon'])) ?>"
+                               style="color: var(--primary); text-decoration: none;"
                                title="Klik untuk menelepon">
-                                <?= escapeHtml($kontak_data['telepon'] ?? '0812-3456-7890') ?>
+                                <?= escapeHtml($kontak_data['telepon']) ?>
                             </a>
-                            <button onclick="copyToClipboard('<?= escapeHtml($kontak_data['telepon'] ?? '0812-3456-7890') ?>', this)" 
+                            <button onclick="copyToClipboard('<?= escapeHtml($kontak_data['telepon']) ?>', this)"
                                     style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; padding: 5px; display: flex; align-items: center; gap: 0.4rem; transition: all 0.3s;"
                                     title="Salin nomor">
                                 <i class="ri-file-copy-line"></i>
@@ -60,26 +61,29 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                             </button>
                         </p>
                     </div>
+                    <?php endif; ?>
                     
+                    <?php if (!empty($kontak_data['whatsapp']) || !empty($kontak_data['telepon'])): ?>
                     <div class="reveal reveal-up delay-4">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">WhatsApp</span>
                         <p style="font-size: 1.1rem; font-weight: 600;">
                             <?php
-                            $raw_wa = !empty($kontak_data['whatsapp']) ? $kontak_data['whatsapp'] : ($kontak_data['telepon'] ?? '081234567890');
+                            $raw_wa = $kontak_data['whatsapp'] ?? $kontak_data['telepon'];
                             $clean_wa = preg_replace('/[^0-9]/', '', $raw_wa);
                             $whatsapp_phone = $clean_wa;
                             if (strpos($clean_wa, '0') === 0) {
                                 $whatsapp_phone = '62' . substr($clean_wa, 1);
                             }
                             ?>
-                            <a href="https://wa.me/<?= escapeHtml($whatsapp_phone) ?>" 
+                            <a href="https://wa.me/<?= escapeHtml($whatsapp_phone) ?>"
                                target="_blank"
-                               style="color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;" 
+                               style="color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;"
                                title="Chat via WhatsApp">
                                 <i class="ri-whatsapp-line" style="font-size: 1.3rem;"></i> Hubungi via WhatsApp
                             </a>
                         </p>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -132,7 +136,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         marker.bindPopup(
             '<div style="text-align:center;padding:0.25rem 0">' +
             '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-            '<span style="font-size:0.85rem;color:#767676">Jl. Raya Tajur, Bogor</span><br>' +
+            '<span style="font-size:0.85rem;color:#767676">' + '<?= htmlspecialchars($kontak_data['alamat'] ?? '', ENT_QUOTES, 'UTF-8') ?>' + '</span><br>' +
             '<a href="' + googleMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
             '</div>'
         ).openPopup();
