@@ -189,7 +189,7 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
             <?php if (strlen($nilai_input) > 120): ?>
                 <textarea name="isi" class="form-control" rows="4"><?= escapeHtml($nilai_input) ?></textarea>
             <?php else: ?>
-                <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : (in_array($bagian, ['link_gofood', 'link_grabfood', 'maps_url']) ? 'url' : 'text') ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= $bagian === 'maps_url' ? 'placeholder="https://maps.app.goo.gl/..."' : '' ?> <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
+                <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : (in_array($bagian, ['link_gofood', 'link_grabfood', 'maps_url']) ? 'url' : 'text') ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= $bagian === 'maps_url' ? 'data-maps-input placeholder="https://maps.app.goo.gl/..."' : '' ?> <?= $bagian === 'alamat' ? 'data-alamat-input' : '' ?> <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
             <?php endif; ?>
             <?php if ($bagian === 'maps_url'): ?>
                 <div id="admin-map-preview" class="themed-map" style="width: 100%; height: clamp(300px, 50vh, 450px); border-radius: var(--radius-lg); margin-top: 0.75rem; border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1; overflow: hidden;"></div>
@@ -289,8 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let geocodeTimer = null;
-    const mapsUrlInput = Array.from(document.querySelectorAll('form input[name="bagian"]')).find(b => b.value === 'maps_url')?.closest('form')?.querySelector('input[name="isi"]');
-    const alamatInput = Array.from(document.querySelectorAll('form input[name="bagian"]')).find(b => b.value === 'alamat')?.closest('form')?.querySelector('input[name="isi"]');
+    const mapsUrlInput = document.querySelector('[data-maps-input]');
+    const alamatInput = document.querySelector('[data-alamat-input]');
 
     function debounceGeocode(value) {
         clearTimeout(geocodeTimer);
