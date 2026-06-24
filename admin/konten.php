@@ -192,7 +192,7 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
                 <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : (in_array($bagian, ['link_gofood', 'link_grabfood', 'maps_url']) ? 'url' : 'text') ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= $bagian === 'maps_url' ? 'placeholder="https://maps.app.goo.gl/..."' : '' ?> <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
             <?php endif; ?>
             <?php if ($bagian === 'maps_url'): ?>
-                <div id="admin-map-preview" style="height: 300px; border-radius: var(--radius-sm); margin-top: 0.75rem; border: 1px solid #e0e0e0;"></div>
+                <div id="admin-map-preview" class="themed-map" style="width: 100%; height: clamp(300px, 50vh, 450px); border-radius: var(--radius-lg); margin-top: 0.75rem; border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1; overflow: hidden;"></div>
             <?php endif; ?>
             <small style="color:#888;">Terakhir diperbarui: <?= escapeHtml(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
         </div>
