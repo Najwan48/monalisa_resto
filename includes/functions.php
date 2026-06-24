@@ -43,9 +43,17 @@ function process_and_save_image($tmp_path, $target_path, $max_width = 1200) {
     switch ($mime) {
         case 'image/jpeg': $img = imagecreatefromjpeg($tmp_path); break;
         case 'image/png': $img = imagecreatefrompng($tmp_path); break;
-        case 'image/webp': $img = imagecreatefromwebp($tmp_path); break;
+        case 'image/webp':
+            if (function_exists('imagecreatefromwebp')) {
+                $img = imagecreatefromwebp($tmp_path);
+            } else {
+                return false;
+            }
+            break;
         default: return false;
     }
+
+    if (!$img) return false;
 
     $width = $info[0];
     $height = $info[1];
@@ -53,8 +61,13 @@ function process_and_save_image($tmp_path, $target_path, $max_width = 1200) {
     if ($width > $max_width) {
         $ratio = $max_width / $width;
         $new_width = $max_width;
-        $new_height = $height * $ratio;
-        $new_img = imagecreatetruecolor($new_width, $new_height);
+        $new_height = (int)($height * $ratio);
+        $new_img = @imagecreatetruecolor($new_width, $new_height);
+
+        if (!$new_img) {
+            imagedestroy($img);
+            return false;
+        }
 
         if ($mime == 'image/png') {
             imagealphablending($new_img, false);
@@ -62,11 +75,28 @@ function process_and_save_image($tmp_path, $target_path, $max_width = 1200) {
         }
 
         imagecopyresampled($new_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+        imagedestroy($img);
         $img = $new_img;
     }
 
-    $target_path = preg_replace('/\.[^.]+$/', '.webp', $target_path);
-    imagewebp($img, $target_path, 80);
+    if (function_exists('imagewebp')) {
+        $target_path = preg_replace('/\.[^.]+$/', '.webp', $target_path);
+        imagewebp($img, $target_path, 80);
+    } else {
+        $target_path = preg_replace('/\.[^.]+$/', '.jpg', $target_path);
+        imagejpeg($img, $target_path, 85);
+        $cwebp = trim(shell_exec('which cwebp 2>/dev/null'));
+        if ($cwebp) {
+            $webp_path = preg_replace('/\.[^.]+$/', '.webp', $target_path);
+            $abs_target = realpath($target_path);
+            $abs_webp   = preg_replace('/\.[^.]+$/', '.webp', $abs_target);
+            shell_exec("$cwebp -q 80 " . escapeshellarg($abs_target) . " -o " . escapeshellarg($abs_webp) . " 2>&1");
+            if (file_exists($abs_webp)) {
+                @unlink($abs_target);
+                $target_path = $webp_path;
+            }
+        }
+    }
     imagedestroy($img);
     return $target_path;
 }

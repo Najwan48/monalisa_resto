@@ -40,8 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                     $filename = 'galeri_' . time() . '_' . bin2hex(random_bytes(4)) . '.webp';
 
-                    if (process_and_save_image($_FILES['foto']['tmp_name'], $upload_dir . $filename)) {
-                        $foto_url = 'assets/images/galeri/' . $filename;
+                    $saved_path = process_and_save_image($_FILES['foto']['tmp_name'], $upload_dir . $filename);
+                    if ($saved_path) {
+                        $foto_url = 'assets/images/galeri/' . basename($saved_path);
                         $stmt     = $pdo->prepare("INSERT INTO galeri (judul, foto_url, urutan) VALUES (?, ?, ?)");
                         $stmt->execute([$judul, $foto_url, $urutan]);
                         log_aktivitas($pdo, $_SESSION['admin_id'], "Unggah foto galeri: $judul");
@@ -65,6 +66,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 log_aktivitas($pdo, $_SESSION['admin_id'], "Update urutan galeri ID: $urutan_id");
                 $pesan      = "Urutan berhasil diperbarui.";
                 $tipe_pesan = 'success';
+            }
+        }
+
+        if ($action_post === 'hapus') {
+            $hapus_id = validate_input($_POST['hapus_id'] ?? 0, 'int');
+
+            if ($hapus_id !== false) {
+                $stmt     = $pdo->prepare("SELECT foto_url FROM galeri WHERE id = ?");
+                $stmt->execute([$hapus_id]);
+                $item     = $stmt->fetch();
+
+                if ($item) {
+                    $file_path = '../' . $item['foto_url'];
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
+
+                    $stmt = $pdo->prepare("DELETE FROM galeri WHERE id = ?");
+                    $stmt->execute([$hapus_id]);
+                    log_aktivitas($pdo, $_SESSION['admin_id'], "Hapus foto galeri ID: $hapus_id");
+                    $pesan      = "Foto berhasil dihapus.";
+                    $tipe_pesan = 'success';
+                } else {
+                    $pesan      = "Data foto tidak ditemukan.";
+                    $tipe_pesan = 'danger';
+                }
             }
         }
     }

@@ -1,11 +1,13 @@
 <?php
 $page_title = 'Manajemen Menu';
 require_once '../includes/admin_header.php';
+require_once '../includes/validation.php';
 
 $pesan    = '';
 $tipe_pesan = '';
 $aksi     = $_GET['aksi'] ?? 'list';
 $edit_id  = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -21,12 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $deskripsi_lengkap = validate_input($_POST['deskripsi_lengkap'] ?? '', 'string');
             $bahan_utama      = validate_input($_POST['bahan_utama'] ?? '', 'string');
             $info_alergen     = validate_input($_POST['info_alergen'] ?? '', 'string');
-            $kategori         = validate_input($_POST['kategori'] ?? '', 'string');
+            $kategori_raw     = $_POST['kategori'] ?? '';
+            $kategori         = validate_input($kategori_raw, 'string');
             $harga            = (float)($_POST['harga'] ?? 0);
             $status           = in_array($_POST['status'] ?? '', ['aktif', 'nonaktif']) ? $_POST['status'] : 'aktif';
             $id_edit          = (int)($_POST['id_edit'] ?? 0);
 
-            if (!$nama_menu || !$asal_daerah || !$deskripsi_singkat || !$deskripsi_lengkap || !$bahan_utama || !$kategori || !in_array($kategori, $kategori_list)) {
+            if (!$nama_menu || !$asal_daerah || !$deskripsi_singkat || !$deskripsi_lengkap || !$bahan_utama || !$kategori || !in_array($kategori_raw, $kategori_list)) {
                 $pesan = "Data tidak valid atau tidak lengkap.";
                 $tipe_pesan = 'danger';
             } else {
@@ -37,13 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $finfo = new finfo(FILEINFO_MIME_TYPE);
                     $file_type = $finfo->file($_FILES['foto']['tmp_name']);
                     $allowed_types = ['image/jpeg', 'image/png', 'image/webp'];
-                    $max_size      = 2 * 1024 * 1024;
+                    $max_size      = 5 * 1024 * 1024;
 
                     if (!in_array($file_type, $allowed_types)) {
                         $pesan = "Tipe file tidak diizinkan. Gunakan JPG, PNG, atau WebP.";
                         $tipe_pesan = 'danger';
                     } elseif ($_FILES['foto']['size'] > $max_size) {
-                        $pesan = "Ukuran file melebihi batas 2MB.";
+                        $pesan = "Ukuran file melebihi batas 5MB.";
                         $tipe_pesan = 'danger';
                     } else {
                         $upload_dir = '../assets/images/menu/';
@@ -51,8 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             mkdir($upload_dir, 0755, true);
                         }
                         $filename   = 'menu_' . time() . '_' . bin2hex(random_bytes(4)) . '.webp';
-                        if (process_and_save_image($_FILES['foto']['tmp_name'], $upload_dir . $filename)) {
-                            $foto_url = 'assets/images/menu/' . $filename;
+                        $saved_path = process_and_save_image($_FILES['foto']['tmp_name'], $upload_dir . $filename);
+                        if ($saved_path) {
+                            $foto_url = 'assets/images/menu/' . basename($saved_path);
                         } else {
                             $pesan = "Gagal memproses foto.";
                             $tipe_pesan = 'danger';
@@ -69,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         );
                         $stmt->execute([
                             $nama_menu, $asal_daerah, $deskripsi_singkat, $deskripsi_lengkap,
-                            $bahan_utama, $info_alergen, $kategori, $harga, $foto_url, $status, $id_edit
+                            $bahan_utama, $info_alergen, $kategori_raw, $harga, $foto_url, $status, $id_edit
                         ]);
                         log_aktivitas($pdo, $_SESSION['admin_id'], "Edit menu: $nama_menu");
                         $pesan = "Menu berhasil diperbarui.";
