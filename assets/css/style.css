@@ -1382,9 +1382,8 @@ footer a { color: var(--primary-light); }
 }
 
 .wa-quick-btn::after {
-    content: '\f105';
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
+    content: '\ea6e';
+    font-family: 'remixicon';
     font-size: 0.75rem;
     transition: var(--transition-fast);
 }
