@@ -174,6 +174,18 @@ initRealtimePolling('/monalisa_resto/api_kontak.php', 30000, function(data) {
     if (data.maps_url && alamatEl) {
         alamatEl.href = data.maps_url;
     }
+    if (typeof marker !== 'undefined' && data.maps_lat && data.maps_lng) {
+        var newLatLng = [parseFloat(data.maps_lat), parseFloat(data.maps_lng)];
+        marker.setLatLng(newLatLng);
+        map.setView(newLatLng, 15);
+        marker.getPopup().setContent(
+            '<div style="text-align:center;padding:0.25rem 0">' +
+            '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
+            '<span style="font-size:0.85rem;color:#767676">' + (data.alamat || '') + '</span><br>' +
+            '<a href="' + (data.maps_url || '#') + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+            '</div>'
+        );
+    }
 });
 </script>
 
