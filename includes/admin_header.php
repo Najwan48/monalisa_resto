@@ -97,6 +97,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             display: flex;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            overflow: hidden;
         }
 
         a { text-decoration: none; color: inherit; }
@@ -112,6 +113,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             flex-direction: column;
             z-index: 200;
             overflow: hidden;
+            overscroll-behavior: contain;
         }
 
         .sidebar::before {
@@ -172,6 +174,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             flex: 1;
             padding: 0.5rem 0 1rem;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .sidebar-nav a {
@@ -238,6 +241,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             min-width: 0;
             height: 100vh;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .topbar {
@@ -1090,13 +1094,4 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
         </div>
     </header>
-    <script>
-        document.querySelector('.sidebar').addEventListener('wheel', function(e) {
-            var main = document.querySelector('.main-content');
-            if (main) {
-                e.preventDefault();
-                main.scrollTop += e.deltaY;
-            }
-        }, { passive: false });
-    </script>
     <div class="content-area">

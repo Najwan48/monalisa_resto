@@ -165,3 +165,40 @@ $menus = $stmt_menu->fetchAll();
 </main>
 
 <?php require_once 'includes/footer.php'; ?>
+<script>
+function formatRupiah(n) {
+    return 'Rp ' + parseInt(n).toLocaleString('id-ID');
+}
+initRealtimePolling('/monalisa_resto/api_konten.php?halaman=beranda', 30000, function(data) {
+    var tagline = data['tagline'] || 'Kekayaan Kuliner Jawa Tengah';
+    var words = tagline.split(' ');
+    var first = words.shift();
+    var h1 = document.querySelector('.hero-heading');
+    if (h1) {
+        h1.innerHTML = '<span style="display:block;font-style:italic;color:var(--primary);font-family:\'Cormorant Garamond\',serif;font-size:0.8em;margin-bottom:-0.2em;">' + first + '</span>' + words.join(' ');
+    }
+    var sub = document.querySelector('.hero-sub');
+    if (sub) sub.textContent = data['pengantar'] || '';
+    var gofood = document.querySelector('.btn-gofood');
+    if (gofood && data['link_gofood']) gofood.href = data['link_gofood'];
+    var grabfood = document.querySelector('.btn-grabfood');
+    if (grabfood && data['link_grabfood']) grabfood.href = data['link_grabfood'];
+});
+initRealtimePolling('/monalisa_resto/api_menu.php', 30000, function(menus) {
+    var container = document.querySelector('.signature-grid > div:last-child');
+    if (!container || !menus.length) return;
+    container.innerHTML = menus.map(function(m, i) {
+        return '<div class="signature-item" style="' + (i === menus.length - 1 ? 'border-bottom:none;padding-bottom:0;' : '') + '">' +
+            '<div class="menu-card-img" style="height:clamp(160px,20vw,240px)">' +
+            '<img src="' + m.foto_url + '" alt="' + m.nama_menu + '" onerror="this.src=\'https://via.placeholder.com/280x200?text=Foto+Menu\'">' +
+            '</div><div>' +
+            '<span class="menu-card-category">' + (m.kategori || m.asal_daerah) + '</span>' +
+            '<h3 style="font-size:1.75rem;margin-bottom:0.75rem">' + m.nama_menu + '</h3>' +
+            '<p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.5rem">' + m.deskripsi_singkat + '</p>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center">' +
+            '<span style="font-family:\'Cormorant Garamond\',serif;font-size:1.6rem;color:var(--primary);font-weight:600">' + formatRupiah(m.harga) + '</span>' +
+            '<a href="detail.php?id=' + m.id + '" class="btn-ghost">Lihat Detail <i class="ri-arrow-right-line" style="font-size:0.65rem"></i></a>' +
+            '</div></div></div>';
+    }).join('');
+});
+</script>

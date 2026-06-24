@@ -38,6 +38,26 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/monalisa_resto/sw.js');
         }
+        function initRealtimePolling(apiUrl, interval, onUpdate) {
+            var last = null;
+            var timer = null;
+            function poll() {
+                fetch(apiUrl, { cache: 'no-store' })
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        var str = JSON.stringify(data);
+                        if (last !== null && str !== last) onUpdate(data);
+                        last = str;
+                    })
+                    .catch(function() {});
+            }
+            function start() { if (!timer) { poll(); timer = setInterval(poll, interval); } }
+            function stop() { clearInterval(timer); timer = null; }
+            document.addEventListener('visibilitychange', function() {
+                document.hidden ? stop() : start();
+            });
+            start();
+        }
     </script>
 </head>
 <body>

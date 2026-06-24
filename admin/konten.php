@@ -69,10 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $final_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
                         curl_close($ch);
                         if ($final_url) {
-                            if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $final_url, $m)) {
+                            if (preg_match('/!3d(-?\d+\.?\d*)!4d(-?\d+\.?\d*)/', $final_url, $m)) {
                                 $resolved_lat = $m[1];
                                 $resolved_lng = $m[2];
-                            } elseif (preg_match('/!3d(-?\d+\.?\d*)!4d(-?\d+\.?\d*)/', $final_url, $m)) {
+                            } elseif (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $final_url, $m)) {
                                 $resolved_lat = $m[1];
                                 $resolved_lng = $m[2];
                             }
@@ -273,14 +273,15 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAnchor: [0, -48]
     });
     let adminAlamat = <?= json_encode($konten_db['kontak']['alamat']['isi'] ?? '') ?>;
-    let adminMapsUrl = <?= json_encode($konten_db['kontak']['maps_url']['isi'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>;
-    let adminPlaceName = 'Monalisa Resto';
+    let adminMapsUrl = <?= json_encode($konten_db['kontak']['maps_url']['isi'] ?? '') ?>;
+    let adminPlaceName = <?= json_encode($konten_db['kontak']['maps_nama']['isi'] ?? '') ?>;
 
     function buildPopup() {
-        return '<div style="text-align:center;padding:0.25rem 0">' +
-            '<b style="font-size:1rem;color:#1C1C1C">' + adminPlaceName + '</b><br>' +
-            '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
-            '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+        var isMobile = window.innerWidth <= 768;
+        var nameSize = isMobile ? '0.85rem' : '1rem';
+        return '<div style="text-align:center;padding:0.25rem 0;max-width:' + (isMobile ? '200px' : '280px') + '">' +
+            '<b style="font-size:' + nameSize + ';color:#1C1C1C">' + (adminPlaceName || '') + '</b><br>' +
+            '<a href="' + (adminMapsUrl || '#') + '" target="_blank" style="display:inline-block;margin-top:6px;padding:4px 12px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.75rem;font-weight:600">Buka di Maps</a>' +
             '</div>';
     }
 
@@ -296,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             attribution: '&copy; OpenStreetMap'
         }).addTo(adminMap);
         adminMarker = L.marker([lat, lng], { icon: adminBrandIcon }).addTo(adminMap);
-        adminMarker.bindPopup(buildPopup()).openPopup();
+        adminMarker.bindPopup(buildPopup(), { maxWidth: window.innerWidth <= 768 ? 200 : 280, autoPan: true, keepInView: true }).openPopup();
     }
 
     if (mapEl) {
@@ -315,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(r => r.json())
                 .then(d => {
                     if (d.name) adminPlaceName = d.name;
-                    else adminPlaceName = adminAlamat || 'Monalisa Resto';
                     if (d.lat && d.lng) {
                         savedLat = parseFloat(d.lat);
                         savedLng = parseFloat(d.lng);

@@ -35,7 +35,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                     <div class="reveal reveal-up delay-1">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Alamat</span>
                         <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);">
-                            <a href="<?= escapeHtml($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>" target="_blank" data-kontak="alamat"><?= escapeHtml($kontak_data['alamat']) ?></a>
+                            <a href="<?= escapeHtml($kontak_data['maps_url'] ?? '') ?>" target="_blank" data-kontak="alamat"><?= escapeHtml($kontak_data['alamat']) ?></a>
                         </p>
                     </div>
 
@@ -119,11 +119,11 @@ var guestMap = null;
 var guestMarker = null;
 
 function buildGuestPopup(data) {
-    var name = data.maps_nama || 'Monalisa Resto';
-    return '<div style="text-align:center;padding:0.25rem 0">' +
-        '<b style="font-size:1rem;color:#1C1C1C">' + name + '</b><br>' +
-        '<span style="font-size:0.85rem;color:#767676">' + (data.alamat || '') + '</span><br>' +
-        '<a href="' + (data.maps_url || '#') + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+    var isMobile = window.innerWidth <= 768;
+    var nameSize = isMobile ? '0.85rem' : '1rem';
+    return '<div style="text-align:center;padding:0.25rem 0;max-width:' + (isMobile ? '200px' : '280px') + '">' +
+        '<b style="font-size:' + nameSize + ';color:#1C1C1C">' + (data.maps_nama || '') + '</b><br>' +
+        '<a href="' + (data.maps_url || '#') + '" target="_blank" style="display:inline-block;margin-top:6px;padding:4px 12px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.75rem;font-weight:600">Buka di Maps</a>' +
         '</div>';
 }
 
@@ -147,14 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
     guestMarker = L.marker([lat, lng], { icon: brandIcon }).addTo(guestMap);
 
     var initialData = {
-        maps_url: <?= json_encode($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>,
+        maps_url: <?= json_encode($kontak_data['maps_url'] ?? '') ?>,
+        maps_nama: <?= json_encode($kontak_data['maps_nama'] ?? '') ?>,
         alamat: <?= json_encode($kontak_data['alamat'] ?? '') ?>
     };
-    guestMarker.bindPopup(buildGuestPopup(initialData)).openPopup();
-
-    guestMarker.on('click', function() {
-        window.open(initialData.maps_url, '_blank');
-    });
+    guestMarker.bindPopup(buildGuestPopup(initialData), { maxWidth: window.innerWidth <= 768 ? 200 : 280, autoPan: true, keepInView: true }).openPopup();
 
     guestMarker.getElement().style.cursor = 'pointer';
 });

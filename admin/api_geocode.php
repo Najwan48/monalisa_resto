@@ -33,10 +33,10 @@ if (filter_var($q, FILTER_VALIDATE_URL)) {
         $place_name = urldecode(str_replace('+', ' ', $pm[1]));
     }
 
-    if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $final_url, $m)) {
+    if (preg_match('/!3d(-?\d+\.?\d*)!4d(-?\d+\.?\d*)/', $final_url, $m)) {
         $lat = $m[1];
         $lng = $m[2];
-    } elseif (preg_match('/!3d(-?\d+\.?\d*)!4d(-?\d+\.?\d*)/', $final_url, $m)) {
+    } elseif (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $final_url, $m)) {
         $lat = $m[1];
         $lng = $m[2];
     }
@@ -55,17 +55,4 @@ if (!$lat) {
     }
 }
 
-$address = null;
-if ($lat && $lng) {
-    $rev_url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' . $lat . '&lon=' . $lng . '&zoom=18&addressdetails=1';
-    $rev_opts = ['http' => ['header' => "User-Agent: MonalisaResto/1.0\r\n", 'timeout' => 5]];
-    $rev_raw = @file_get_contents($rev_url, false, stream_context_create($rev_opts));
-    if ($rev_raw) {
-        $rev_data = json_decode($rev_raw, true);
-        if (!empty($rev_data['display_name'])) {
-            $address = $rev_data['display_name'];
-        }
-    }
-}
-
-echo json_encode(['lat' => $lat, 'lng' => $lng, 'name' => $place_name, 'address' => $address]);
+echo json_encode(['lat' => $lat, 'lng' => $lng, 'name' => $place_name]);

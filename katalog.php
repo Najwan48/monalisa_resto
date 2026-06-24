@@ -79,11 +79,13 @@ $menus = $stmt->fetchAll();
             <button class="scroll-arrow left" id="scroll-left"><i class="ri-arrow-left-s-line"></i></button>
             <nav class="category-filter-desktop" id="category-nav" aria-label="Filter Kategori">
                 <a href="katalog.php?cv=<?= time() ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
+                   data-kategori=""
                    style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
                     Semua
                 </a>
                 <?php foreach($categories as $cat): ?>
                 <a href="katalog.php?kategori=<?= urlencode($cat) ?>&cv=<?= time() ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
+                   data-kategori="<?= escapeHtml($cat) ?>"
                    style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
                     <?= escapeHtml($cat) ?>
                 </a>
@@ -199,49 +201,99 @@ endif; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('menu-content-container');
+    if (container) container.dataset.inlineFilter = '1';
     const filterBar = document.getElementById('category-filter-bar');
+    const categoryNav = document.getElementById('category-nav');
+    const mobileFilter = document.getElementById('mobile-category-filter');
 
-    function getScrollTarget() {
-        const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h-small')) || 72;
-        const rect = filterBar.getBoundingClientRect();
-        return window.scrollY + rect.top - headerH;
+    function setActiveCategory(kategori) {
+        categoryNav.querySelectorAll('a').forEach(function(a) {
+            var linkKat = a.dataset.kategori;
+            var isActive = (kategori === '' && linkKat === '') || (linkKat === kategori);
+            a.style.color = isActive ? 'var(--primary)' : 'var(--text-muted)';
+            a.style.borderBottomColor = isActive ? 'var(--primary)' : 'transparent';
+        });
+    }
+
+    function fetchContent(url, pushUrl) {
+        var ajaxUrl = new URL(url, window.location.href);
+        ajaxUrl.searchParams.set('_ajax', '1');
+
+        container.style.opacity = '0.4';
+        container.style.pointerEvents = 'none';
+        container.style.transition = 'opacity 0.25s ease';
+
+        fetch(ajaxUrl.toString())
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                container.innerHTML = data.html;
+                container.style.opacity = '1';
+                container.style.pointerEvents = '';
+
+                window.history.pushState({}, '', pushUrl);
+
+                if (window.initReveals) window.initReveals(container);
+                attachPagebarListeners();
+
+                if (mobileFilter) {
+                    var pushKat = new URL(pushUrl, window.location.href).searchParams.get('kategori') || '';
+                    for (var i = 0; i < mobileFilter.options.length; i++) {
+                        var optKat = new URL(mobileFilter.options[i].value, window.location.href).searchParams.get('kategori') || '';
+                        if (optKat === pushKat) {
+                            mobileFilter.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            })
+            .catch(function() {
+                container.style.opacity = '1';
+                container.style.pointerEvents = '';
+                window.location.href = pushUrl;
+            });
+    }
+
+    function attachCategoryListeners() {
+        categoryNav.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var kategori = link.dataset.kategori || '';
+                setActiveCategory(kategori);
+                fetchContent(link.href, link.href);
+            });
+        });
+    }
+
+    function attachMobileCategoryListener() {
+        if (!mobileFilter) return;
+        mobileFilter.addEventListener('change', function() {
+            var selectedUrl = mobileFilter.value;
+            var kategori = '';
+            var urlObj = new URL(selectedUrl, window.location.href);
+            kategori = urlObj.searchParams.get('kategori') || '';
+            setActiveCategory(kategori);
+            fetchContent(selectedUrl, selectedUrl);
+        });
     }
 
     function attachPagebarListeners() {
         container.querySelectorAll('.pagebar-btn').forEach(function(link) {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = new URL(link.href);
-                url.searchParams.set('_ajax', '1');
-
-                container.style.opacity = '0.4';
-                container.style.pointerEvents = 'none';
-                container.style.transition = 'opacity 0.25s ease';
-
-                fetch(url.toString())
-                    .then(function(res) { return res.json(); })
-                    .then(function(data) {
-                        container.innerHTML = data.html;
-                        container.style.opacity = '1';
-                        container.style.pointerEvents = '';
-
-                        window.history.pushState({}, '', link.href);
-                        window.scrollTo({ top: getScrollTarget(), behavior: 'smooth' });
-
-                        if (window.initReveals) window.initReveals();
-                        attachPagebarListeners();
-                    })
-                    .catch(function() {
-                        container.style.opacity = '1';
-                        container.style.pointerEvents = '';
-                        window.location.href = link.href;
-                    });
+                fetchContent(link.href, link.href);
             });
         });
     }
 
+    attachCategoryListeners();
+    attachMobileCategoryListener();
     attachPagebarListeners();
 });
 </script>
 
 <?php require_once 'includes/footer.php'; ?>
+<script>
+initRealtimePolling('/monalisa_resto/api_menu.php?count_only=1', 30000, function() {
+    window.location.reload();
+});
+</script>

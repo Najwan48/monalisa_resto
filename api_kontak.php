@@ -25,7 +25,7 @@ echo json_encode([
     'alamat'          => $rows['alamat'] ?? '',
     'jam_operasional' => $rows['jam_operasional'] ?? '',
     'maps_url'        => $rows['maps_url'] ?? '',
-    'maps_nama'       => $rows['maps_nama'] ?? 'Monalisa Resto',
+    'maps_nama'       => $rows['maps_nama'] ?? '',
     'maps_lat'        => (float)($rows['maps_lat'] ?? -6.6263927),
     'maps_lng'        => (float)($rows['maps_lng'] ?? 106.8214916),
 ]);

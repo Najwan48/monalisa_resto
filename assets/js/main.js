@@ -118,7 +118,7 @@ function initCatalogFilter() {
     const desktopFilters = document.querySelectorAll('.category-filter-desktop a');
     const mobileFilter = document.getElementById('mobile-category-filter');
 
-    if (!menuContainer) return;
+    if (!menuContainer || menuContainer.dataset.inlineFilter) return;
 
     const filterMenu = async (url) => {
         menuContainer.style.opacity = '0.3';
@@ -143,12 +143,6 @@ function initCatalogFilter() {
                     link.style.color = isActive ? 'var(--primary)' : 'var(--text-muted)';
                     link.style.borderBottomColor = isActive ? 'var(--primary)' : 'transparent';
                 });
-
-                const filterSection = document.querySelector('.category-filter-desktop')?.closest('.container')?.parentElement;
-                if (filterSection) {
-                    const topOffset = filterSection.offsetTop - 80;
-                    window.scrollTo({ top: topOffset, behavior: 'smooth' });
-                }
             } else {
                 window.location.href = url;
             }
@@ -159,7 +153,7 @@ function initCatalogFilter() {
         } finally {
             menuContainer.style.opacity = '1';
             menuContainer.style.pointerEvents = 'all';
-            initReveals();
+            initReveals(menuContainer);
         }
     };
 
@@ -275,8 +269,10 @@ function initWhatsAppChat() {
     });
 }
 
-function initReveals() {
-    const revealObserver = new IntersectionObserver((entries) => {
+function initReveals(root) {
+    var scope = root || document;
+
+    var revealObserver = new IntersectionObserver((entries) => {
         requestAnimationFrame(() => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -290,9 +286,9 @@ function initReveals() {
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    scope.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
 
-    const menuObserver = new IntersectionObserver((entries) => {
+    var menuObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
@@ -302,8 +298,8 @@ function initReveals() {
         });
     }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
 
-    document.querySelectorAll('.menu-card').forEach(card => {
-        if (!card.classList.contains('reveal')) {
+    scope.querySelectorAll('.menu-card').forEach(card => {
+        if (!card.classList.contains('reveal') && card.style.opacity !== '1') {
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
             card.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';

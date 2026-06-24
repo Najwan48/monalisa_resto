@@ -105,3 +105,17 @@ $galeri = $stmt->fetchAll();
 </script>
 
 <?php require_once 'includes/footer.php'; ?>
+<script>
+initRealtimePolling('/monalisa_resto/api_galeri.php', 30000, function(items) {
+    var grid = document.querySelector('.gallery-grid');
+    if (!grid || !items.length) return;
+    grid.innerHTML = items.map(function(item, i) {
+        return '<div class="gallery-item" onclick="openLightbox(\'' + item.foto_url.replace(/'/g, "\\'") + '\',\'' + item.judul.replace(/'/g, "\\'") + '\')">' +
+            '<img src="' + item.foto_url + '" alt="' + item.judul + '" loading="lazy" decoding="async">' +
+            '<div class="gallery-overlay"><div class="gallery-caption">' +
+            '<h3 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:0.5rem">' + item.judul + '</h3>' +
+            '<div style="width:40px;height:1px;background:var(--primary)"></div>' +
+            '</div></div></div>';
+    }).join('');
+});
+</script>
