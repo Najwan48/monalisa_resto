@@ -319,6 +319,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (adminMarker) adminMarker.setPopupContent(buildPopup());
             debounceGeocode(this.value);
         });
+        mapsUrlInput.addEventListener('paste', function() {
+            var el = this;
+            setTimeout(function() {
+                adminMapsUrl = el.value;
+                if (adminMarker) adminMarker.setPopupContent(buildPopup());
+                debounceGeocode(el.value);
+            }, 100);
+        });
     }
 
     if (alamatInput) {
@@ -326,6 +334,14 @@ document.addEventListener('DOMContentLoaded', () => {
             adminAlamat = this.value;
             if (adminMarker) adminMarker.setPopupContent(buildPopup());
             debounceGeocode(this.value);
+        });
+        alamatInput.addEventListener('paste', function() {
+            var el = this;
+            setTimeout(function() {
+                adminAlamat = el.value;
+                if (adminMarker) adminMarker.setPopupContent(buildPopup());
+                debounceGeocode(el.value);
+            }, 100);
         });
     }
 
