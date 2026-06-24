@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(r => r.json())
                 .then(d => {
                     if (d.name) adminPlaceName = d.name;
-                    else adminPlaceName = adminAlamat || 'Monalisa Resto';
+                    if (d.address) adminAlamat = d.address;
                     if (d.lat && d.lng) {
                         savedLat = parseFloat(d.lat);
                         savedLng = parseFloat(d.lng);
