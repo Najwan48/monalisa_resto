@@ -132,6 +132,10 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
 
 ?>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>#admin-map-preview{z-index:0;margin-bottom:1rem}</style>
+
 <?php if ($pesan): ?>
     <div class="alert alert-<?= $tipe_pesan ?>"><?= escapeHtml($pesan) ?></div>
 <?php endif; ?>
@@ -162,6 +166,9 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
                 <textarea name="isi" class="form-control" rows="4"><?= escapeHtml($nilai_input) ?></textarea>
             <?php else: ?>
                 <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : (in_array($bagian, ['link_gofood', 'link_grabfood', 'maps_url']) ? 'url' : 'text') ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= $bagian === 'maps_url' ? 'placeholder="https://maps.app.goo.gl/..."' : '' ?> <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
+            <?php endif; ?>
+            <?php if ($bagian === 'maps_url'): ?>
+                <div id="admin-map-preview" style="height: 300px; border-radius: var(--radius-sm); margin-top: 0.75rem; border: 1px solid #e0e0e0;"></div>
             <?php endif; ?>
             <small style="color:#888;">Terakhir diperbarui: <?= escapeHtml(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
         </div>
@@ -213,6 +220,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3500);
     };
 
+    const mapEl = document.getElementById('admin-map-preview');
+    let adminMap = null;
+    let adminMarker = null;
+    let savedLat = <?= (float)($konten_db['kontak']['maps_lat']['isi'] ?? -6.6263927) ?>;
+    let savedLng = <?= (float)($konten_db['kontak']['maps_lng']['isi'] ?? 106.8214916) ?>;
+
+    function initAdminMap(lat, lng) {
+        if (adminMap) {
+            adminMap.setView([lat, lng], 16);
+            adminMarker.setLatLng([lat, lng]);
+            return;
+        }
+        adminMap = L.map(mapEl).setView([lat, lng], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(adminMap);
+        adminMarker = L.marker([lat, lng]).addTo(adminMap);
+    }
+
+    if (mapEl) {
+        setTimeout(() => initAdminMap(savedLat, savedLng), 100);
+    }
+
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -242,6 +272,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     const input = form.querySelector('[name="isi"]');
                     if (input) input.defaultValue = input.value;
+                    const bagianInput = form.querySelector('input[name="bagian"]');
+                    if (bagianInput && (bagianInput.value === 'maps_url' || bagianInput.value === 'alamat')) {
+                        setTimeout(function() {
+                            fetch('../api_kontak.php', { cache: 'no-store' })
+                                .then(function(r) { return r.json(); })
+                                .then(function(d) {
+                                    if (d.maps_lat && d.maps_lng) {
+                                        savedLat = parseFloat(d.maps_lat);
+                                        savedLng = parseFloat(d.maps_lng);
+                                        initAdminMap(savedLat, savedLng);
+                                    }
+                                })
+                                .catch(function() {});
+                        }, 1500);
+                    }
                 } else {
                     showToast(data.message, 'danger');
                 }
