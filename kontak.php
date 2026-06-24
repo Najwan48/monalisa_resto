@@ -35,27 +35,27 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                     <div class="reveal reveal-up delay-1">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Alamat</span>
                         <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);">
-                            <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= h($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a>
+                            <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= escapeHtml($kontak_data['alamat'] ?? 'Jl. Raya Tajur No. 30, Kota Bogor') ?></a>
                         </p>
                     </div>
 
                     <div class="reveal reveal-up delay-2">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
-                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= h($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= escapeHtml($kontak_data['jam_operasional'] ?? 'Setiap Hari: 08.00 - 21.00 WIB') ?></p>
                     </div>
                     
                     <div class="reveal reveal-up delay-3">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Telepon</span>
                         <p style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                            <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', h($kontak_data['telepon'] ?? '081234567890')) ?>" 
+                            <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', escapeHtml($kontak_data['telepon'] ?? '081234567890')) ?>" 
                                style="color: var(--primary); text-decoration: none;" 
                                title="Klik untuk menelepon">
-                                <?= h($kontak_data['telepon'] ?? '0812-3456-7890') ?>
+                                <?= escapeHtml($kontak_data['telepon'] ?? '0812-3456-7890') ?>
                             </a>
-                            <button onclick="copyToClipboard('<?= h($kontak_data['telepon'] ?? '0812-3456-7890') ?>', this)" 
+                            <button onclick="copyToClipboard('<?= escapeHtml($kontak_data['telepon'] ?? '0812-3456-7890') ?>', this)" 
                                     style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; padding: 5px; display: flex; align-items: center; gap: 0.4rem; transition: all 0.3s;"
                                     title="Salin nomor">
-                                <i class="fas fa-copy"></i>
+                                <i class="ri-file-copy-line"></i>
                                 <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: none;" class="copy-status">Tersalin</span>
                             </button>
                         </p>
@@ -72,11 +72,11 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                                 $whatsapp_phone = '62' . substr($clean_wa, 1);
                             }
                             ?>
-                            <a href="https://wa.me/<?= h($whatsapp_phone) ?>" 
+                            <a href="https://wa.me/<?= escapeHtml($whatsapp_phone) ?>" 
                                target="_blank"
                                style="color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;" 
                                title="Chat via WhatsApp">
-                                <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> Hubungi via WhatsApp
+                                <i class="ri-whatsapp-line" style="font-size: 1.3rem;"></i> Hubungi via WhatsApp
                             </a>
                         </p>
                     </div>

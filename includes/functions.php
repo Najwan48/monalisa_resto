@@ -1,6 +1,6 @@
 <?php
 
-function h($string) {
+function escapeHtml($string) {
     return htmlspecialchars($string ?? '', ENT_QUOTES, 'UTF-8');
 }
 

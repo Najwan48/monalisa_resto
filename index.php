@@ -30,11 +30,11 @@ $menus = $stmt_menu->fetchAll();
                 $first_word = array_shift($tagline_words);
                 $rest_tagline = implode(' ', $tagline_words);
                 ?>
-                <span style="display: block; font-style: italic; color: var(--primary); font-family: 'Cormorant Garamond', serif; font-size: 0.8em; margin-bottom: -0.2em;"><?= h($first_word) ?></span>
-                <?= h($rest_tagline) ?>
+                <span style="display: block; font-style: italic; color: var(--primary); font-family: 'Cormorant Garamond', serif; font-size: 0.8em; margin-bottom: -0.2em;"><?= escapeHtml($first_word) ?></span>
+                <?= escapeHtml($rest_tagline) ?>
             </h1>
             <p class="hero-sub reveal reveal-up delay-2">
-                <?= h($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
+                <?= escapeHtml($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
             </p>
             <div class="hero-actions reveal reveal-up delay-3">
                 <a href="katalog.php" class="btn btn-primary">Jelajahi Menu</a>
@@ -93,18 +93,18 @@ $menus = $stmt_menu->fetchAll();
                 <?php foreach($menus as $index => $menu): ?>
                 <div class="signature-item reveal reveal-up delay-<?= $index + 1 ?> revealed" style="<?= $index === count($menus) - 1 ? 'border-bottom: none; padding-bottom: 0;' : '' ?>">
                     <div class="menu-card-img" style="height: clamp(160px, 20vw, 240px);">
-                        <img src="<?= h($menu['foto_url']) ?>"
-                             alt="<?= h($menu['nama_menu']) ?>"
+                        <img src="<?= escapeHtml($menu['foto_url']) ?>"
+                             alt="<?= escapeHtml($menu['nama_menu']) ?>"
                              onerror="this.src='https://via.placeholder.com/280x200?text=Foto+Menu'">
                     </div>
                     <div>
-                        <span class="menu-card-category"><?= h($menu['kategori'] ?? $menu['asal_daerah']) ?></span>
-                        <h3 style="font-size: 1.75rem; margin-bottom: 0.75rem;"><?= h($menu['nama_menu']) ?></h3>
-                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;"><?= h($menu['deskripsi_singkat']) ?></p>
+                        <span class="menu-card-category"><?= escapeHtml($menu['kategori'] ?? $menu['asal_daerah']) ?></span>
+                        <h3 style="font-size: 1.75rem; margin-bottom: 0.75rem;"><?= escapeHtml($menu['nama_menu']) ?></h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;"><?= escapeHtml($menu['deskripsi_singkat']) ?></p>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--primary); font-weight: 600;"><?= format_rupiah($menu['harga']) ?></span>
                             <a href="detail.php?id=<?= $menu['id'] ?>" class="btn-ghost">
-                                Lihat Detail <i class="fas fa-arrow-right" style="font-size: 0.65rem;"></i>
+                                Lihat Detail <i class="ri-arrow-right-line" style="font-size: 0.65rem;"></i>
                             </a>
                         </div>
                     </div>
@@ -122,9 +122,9 @@ $menus = $stmt_menu->fetchAll();
         <div class="props-grid reveal reveal-scale">
             <?php
             $props = [
-                ['fas fa-leaf', 'Bahan Segar', 'Kami memilih bahan-bahan segar berkualitas tinggi setiap harinya dari supplier terpercaya.'],
-                ['fas fa-heart', 'Resep Warisan', 'Setiap hidangan dibuat berdasarkan resep keluarga yang telah diwariskan selama generasi.'],
-                ['fas fa-star', 'Pengalaman Premium', 'Lebih dari sekedar makan — kami menghadirkan pengalaman kuliner yang tak terlupakan.'],
+                ['ri-leaf-line', 'Bahan Segar', 'Kami memilih bahan-bahan segar berkualitas tinggi setiap harinya dari supplier terpercaya.'],
+                ['ri-heart-line', 'Resep Warisan', 'Setiap hidangan dibuat berdasarkan resep keluarga yang telah diwariskan selama generasi.'],
+                ['ri-star-line', 'Pengalaman Premium', 'Lebih dari sekedar makan — kami menghadirkan pengalaman kuliner yang tak terlupakan.'],
             ];
             foreach($props as $i => $prop): ?>
             <div class="prop-item">
@@ -147,13 +147,13 @@ $menus = $stmt_menu->fetchAll();
         <p class="reveal reveal-up delay-3" style="color: rgba(255,255,255,0.55); line-height: 1.85; margin-bottom: 3.5rem;">Hidangan favorit Anda kini bisa dinikmati di rumah. Pesan melalui platform partner terpercaya kami.</p>
         <div class="order-actions reveal reveal-up delay-4">
             <?php if (!empty($konten['link_gofood'])): ?>
-            <a href="<?= h($konten['link_gofood']) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
+            <a href="<?= escapeHtml($konten['link_gofood']) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer">
                 <img src="assets/images/logo gofood.webp" alt="GoFood" style="height: 20px;">
                 Pesan via GoFood
             </a>
             <?php endif; ?>
             <?php if (!empty($konten['link_grabfood'])): ?>
-            <a href="<?= h($konten['link_grabfood']) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
+            <a href="<?= escapeHtml($konten['link_grabfood']) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer">
                 <img src="assets/images/logo grabfood.webp" alt="GrabFood" style="height: 20px;">
                 Pesan via GrabFood
             </a>

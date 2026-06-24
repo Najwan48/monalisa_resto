@@ -42,9 +42,9 @@ $log_data = $logs->fetchAll();
             <tbody>
                 <?php foreach ($log_data as $log): ?>
                 <tr>
-                    <td data-label="Waktu"><?= h(date('d M Y H:i:s', strtotime($log['waktu']))) ?></td>
-                    <td data-label="Pengguna"><?= h($log['username'] ?? 'Sistem') ?></td>
-                    <td data-label="Aksi"><?= h($log['aksi']) ?></td>
+                    <td data-label="Waktu"><?= escapeHtml(date('d M Y H:i:s', strtotime($log['waktu']))) ?></td>
+                    <td data-label="Pengguna"><?= escapeHtml($log['username'] ?? 'Sistem') ?></td>
+                    <td data-label="Aksi"><?= escapeHtml($log['aksi']) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

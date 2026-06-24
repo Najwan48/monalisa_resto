@@ -81,7 +81,7 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
 </div>
 
 <?php if ($pesan): ?>
-    <div class="alert alert-<?= $tipe_pesan ?>"><?= h($pesan) ?></div>
+    <div class="alert alert-<?= $tipe_pesan ?>"><?= escapeHtml($pesan) ?></div>
 <?php endif; ?>
 
 <div class="card">
@@ -128,12 +128,12 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
                 <tr>
                     <td data-label="Preview">
                         <div style="width: 100px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);">
-                            <img src="<?= get_image_url($item['foto_url'], true) ?>" alt="<?= h($item['judul']) ?>"
+                            <img src="<?= get_image_url($item['foto_url'], true) ?>" alt="<?= escapeHtml($item['judul']) ?>"
                                  style="width: 100%; height: 100%; object-fit: cover;"
                                  onerror="this.src='https://via.placeholder.com/100x70?text=No+Image'">
                         </div>
                     </td>
-                    <td data-label="Judul" style="font-weight: 500; color: var(--text);"><?= h($item['judul']) ?></td>
+                    <td data-label="Judul" style="font-weight: 500; color: var(--text);"><?= escapeHtml($item['judul']) ?></td>
                     <td data-label="Urutan">
                         <form method="POST" style="display:flex; gap:0.5rem; align-items:center;">
                             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
@@ -150,7 +150,7 @@ $galeri = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC
                             <input type="hidden" name="action" value="hapus">
                             <input type="hidden" name="hapus_id" value="<?= $item['id'] ?>">
                             <button type="submit" class="btn btn-ghost-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i> Hapus
+                                <i class="ri-delete-bin-line"></i> Hapus
                             </button>
                         </form>
                     </td>

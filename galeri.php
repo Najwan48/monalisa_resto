@@ -53,13 +53,13 @@ $galeri = $stmt->fetchAll();
             <div class="gallery-grid">
                 <?php foreach($galeri as $index => $item): ?>
                 <div class="gallery-item reveal reveal-up delay-<?= ($index % 3) + 1 ?>" 
-                     onclick="openLightbox('<?= h($item['foto_url']) ?>', '<?= h($item['judul']) ?>')">
+                     onclick="openLightbox('<?= escapeHtml($item['foto_url']) ?>', '<?= escapeHtml($item['judul']) ?>')">
                     
-                    <img src="<?= h($item['foto_url']) ?>" alt="<?= h($item['judul']) ?>" loading="lazy" decoding="async">
+                    <img src="<?= escapeHtml($item['foto_url']) ?>" alt="<?= escapeHtml($item['judul']) ?>" loading="lazy" decoding="async">
                     
                     <div class="gallery-overlay">
                         <div class="gallery-caption">
-                            <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem;"><?= h($item['judul']) ?></h3>
+                            <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem;"><?= escapeHtml($item['judul']) ?></h3>
                             <div style="width: 40px; height: 1px; background: var(--primary);"></div>
                         </div>
                     </div>
@@ -99,7 +99,6 @@ $galeri = $stmt->fetchAll();
         document.body.style.overflow = 'auto';
     }
 
-    // Close on escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeLightbox();
     });

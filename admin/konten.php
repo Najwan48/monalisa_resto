@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $isi     = $_POST['isi'] ?? '';
 
         if ($halaman && $bagian && array_key_exists($halaman, $label_halaman) && array_key_exists($bagian, $label_bagian)) {
-            // Additional validation for URL fields
             if (strpos($bagian, 'link_') === 0 && !validate_input($isi, 'url')) {
                 $pesan = "Format link tidak valid.";
                 $status = 'error';
@@ -108,21 +107,21 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
 ?>
 
 <?php if ($pesan): ?>
-    <div class="alert alert-<?= $tipe_pesan ?>"><?= h($pesan) ?></div>
+    <div class="alert alert-<?= $tipe_pesan ?>"><?= escapeHtml($pesan) ?></div>
 <?php endif; ?>
 
 <?php foreach ($konten_per_halaman as $halaman => $bagian_list): ?>
 <div class="card" style="margin-bottom: 2rem;">
     <h3 style="margin-bottom: 1.5rem; color: var(--primary); border-bottom: 2px solid #f0f0f0; padding-bottom: 0.75rem;">
-        Halaman: <?= h($label_halaman[$halaman] ?? ucfirst($halaman)) ?>
+        Halaman: <?= escapeHtml($label_halaman[$halaman] ?? ucfirst($halaman)) ?>
     </h3>
     <?php foreach ($bagian_list as $bagian => $data): ?>
     <form method="POST" style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f0f0f0;">
         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-        <input type="hidden" name="halaman" value="<?= h($halaman) ?>">
-        <input type="hidden" name="bagian" value="<?= h($bagian) ?>">
+        <input type="hidden" name="halaman" value="<?= escapeHtml($halaman) ?>">
+        <input type="hidden" name="bagian" value="<?= escapeHtml($bagian) ?>">
         <div class="form-group" style="margin-bottom: 0.75rem;">
-            <label><?= h($label_bagian[$bagian] ?? ucfirst($bagian)) ?></label>
+            <label><?= escapeHtml($label_bagian[$bagian] ?? ucfirst($bagian)) ?></label>
             <?php
             $nilai_input = $data['isi'];
             if (empty($nilai_input)) {
@@ -134,11 +133,11 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
             }
             ?>
             <?php if (strlen($nilai_input) > 120): ?>
-                <textarea name="isi" class="form-control" rows="4"><?= h($nilai_input) ?></textarea>
+                <textarea name="isi" class="form-control" rows="4"><?= escapeHtml($nilai_input) ?></textarea>
             <?php else: ?>
-                <input type="text" name="isi" class="form-control" value="<?= h($nilai_input) ?>">
+                <input type="text" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>">
             <?php endif; ?>
-            <small style="color:#888;">Terakhir diperbarui: <?= h(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
+            <small style="color:#888;">Terakhir diperbarui: <?= escapeHtml(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
         </div>
         <button type="submit" class="btn btn-primary btn-sm">Simpan Perubahan</button>
     </form>
@@ -163,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.style.cssText = 'background: #ffffff; color: #1c1917; border-left: 4px solid ' + (type === 'success' ? 'var(--success)' : 'var(--danger)') + '; padding: 12px 20px; border-radius: var(--radius-sm); box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; font-size: 0.875rem; font-weight: 600; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); min-width: 300px; pointer-events: auto;';
         
         const icon = document.createElement('i');
-        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+        icon.className = type === 'success' ? 'ri-checkbox-circle-line' : 'ri-error-warning-line';
         icon.style.color = type === 'success' ? 'var(--success)' : 'var(--danger)';
         icon.style.fontSize = '1.1rem';
         
@@ -195,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = form.querySelector('button[type="submit"]');
             const originalText = button.innerHTML;
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            button.innerHTML = '<i class="ri-loader-4-line" style="animation: spin 1s linear infinite;"></i> Menyimpan...';
             
             const formData = new FormData(form);
             formData.append('ajax', '1');
@@ -215,8 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (timeTag) {
                         timeTag.textContent = 'Terakhir diperbarui: ' + data.updated_at;
                     }
-                    // Optional: reload the page or fetch new data to ensure state consistency
-                    // window.location.reload();
                 } else {
                     showToast(data.message, 'danger');
                 }

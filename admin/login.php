@@ -16,7 +16,6 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true
 $error = '';
 $ip = $_SERVER['REMOTE_ADDR'];
 
-// Rate limiting: check failed attempts in last 30 minutes
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM login_attempts WHERE ip_address = ? AND attempt_time > NOW() - INTERVAL 30 MINUTE");
 $stmt->execute([$ip]);
 $attempts = $stmt->fetchColumn();
@@ -36,7 +35,6 @@ if ($attempts >= 5) {
             $user = $stmt->fetch();
 
             if ($user && password_verify($password, $user['password_hash'])) {
-                // Success: clear attempts
                 $stmt = $pdo->prepare("DELETE FROM login_attempts WHERE ip_address = ?");
                 $stmt->execute([$ip]);
 
@@ -47,7 +45,6 @@ if ($attempts >= 5) {
                 header("Location: index.php");
                 exit;
             } else {
-                // Failure: record attempt
                 $stmt = $pdo->prepare("INSERT INTO login_attempts (ip_address) VALUES (?)");
                 $stmt->execute([$ip]);
                 $error = "Username atau password salah.";
@@ -227,7 +224,7 @@ $csrf_token = generate_csrf_token();
     </div>
 
     <?php if ($error): ?>
-        <div class="error-msg"><?= h($error) ?></div>
+        <div class="error-msg"><?= escapeHtml($error) ?></div>
     <?php endif; ?>
 
     <form method="POST">

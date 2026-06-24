@@ -21,13 +21,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($page_title) ? h($page_title) . ' — ' : '' ?>Admin · Monalisa Resto</title>
+    <title><?= isset($page_title) ? escapeHtml($page_title) . ' — ' : '' ?>Admin · Monalisa Resto</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
     <script>
-        // Session timeout (e.g., 30 minutes)
         let inactivityTime = function () {
             let time;
             window.onload = resetTimer;
@@ -39,7 +38,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             }
             function resetTimer() {
                 clearTimeout(time);
-                time = setTimeout(logout, 1800000); // 30 minutes
+                time = setTimeout(logout, 1800000);
             }
         };
         window.onload = inactivityTime;
@@ -126,7 +125,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             margin-bottom: 0.2rem;
         }
 
-        /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
@@ -993,28 +991,28 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div class="sidebar-section-label">Utama</div>
     <nav class="sidebar-nav">
         <a href="index.php" class="<?= $current_page === 'index.php' ? 'active' : '' ?>">
-            <i class="fas fa-gauge-high"></i> Dashboard
+            <i class="ri-dashboard-line"></i> Dashboard
         </a>
         <a href="menu.php" class="<?= $current_page === 'menu.php' ? 'active' : '' ?>">
-            <i class="fas fa-utensils"></i> Manajemen Menu
+            <i class="ri-restaurant-line"></i> Manajemen Menu
         </a>
         <a href="galeri.php" class="<?= $current_page === 'galeri.php' ? 'active' : '' ?>">
-            <i class="fas fa-images"></i> Manajemen Galeri
+            <i class="ri-image-line"></i> Manajemen Galeri
         </a>
         <a href="konten.php" class="<?= $current_page === 'konten.php' ? 'active' : '' ?>">
-            <i class="fas fa-file-alt"></i> Manajemen Konten
+            <i class="ri-file-text-line"></i> Manajemen Konten
         </a>
         <div class="sidebar-section-label" style="margin-top:0.5rem;">Sistem</div>
         <a href="akun.php" class="<?= $current_page === 'akun.php' ? 'active' : '' ?>">
-            <i class="fas fa-user-shield"></i> Manajemen Akun
+            <i class="ri-shield-user-line"></i> Manajemen Akun
         </a>
         <a href="log.php" class="<?= $current_page === 'log.php' ? 'active' : '' ?>">
-            <i class="fas fa-history"></i> Log Aktivitas
+            <i class="ri-history-line"></i> Log Aktivitas
         </a>
     </nav>
 
     <div class="sidebar-footer">
-        <a href="logout.php"><i class="fas fa-arrow-right-from-bracket"></i> Keluar</a>
+        <a href="logout.php"><i class="ri-logout-box-line"></i> Keluar</a>
     </div>
 </aside>
 
@@ -1024,23 +1022,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <header class="topbar">
         <div class="topbar-left">
             <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Sidebar">
-                <i class="fas fa-bars"></i>
+                <i class="ri-menu-line"></i>
             </button>
             <div class="topbar-breadcrumb">
                 <span>Admin</span>
-                <i class="fas fa-chevron-right" style="font-size:0.6rem;"></i>
-                <span class="topbar-title"><?= isset($page_title) ? h($page_title) : 'Dashboard' ?></span>
+                <i class="ri-arrow-right-s-line" style="font-size:0.6rem;"></i>
+                <span class="topbar-title"><?= isset($page_title) ? escapeHtml($page_title) : 'Dashboard' ?></span>
             </div>
         </div>
         <div class="topbar-right">
             <a href="../index.php" target="_blank" style="font-size:0.8rem; color: var(--text-muted); display:flex; align-items:center; gap:0.4rem;">
-                <i class="fas fa-arrow-up-right-from-square" style="font-size:0.7rem;"></i> <span class="hide-mobile">Lihat Website</span>
+                <i class="ri-external-link-line" style="font-size:0.7rem;"></i> <span class="hide-mobile">Lihat Website</span>
             </a>
             <div class="topbar-user">
                 <div class="topbar-avatar">
                     <?= strtoupper(substr($_SESSION['admin_user'] ?? 'A', 0, 1)) ?>
                 </div>
-                <span style="font-weight: 600;"><?= h($_SESSION['admin_user'] ?? '') ?></span>
+                <span style="font-weight: 600;"><?= escapeHtml($_SESSION['admin_user'] ?? '') ?></span>
             </div>
         </div>
     </header>

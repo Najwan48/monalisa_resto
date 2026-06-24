@@ -18,7 +18,7 @@ if (!$menu) {
     <div style="background: var(--bg-warm); border-bottom: 1px solid var(--border); padding: 1.25rem 0; margin-bottom: 2rem;">
         <div class="container">
             <a href="katalog.php" class="btn-ghost" style="font-size: 0.75rem;">
-                <i class="fas fa-arrow-left"></i> Kembali ke Katalog Menu
+                <i class="ri-arrow-left-line"></i> Kembali ke Katalog Menu
             </a>
         </div>
     </div>
@@ -30,16 +30,16 @@ if (!$menu) {
             <div class="split-section" style="align-items: start; gap: clamp(2rem, 5vw, 4rem);">
                 <div class="reveal reveal-up">
                     <div class="parallax-wrap" style="border-radius: var(--radius); box-shadow: var(--shadow-lg); height: clamp(300px, 50vh, 500px);">
-                        <img src="<?= h($menu['foto_url']) ?>" alt="<?= h($menu['nama_menu']) ?>"
+                        <img src="<?= escapeHtml($menu['foto_url']) ?>" alt="<?= escapeHtml($menu['nama_menu']) ?>"
                              class="parallax-img"
                              onerror="this.src='https://via.placeholder.com/600x600?text=Foto+Menu'">
                     </div>
                 </div>
                 <div class="reveal reveal-up delay-2 parallax-element" data-speed="0.12">
-                    <span class="eyebrow"><?= h($menu['kategori']) ?></span>
-                    <h1 class="section-title" style="margin-bottom: 1rem;"><?= h($menu['nama_menu']) ?></h1>
+                    <span class="eyebrow"><?= escapeHtml($menu['kategori']) ?></span>
+                    <h1 class="section-title" style="margin-bottom: 1rem;"><?= escapeHtml($menu['nama_menu']) ?></h1>
                     <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 0.75rem;">
-                        <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> Khas: <?= h($menu['asal_daerah']) ?>
+                        <i class="ri-map-pin-line" style="color: var(--primary);"></i> Khas: <?= escapeHtml($menu['asal_daerah']) ?>
                     </p>
                     
                     <div style="font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--primary); font-weight: 600; margin-bottom: 3rem; line-height: 1;">
@@ -48,19 +48,19 @@ if (!$menu) {
                     
                     <div class="reveal reveal-up delay-3" style="margin-bottom: 3rem;">
                         <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Deskripsi</h3>
-                        <p style="line-height: 1.9; color: var(--text); font-size: 1.05rem;"><?= nl2br(h($menu['deskripsi_lengkap'])) ?></p>
+                        <p style="line-height: 1.9; color: var(--text); font-size: 1.05rem;"><?= nl2br(escapeHtml($menu['deskripsi_lengkap'])) ?></p>
                     </div>
 
                     <div class="reveal reveal-up delay-4" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
                         <div style="background: var(--surface); padding: 1.75rem; border: 1px solid var(--border); border-radius: var(--radius-sm);">
                             <h4 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 0.75rem;">Komposisi Utama</h4>
-                            <p style="font-size: 0.95rem;"><?= h($menu['bahan_utama']) ?></p>
+                            <p style="font-size: 0.95rem;"><?= escapeHtml($menu['bahan_utama']) ?></p>
                         </div>
                         
                         <?php if(!empty($menu['info_alergen']) && $menu['info_alergen'] !== 'Tidak ada'): ?>
                         <div style="background: #FFF5F5; padding: 1.75rem; border: 1px solid #FED7D7; border-radius: var(--radius-sm);">
                             <h4 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #C53030; margin-bottom: 0.75rem;">Informasi Alergen</h4>
-                            <p style="font-size: 0.95rem; color: #742A2A;"><?= h($menu['info_alergen']) ?></p>
+                            <p style="font-size: 0.95rem; color: #742A2A;"><?= escapeHtml($menu['info_alergen']) ?></p>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -91,20 +91,20 @@ if (!$menu) {
                         <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Pesan Menu Ini</h3>
                         
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                            <a href="<?= h($link_gofood) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
+                            <a href="<?= escapeHtml($link_gofood) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
                                 <img src="assets/images/logo gofood.webp" alt="GoFood"> GoFood
                             </a>
-                            <a href="<?= h($link_grabfood) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
+                            <a href="<?= escapeHtml($link_grabfood) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
                                 <img src="assets/images/logo grabfood.webp" alt="GrabFood"> GrabFood
                             </a>
                         </div>
                         
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <a href="<?= h($wa_link) ?>" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
-                                <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> WhatsApp
+                            <a href="<?= escapeHtml($wa_link) ?>" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
+                                <i class="ri-whatsapp-line" style="font-size: 1.2rem;"></i> WhatsApp
                             </a>
-                            <a href="<?= h($telepon_link) ?>" class="btn btn-phone" style="width: 100%; text-decoration: none;">
-                                <i class="fas fa-phone-alt"></i> Telepon
+                            <a href="<?= escapeHtml($telepon_link) ?>" class="btn btn-phone" style="width: 100%; text-decoration: none;">
+                                <i class="ri-phone-line"></i> Telepon
                             </a>
                         </div>
                     </div>

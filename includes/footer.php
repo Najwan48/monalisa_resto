@@ -24,7 +24,7 @@ if (strpos($clean_wa, '0') === 0) {
 <div class="wa-chat-popup" id="waChatPopup">
     <div class="wa-chat-header">
         <div class="wa-chat-avatar">
-            <i class="fas fa-utensils"></i>
+            <i class="ri-restaurant-line"></i>
         </div>
         <div class="wa-chat-meta">
             <span class="wa-chat-title">Monalisa Resto</span>
@@ -45,14 +45,14 @@ if (strpos($clean_wa, '0') === 0) {
     </div>
     <div class="wa-chat-footer">
         <input type="text" class="wa-chat-input" id="waChatInput" placeholder="Ketik pesan Anda di sini...">
-        <button class="wa-chat-send" id="waChatSend" data-phone="<?= h($wa_number) ?>">
-            <i class="fas fa-paper-plane"></i>
+        <button class="wa-chat-send" id="waChatSend" data-phone="<?= escapeHtml($wa_number) ?>">
+            <i class="ri-send-plane-line"></i>
         </button>
     </div>
 </div>
 
 <button class="whatsapp-float" id="waFloatBtn" title="Hubungi kami via WhatsApp">
-    <i class="fab fa-whatsapp"></i>
+    <i class="ri-whatsapp-line"></i>
 </button>
 
 <script type="module" src="assets/js/parallax.js"></script>

@@ -15,13 +15,13 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($page_title) ? h($page_title) . ' — ' : '' ?>Monalisa Resto · Authentic Javanese Cuisine</title>
+    <title><?= isset($page_title) ? escapeHtml($page_title) . ' — ' : '' ?>Monalisa Resto · Authentic Javanese Cuisine</title>
     <meta name="description" content="Monalisa Resto menyajikan kelezatan otentik khas Jawa Tengah di jantung Kota Bogor. Nikmati hidangan legendaris dalam suasana yang nyaman dan penuh seni.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="assets/css/style.css?v=1.2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
     <script src="assets/js/main.js" defer></script>
 </head>
 <body>

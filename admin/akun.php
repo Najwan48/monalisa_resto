@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <?php if ($pesan): ?>
-    <div class="alert alert-<?= $tipe_pesan ?>"><?= h($pesan) ?></div>
+    <div class="alert alert-<?= $tipe_pesan ?>"><?= escapeHtml($pesan) ?></div>
 <?php endif; ?>
 
 <div class="page-actions">
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
         <div class="form-group">
             <label for="username">Username Baru</label>
-            <input type="text" id="username" name="username" class="form-control" value="<?= h($_SESSION['admin_user']) ?>" required>
+            <input type="text" id="username" name="username" class="form-control" value="<?= escapeHtml($_SESSION['admin_user']) ?>" required>
         </div>
         <div class="form-group">
             <label for="password_lama">Kata Sandi Lama</label>

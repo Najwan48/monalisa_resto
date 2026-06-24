@@ -1,6 +1,5 @@
 <?php
 
-// Fungsi validasi pusat untuk keamanan form
 function validate_input($data, $type, $length = null) {
     $data = trim($data);
     $data = stripslashes($data);

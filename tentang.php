@@ -30,7 +30,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 <h2 class="section-title">Dedikasi Pada<br>Tradisi</h2>
                 <div class="divider-left"></div>
                 <div style="line-height: 1.8; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem;">
-                    <?= nl2br(h($konten['sejarah'] ?? 'Sejak tahun 1972, Restoran Monalisa telah menjadi ikon kuliner di Jalan Raya Tajur, Bogor.')) ?>
+                    <?= nl2br(escapeHtml($konten['sejarah'] ?? 'Sejak tahun 1972, Restoran Monalisa telah menjadi ikon kuliner di Jalan Raya Tajur, Bogor.')) ?>
                 </div>
             </div>
             <div class="reveal reveal-right delay-2">
@@ -55,7 +55,7 @@ $konten = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 <h2 class="section-title">Membawa Kehangatan<br>ke Meja Anda</h2>
                 <div class="divider-left"></div>
                 <p style="font-size: 1.4rem; font-style: italic; line-height: 1.6; color: var(--primary); font-family: var(--font-display);">
-                    "<?= h($konten['visi'] ?? 'Monalisa hadir untuk membawa kehangatan rumah ke meja makan Anda melalui resep legendaris yang terjaga.') ?>"
+                    "<?= escapeHtml($konten['visi'] ?? 'Monalisa hadir untuk membawa kehangatan rumah ke meja makan Anda melalui resep legendaris yang terjaga.') ?>"
                 </p>
             </div>
         </div>

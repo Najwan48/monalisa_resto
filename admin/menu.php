@@ -141,7 +141,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
 ?>
 
 <?php if ($pesan): ?>
-    <div class="alert alert-<?= $tipe_pesan ?>"><?= h($pesan) ?></div>
+    <div class="alert alert-<?= $tipe_pesan ?>"><?= escapeHtml($pesan) ?></div>
 <?php endif; ?>
 
 <?php if ($aksi === 'list'): ?>
@@ -150,8 +150,8 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
     <h2>Daftar Menu</h2>
     <div style="display: flex; gap: 1rem;">
         <form method="GET" style="display: flex; gap: 0.5rem;">
-            <input type="text" name="q" class="form-control" placeholder="Cari menu..." value="<?= h($_GET['q'] ?? '') ?>" style="padding: 6px 12px; font-size: 0.85rem; width: 200px;">
-            <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
+            <input type="text" name="q" class="form-control" placeholder="Cari menu..." value="<?= escapeHtml($_GET['q'] ?? '') ?>" style="padding: 6px 12px; font-size: 0.85rem; width: 200px;">
+            <button type="submit" class="btn btn-secondary btn-sm"><i class="ri-search-line"></i></button>
         </form>
         <a href="menu.php?aksi=tambah" class="btn btn-primary">+ Tambah Menu</a>
     </div>
@@ -183,34 +183,34 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             ?>
             <tr>
                 <td data-label="Foto">
-                    <img src="<?= get_image_url($menu['foto_url'], true) ?>" alt="<?= h($menu['nama_menu']) ?>"
+                    <img src="<?= get_image_url($menu['foto_url'], true) ?>" alt="<?= escapeHtml($menu['nama_menu']) ?>"
                          style="width:56px; height:44px; object-fit:cover; border-radius: var(--radius-sm);"
                          onerror="this.src='https://via.placeholder.com/56x44?text=N/A'">
                 </td>
                 <td data-label="Nama Menu">
-                    <strong style="font-size:0.875rem;"><?= h($menu['nama_menu']) ?></strong><br>
-                    <small style="color: var(--text-muted);"><?= h($menu['asal_daerah']) ?></small>
+                    <strong style="font-size:0.875rem;"><?= escapeHtml($menu['nama_menu']) ?></strong><br>
+                    <small style="color: var(--text-muted);"><?= escapeHtml($menu['asal_daerah']) ?></small>
                 </td>
-                <td data-label="Kategori"><span class="badge badge-secondary"><?= h($menu['kategori']) ?></span></td>
+                <td data-label="Kategori"><span class="badge badge-secondary"><?= escapeHtml($menu['kategori']) ?></span></td>
                 <td data-label="Harga" style="font-weight: 600; color: var(--primary);"><?= format_rupiah($menu['harga']) ?></td>
                 <td data-label="Status">
                     <span class="badge <?= $menu['status'] === 'aktif' ? 'badge-success' : 'badge-secondary' ?>">
-                        <?= h($menu['status']) ?>
+                        <?= escapeHtml($menu['status']) ?>
                     </span>
                 </td>
                 <td data-label="Aksi" style="text-align: center; white-space: nowrap;">
-                    <a href="menu.php?aksi=edit&id=<?= $menu['id'] ?>" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-pen"></i></a>
+                    <a href="menu.php?aksi=edit&id=<?= $menu['id'] ?>" class="btn btn-warning btn-sm" title="Edit"><i class="ri-edit-line"></i></a>
                     <form method="POST" style="display:inline;" onsubmit="return confirm('Toggle status menu ini?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                         <input type="hidden" name="action" value="toggle_status">
                         <input type="hidden" name="toggle_id" value="<?= $menu['id'] ?>">
-                        <button type="submit" class="btn btn-secondary btn-sm" title="Toggle Status"><i class="fas fa-arrow-right-arrow-left"></i></button>
+                        <button type="submit" class="btn btn-secondary btn-sm" title="Toggle Status"><i class="ri-arrow-left-right-line"></i></button>
                     </form>
                     <form method="POST" style="display:inline;" onsubmit="return confirm('Yakin hapus menu ini?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
                         <input type="hidden" name="action" value="hapus">
                         <input type="hidden" name="hapus_id" value="<?= $menu['id'] ?>">
-                        <button type="submit" class="btn btn-ghost-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
+                        <button type="submit" class="btn btn-ghost-danger btn-sm" title="Hapus"><i class="ri-delete-bin-line"></i></button>
                     </form>
                 </td>
             </tr>
@@ -231,25 +231,25 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
         <input type="hidden" name="action" value="simpan">
         <input type="hidden" name="id_edit" value="<?= $edit_data['id'] ?? 0 ?>">
-        <input type="hidden" name="foto_url_lama" value="<?= h($edit_data['foto_url'] ?? '') ?>">
+        <input type="hidden" name="foto_url_lama" value="<?= escapeHtml($edit_data['foto_url'] ?? '') ?>">
 
         <div class="form-grid" style="gap: 1.5rem;">
             <div class="form-group">
                 <label for="nama_menu">Nama Menu</label>
                 <input type="text" id="nama_menu" name="nama_menu" class="form-control"
-                       value="<?= h($edit_data['nama_menu'] ?? '') ?>" required>
+                       value="<?= escapeHtml($edit_data['nama_menu'] ?? '') ?>" required>
             </div>
             <div class="form-group">
                 <label for="asal_daerah">Asal Daerah</label>
                 <input type="text" id="asal_daerah" name="asal_daerah" class="form-control"
-                       value="<?= h($edit_data['asal_daerah'] ?? '') ?>" required>
+                       value="<?= escapeHtml($edit_data['asal_daerah'] ?? '') ?>" required>
             </div>
             <div class="form-group">
                 <label for="kategori">Kategori</label>
                 <select id="kategori" name="kategori" class="form-control" required>
                     <?php foreach ($kategori_list as $kat): ?>
-                        <option value="<?= h($kat) ?>" <?= ($edit_data['kategori'] ?? '') === $kat ? 'selected' : '' ?>>
-                            <?= h($kat) ?>
+                        <option value="<?= escapeHtml($kat) ?>" <?= ($edit_data['kategori'] ?? '') === $kat ? 'selected' : '' ?>>
+                            <?= escapeHtml($kat) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -257,31 +257,31 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
             <div class="form-group">
                 <label for="harga">Harga (Rp)</label>
                 <input type="number" id="harga" name="harga" class="form-control"
-                       value="<?= h($edit_data['harga'] ?? '') ?>" required min="0" step="500">
+                       value="<?= escapeHtml($edit_data['harga'] ?? '') ?>" required min="0" step="500">
             </div>
         </div>
 
         <div class="form-group">
             <label for="deskripsi_singkat">Deskripsi Singkat (maks. 150 karakter)</label>
             <input type="text" id="deskripsi_singkat" name="deskripsi_singkat" class="form-control"
-                   value="<?= h($edit_data['deskripsi_singkat'] ?? '') ?>" maxlength="150" required>
+                   value="<?= escapeHtml($edit_data['deskripsi_singkat'] ?? '') ?>" maxlength="150" required>
         </div>
 
         <div class="form-group">
             <label for="deskripsi_lengkap">Deskripsi Lengkap</label>
-            <textarea id="deskripsi_lengkap" name="deskripsi_lengkap" class="form-control" rows="4" required><?= h($edit_data['deskripsi_lengkap'] ?? '') ?></textarea>
+            <textarea id="deskripsi_lengkap" name="deskripsi_lengkap" class="form-control" rows="4" required><?= escapeHtml($edit_data['deskripsi_lengkap'] ?? '') ?></textarea>
         </div>
 
         <div class="form-grid" style="gap: 1.5rem;">
             <div class="form-group">
                 <label for="bahan_utama">Bahan Utama</label>
                 <input type="text" id="bahan_utama" name="bahan_utama" class="form-control"
-                       value="<?= h($edit_data['bahan_utama'] ?? '') ?>" required>
+                       value="<?= escapeHtml($edit_data['bahan_utama'] ?? '') ?>" required>
             </div>
             <div class="form-group">
                 <label for="info_alergen">Info Alergen (opsional)</label>
                 <input type="text" id="info_alergen" name="info_alergen" class="form-control"
-                       value="<?= h($edit_data['info_alergen'] ?? 'Tidak ada') ?>">
+                       value="<?= escapeHtml($edit_data['info_alergen'] ?? 'Tidak ada') ?>">
             </div>
         </div>
 
@@ -290,7 +290,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
                 <label for="foto">Foto Menu (JPG/PNG/WebP, maks. 2MB)</label>
                 <input type="file" id="foto" name="foto" class="form-control" accept="image/jpeg,image/png,image/webp">
                 <?php if (!empty($edit_data['foto_url'])): ?>
-                    <small style="color:#666;">Foto saat ini: <?= h($edit_data['foto_url']) ?></small>
+                    <small style="color:#666;">Foto saat ini: <?= escapeHtml($edit_data['foto_url']) ?></small>
                 <?php endif; ?>
             </div>
             <div class="form-group">
@@ -305,7 +305,7 @@ $kategori_list = ['Soto & Sup', 'Nasi & Utama', 'Camilan', 'Minuman', 'Lainnya']
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
             <a href="menu.php" class="btn btn-secondary">Batal</a>
             <button type="submit" class="btn btn-primary" style="padding: 11px 36px;">
-                <i class="fas fa-save"></i> Simpan Menu
+                <i class="ri-save-line"></i> Simpan Menu
             </button>
         </div>
     </form>

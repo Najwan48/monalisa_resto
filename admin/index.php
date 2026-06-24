@@ -37,7 +37,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
         <p>Ringkasan aktivitas dan status konten Monalisa Resto.</p>
     </div>
     <a href="menu.php?aksi=tambah" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Tambah Menu
+        <i class="ri-add-line"></i> Tambah Menu
     </a>
 </div>
 
@@ -49,7 +49,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
                 <div class="label">Menu Aktif</div>
             </div>
             <div class="stat-icon-wrap" style="background: var(--primary-pale); color: var(--primary);">
-                <i class="fas fa-utensils"></i>
+                <i class="ri-restaurant-line"></i>
             </div>
         </div>
         <div class="stat-trend">
@@ -64,7 +64,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
                 <div class="label">Foto Galeri</div>
             </div>
             <div class="stat-icon-wrap" style="background: #EFF6FF; color: #3B82F6;">
-                <i class="fas fa-images"></i>
+                <i class="ri-image-line"></i>
             </div>
         </div>
         <div class="stat-trend">
@@ -79,7 +79,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
                 <div class="label">Entri Konten</div>
             </div>
             <div class="stat-icon-wrap" style="background: var(--success-pale); color: var(--success);">
-                <i class="fas fa-file-alt"></i>
+                <i class="ri-file-text-line"></i>
             </div>
         </div>
         <div class="stat-trend">
@@ -94,7 +94,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
                 <div class="label">Admin Users</div>
             </div>
             <div class="stat-icon-wrap" style="background: #FEF3C7; color: var(--warning);">
-                <i class="fas fa-user-shield"></i>
+                <i class="ri-shield-user-line"></i>
             </div>
         </div>
         <div class="stat-trend">
@@ -116,19 +116,19 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
             <?php foreach ($menu_terbaru as $menu): ?>
             <div class="menu-item">
                 <div class="menu-thumb" style="width: 50px; height: 50px; overflow: hidden; margin-right: 1rem; border-radius: 4px;">
-                    <img src="<?= get_image_url($menu['foto_url'], true) ?>" alt="<?= h($menu['nama_menu']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async">
+                    <img src="<?= get_image_url($menu['foto_url'], true) ?>" alt="<?= escapeHtml($menu['nama_menu']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" decoding="async">
                 </div>
                 <div class="menu-info">
-                    <h3><?= h($menu['nama_menu']) ?></h3>
+                    <h3><?= escapeHtml($menu['nama_menu']) ?></h3>
                     <div class="menu-meta">
-                        <span class="badge badge-secondary"><?= h($menu['kategori']) ?></span>
+                        <span class="badge badge-secondary"><?= escapeHtml($menu['kategori']) ?></span>
                         <span class="price"><?= format_rupiah($menu['harga']) ?></span>
                     </div>
                     <div class="menu-date"><?= date('d M Y', strtotime($menu['updated_at'])) ?></div>
                 </div>
                 <div class="menu-actions">
                     <a href="menu.php?id=<?= $menu['id'] ?>&aksi=edit" class="btn btn-sm btn-primary">
-                        <i class="fas fa-pen"></i>
+                        <i class="ri-edit-line"></i>
                     </a>
                 </div>
             </div>
@@ -148,7 +148,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
         <div class="category-list">
             <?php foreach ($menu_kategori as $kategori): ?>
             <div class="category-item">
-                <div class="category-name"><?= h($kategori['kategori']) ?></div>
+                <div class="category-name"><?= escapeHtml($kategori['kategori']) ?></div>
                 <div class="category-count"><?= $kategori['jumlah'] ?> item</div>
             </div>
             <?php endforeach; ?>
@@ -168,13 +168,13 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
             <?php foreach ($galeri_terbaru as $foto): ?>
             <div class="gallery-item" style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);">
                 <div style="height: 120px; overflow: hidden;">
-                    <img src="<?= get_image_url($foto['foto_url'], true) ?>" alt="<?= h($foto['judul']) ?>"
+                    <img src="<?= get_image_url($foto['foto_url'], true) ?>" alt="<?= escapeHtml($foto['judul']) ?>"
                          style="width: 100%; height: 100%; object-fit: cover;"
                          onerror="this.src='https://via.placeholder.com/200x150?text=No+Image'" loading="lazy" decoding="async">
                 </div>
                 <div style="padding: 0.75rem;">
                     <div style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">
-                        <?= h($foto['judul']) ?>
+                        <?= escapeHtml($foto['judul']) ?>
                     </div>
                     <div style="display: flex; justify-content: flex-end;">
                         <a href="galeri.php" class="btn btn-sm btn-secondary">Kelola</a>
@@ -198,8 +198,8 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
             <?php foreach (array_slice($log_terbaru, 0, 6) as $log): ?>
             <div class="activity-item">
                 <div class="activity-time"><?= date('d/m H:i', strtotime($log['waktu'])) ?></div>
-                <div class="activity-user"><?= h($log['username'] ?? 'Sistem') ?></div>
-                <div class="activity-action"><?= h($log['aksi']) ?></div>
+                <div class="activity-user"><?= escapeHtml($log['username'] ?? 'Sistem') ?></div>
+                <div class="activity-action"><?= escapeHtml($log['aksi']) ?></div>
             </div>
             <?php endforeach; ?>
         </div>
@@ -213,7 +213,7 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
         <div class="system-status">
             <div class="status-item">
                 <div class="status-label">Database</div>
-                <div class="status-value status-success"><i class="fas fa-circle" style="font-size:0.5rem;"></i> Aktif</div>
+                <div class="status-value status-success"><i class="ri-checkbox-blank-circle-fill" style="font-size:0.5rem;"></i> Aktif</div>
             </div>
             <div class="status-item">
                 <div class="status-label">Aktivitas Terakhir</div>
@@ -232,9 +232,9 @@ $last_activity = $pdo->query("SELECT waktu FROM log_aktivitas ORDER BY waktu DES
         <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);">
             <p class="card-title" style="margin-bottom: 1rem;">Aksi Cepat</p>
             <div class="quick-actions">
-                <a href="menu.php?aksi=tambah" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Menu Baru</a>
-                <a href="galeri.php" class="btn btn-secondary btn-sm"><i class="fas fa-camera"></i> Upload Foto</a>
-                <a href="konten.php" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Edit Konten</a>
+                <a href="menu.php?aksi=tambah" class="btn btn-primary btn-sm"><i class="ri-add-line"></i> Menu Baru</a>
+                <a href="galeri.php" class="btn btn-secondary btn-sm"><i class="ri-camera-line"></i> Upload Foto</a>
+                <a href="konten.php" class="btn btn-secondary btn-sm"><i class="ri-edit-2-line"></i> Edit Konten</a>
             </div>
         </div>
     </div>
