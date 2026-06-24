@@ -38,7 +38,11 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             <a href="tentang.php" class="<?= $halaman_sekarang === 'tentang.php' ? 'active' : '' ?>">Tentang</a>
         </nav>
 
-        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">&#9776;</button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false" aria-controls="nav-links">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+        </button>
     </div>
 </header>
 <div class="nav-overlay" id="nav-overlay"></div>

@@ -13,6 +13,15 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit;
 }
 
+$timeout = 1800;
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+$_SESSION['last_activity'] = time();
+
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
@@ -42,6 +51,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
             }
         };
         window.onload = inactivityTime;
+
+        setInterval(function () {
+            fetch('heartbeat.php').catch(function () {});
+        }, 300000);
     </script>
     <style>
         :root {
@@ -744,15 +757,44 @@ $current_page = basename($_SERVER['PHP_SELF']);
             background: none;
             border: none;
             cursor: pointer;
-            padding: 6px;
-            color: var(--text);
-            font-size: 1.2rem;
-            line-height: 1;
+            padding: 0;
+            width: 24px;
+            height: 18px;
+            position: relative;
             border-radius: var(--radius-sm);
             transition: background var(--transition);
         }
 
+        .hamburger-btn::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+        }
+
         .hamburger-btn:hover { background: var(--bg); }
+
+        .hamburger-btn .bar {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text);
+            border-radius: 1px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+            transform-origin: center;
+        }
+
+        .hamburger-btn.is-active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger-btn.is-active .bar:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger-btn.is-active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
 
         @media (max-width: 900px) {
             .sidebar {
@@ -775,8 +817,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
             .hamburger-btn {
                 display: flex;
-                align-items: center;
-                justify-content: center;
+                flex-direction: column;
+                justify-content: space-between;
             }
 
             .topbar {
@@ -1022,7 +1064,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <header class="topbar">
         <div class="topbar-left">
             <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Sidebar">
-                <i class="ri-menu-line"></i>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </button>
             <div class="topbar-breadcrumb">
                 <span>Admin</span>

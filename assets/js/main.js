@@ -20,8 +20,8 @@ function initHamburgerMenu() {
     const toggleMenu = () => {
         const isOpen = navLinks.classList.toggle('active');
         if (navOverlay) navOverlay.classList.toggle('active', isOpen);
+        hamburger.classList.toggle('is-active', isOpen);
         hamburger.setAttribute('aria-expanded', isOpen);
-        hamburger.innerHTML = isOpen ? '&times;' : '&#9776;';
         document.body.style.overflow = isOpen ? 'hidden' : 'auto';
     };
 
@@ -33,7 +33,8 @@ function initHamburgerMenu() {
             setTimeout(() => {
                 navLinks.classList.remove('active');
                 if (navOverlay) navOverlay.classList.remove('active');
-                hamburger.innerHTML = '&#9776;';
+                hamburger.classList.remove('is-active');
+                hamburger.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = 'auto';
             }, 200);
         });
@@ -224,9 +225,6 @@ function initWhatsAppChat() {
 
     waFloatBtn.addEventListener('click', () => {
         waChatPopup.classList.toggle('active');
-        if (waChatPopup.classList.contains('active') && waChatInput) {
-            waChatInput.focus();
-        }
     });
 
     if (waChatClose) {

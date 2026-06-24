@@ -10,17 +10,27 @@
         function openSidebar() {
             sidebar.classList.add('open');
             overlay.classList.add('active');
+            hamburger.classList.add('is-active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeSidebar() {
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
+            hamburger.classList.remove('is-active');
             document.body.style.overflow = '';
         }
 
+        function toggleSidebar() {
+            if (sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
         if (hamburger) {
-            hamburger.addEventListener('click', openSidebar);
+            hamburger.addEventListener('click', toggleSidebar);
         }
 
         if (overlay) {
