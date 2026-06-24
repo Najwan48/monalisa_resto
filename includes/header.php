@@ -39,16 +39,18 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 </head>
 <body>
 
+<?php $cv = time(); ?>
+
 <header id="main-header">
     <div class="nav-container">
-        <a href="index.php" class="logo">Monalisa Resto</a>
+        <a href="index.php?cv=<?= $cv ?>" class="logo">Monalisa Resto</a>
 
         <nav class="nav-links" id="nav-links">
-            <a href="index.php" class="<?= $halaman_sekarang === 'index.php' ? 'active' : '' ?>">Beranda</a>
-            <a href="katalog.php" class="<?= in_array($halaman_sekarang, ['katalog.php', 'detail.php']) ? 'active' : '' ?>">Menu</a>
-            <a href="galeri.php" class="<?= $halaman_sekarang === 'galeri.php' ? 'active' : '' ?>">Galeri</a>
-            <a href="kontak.php" class="<?= $halaman_sekarang === 'kontak.php' ? 'active' : '' ?>">Kontak & Lokasi</a>
-            <a href="tentang.php" class="<?= $halaman_sekarang === 'tentang.php' ? 'active' : '' ?>">Tentang</a>
+            <a href="index.php?cv=<?= $cv ?>" class="<?= $halaman_sekarang === 'index.php' ? 'active' : '' ?>">Beranda</a>
+            <a href="katalog.php?cv=<?= $cv ?>" class="<?= in_array($halaman_sekarang, ['katalog.php', 'detail.php']) ? 'active' : '' ?>">Menu</a>
+            <a href="galeri.php?cv=<?= $cv ?>" class="<?= $halaman_sekarang === 'galeri.php' ? 'active' : '' ?>">Galeri</a>
+            <a href="kontak.php?cv=<?= $cv ?>" class="<?= $halaman_sekarang === 'kontak.php' ? 'active' : '' ?>">Kontak & Lokasi</a>
+            <a href="tentang.php?cv=<?= $cv ?>" class="<?= $halaman_sekarang === 'tentang.php' ? 'active' : '' ?>">Tentang</a>
         </nav>
 
         <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false" aria-controls="nav-links">

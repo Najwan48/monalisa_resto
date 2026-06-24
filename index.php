@@ -37,8 +37,8 @@ $menus = $stmt_menu->fetchAll();
                 <?= escapeHtml($konten['pengantar'] ?? 'Menghidupkan kembali cita rasa otentik yang telah disempurnakan selama lebih dari dua dekade.') ?>
             </p>
             <div class="hero-actions reveal reveal-up delay-3">
-                <a href="katalog.php" class="btn btn-primary">Jelajahi Menu</a>
-                <a href="tentang.php" class="btn-ghost" style="text-decoration: none; font-weight: 700; border-bottom: 1px solid var(--primary);">
+                <a href="katalog.php?cv=<?= time() ?>" class="btn btn-primary">Jelajahi Menu</a>
+                <a href="tentang.php?cv=<?= time() ?>" class="btn-ghost" style="text-decoration: none; font-weight: 700; border-bottom: 1px solid var(--primary);">
                     Cerita Kami
                 </a>
             </div>
@@ -70,7 +70,7 @@ $menus = $stmt_menu->fetchAll();
                 <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
                     Di Monalisa Resto, kami percaya bahwa pengalaman kuliner terbaik lahir dari harmoni antara hidangan yang lezat dan suasana yang menginspirasi. Lukisan ikonik "Monalisa Art" di ruang kami menjadi saksi perjalanan rasa yang kami tawarkan.
                 </p>
-                <a href="tentang.php" class="btn btn-outline">Pelajari Sejarah Kami</a>
+                <a href="tentang.php?cv=<?= time() ?>" class="btn btn-outline">Pelajari Sejarah Kami</a>
             </div>
             <div class="art-image-wrapper reveal reveal-right delay-2">
                 <img src="assets/images/monalisa-art.webp" alt="Monalisa Art at Resto" style="width: 100%; border-radius: var(--radius-lg);">
@@ -87,7 +87,7 @@ $menus = $stmt_menu->fetchAll();
                 <h2 class="section-title">Menu<br>Andalan</h2>
                 <div class="divider-left"></div>
                 <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem;">Sajian otentik yang wajib Anda coba, disiapkan dengan bahan-bahan pilihan dan cinta yang tulus.</p>
-                <a href="katalog.php" class="btn btn-outline">Semua Menu</a>
+                <a href="katalog.php?cv=<?= time() ?>" class="btn btn-outline">Semua Menu</a>
             </div>
             <div style="display: flex; flex-direction: column; gap: 2.5rem;">
                 <?php foreach($menus as $index => $menu): ?>
@@ -103,7 +103,7 @@ $menus = $stmt_menu->fetchAll();
                         <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;"><?= escapeHtml($menu['deskripsi_singkat']) ?></p>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--primary); font-weight: 600;"><?= format_rupiah($menu['harga']) ?></span>
-                            <a href="detail.php?id=<?= $menu['id'] ?>" class="btn-ghost">
+                            <a href="detail.php?id=<?= $menu['id'] ?>&cv=<?= time() ?>" class="btn-ghost">
                                 Lihat Detail <i class="ri-arrow-right-line" style="font-size: 0.65rem;"></i>
                             </a>
                         </div>

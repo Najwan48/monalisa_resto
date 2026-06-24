@@ -66,7 +66,7 @@ $menus = $stmt->fetchAll();
                        placeholder="Cari hidangan favorit Anda...">
                 <i class="ri-search-line search-icon"></i>
                 <?php if (!empty($search_query)): ?>
-                    <a href="katalog.php?kategori=<?= urlencode($kategori_aktif) ?>" class="search-clear">Hapus</a>
+                    <a href="katalog.php?kategori=<?= urlencode($kategori_aktif) ?>&cv=<?= time() ?>" class="search-clear">Hapus</a>
                 <?php endif; ?>
             </form>
         </div>
@@ -78,12 +78,12 @@ $menus = $stmt->fetchAll();
         <div class="category-filter-wrapper">
             <button class="scroll-arrow left" id="scroll-left"><i class="ri-arrow-left-s-line"></i></button>
             <nav class="category-filter-desktop" id="category-nav" aria-label="Filter Kategori">
-                <a href="katalog.php<?= !empty($search_query) ? '?q='.urlencode($search_query) : '' ?>"
+                <a href="katalog.php?cv=<?= time() ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
                    style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === 'Semua') ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
                     Semua
                 </a>
                 <?php foreach($categories as $cat): ?>
-                <a href="katalog.php?kategori=<?= urlencode($cat) ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
+                <a href="katalog.php?kategori=<?= urlencode($cat) ?>&cv=<?= time() ?><?= !empty($search_query) ? '&q='.urlencode($search_query) : '' ?>"
                    style="padding: 1.5rem 2rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'var(--text-muted)' ?>; border-bottom: 2px solid <?= ($kategori_aktif === $cat) ? 'var(--primary)' : 'transparent' ?>; white-space: nowrap; transition: all 0.3s;">
                     <?= escapeHtml($cat) ?>
                 </a>
@@ -115,7 +115,7 @@ $menus = $stmt->fetchAll();
             </div>
             <h2 class="section-title" style="font-size: 2rem; color: var(--text-muted);">Hidangan tidak ditemukan</h2>
             <p style="color: var(--text-faint);">Coba gunakan kata kunci lain atau pilih kategori yang berbeda.</p>
-            <a href="katalog.php" class="btn btn-primary" style="margin-top: 2rem;">Lihat Semua Menu</a>
+            <a href="katalog.php?cv=<?= time() ?>" class="btn btn-primary" style="margin-top: 2rem;">Lihat Semua Menu</a>
         </div>
         <?php else: ?>
         
@@ -141,7 +141,7 @@ $menus = $stmt->fetchAll();
                     <p class="menu-card-desc"><?= escapeHtml($menu['deskripsi_singkat']) ?></p>
                     <div class="menu-card-footer">
                         <span class="menu-card-price"><?= format_rupiah($menu['harga']) ?></span>
-                        <a href="detail.php?id=<?= $menu['id'] ?>" class="menu-card-link">Detail <i class="ri-arrow-right-s-line"></i></a>
+                        <a href="detail.php?id=<?= $menu['id'] ?>&cv=<?= time() ?>" class="menu-card-link">Detail <i class="ri-arrow-right-s-line"></i></a>
                     </div>
                 </div>
             </div>

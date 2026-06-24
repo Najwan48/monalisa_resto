@@ -17,7 +17,7 @@ if (!$menu) {
 <main style="padding-top: var(--header-h);">
     <div style="background: var(--bg-warm); border-bottom: 1px solid var(--border); padding: 1.25rem 0; margin-bottom: 2rem;">
         <div class="container">
-            <a href="katalog.php" class="btn-ghost" style="font-size: 0.75rem;">
+            <a href="katalog.php?cv=<?= time() ?>" class="btn-ghost" style="font-size: 0.75rem;">
                 <i class="ri-arrow-left-line"></i> Kembali ke Katalog Menu
             </a>
         </div>

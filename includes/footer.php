@@ -5,7 +5,7 @@
         <div style="margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.07);">
             <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: #fff; margin-bottom: 0.75rem; letter-spacing: 0.05em;">Monalisa Resto</p>
             <p style="line-height: 1.8; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga yang terus dijaga kelestariannya.</p>
-            <a href="kontak.php" style="color: var(--primary-light); text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--primary-light); padding-bottom: 2px;">
+            <a href="kontak.php?cv=<?= time() ?>" style="color: var(--primary-light); text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--primary-light); padding-bottom: 2px;">
                 Hubungi Kami & Lokasi
             </a>
         </div>
