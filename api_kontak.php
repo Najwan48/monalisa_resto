@@ -10,13 +10,13 @@ $rows = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 $phone = $rows['telepon'] ?? '';
 $wa_raw = $rows['whatsapp'] ?? '';
-if (empty($wa_raw)) {
-    $wa_raw = $phone;
-}
 
-$whatsapp = preg_replace('/[^0-9]/', '', $wa_raw);
-if (strpos($whatsapp, '0') === 0) {
-    $whatsapp = '62' . substr($whatsapp, 1);
+$whatsapp = '';
+if (!empty($wa_raw)) {
+    $whatsapp = preg_replace('/[^0-9]/', '', $wa_raw);
+    if (strpos($whatsapp, '0') === 0) {
+        $whatsapp = '62' . substr($whatsapp, 1);
+    }
 }
 
 echo json_encode([

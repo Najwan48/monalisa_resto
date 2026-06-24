@@ -51,24 +51,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 );
                 $stmt->execute([$halaman, $bagian, $isi]);
 
-                if ($halaman === 'kontak' && $bagian === 'maps_url' && $isi !== '') {
-                    $stmt_alamat = $pdo->prepare("SELECT isi FROM konten_halaman WHERE halaman='kontak' AND bagian='alamat'");
-                    $stmt_alamat->execute();
-                    $alamat_text = $stmt_alamat->fetchColumn();
-                    if ($alamat_text) {
-                        $geo_url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' . urlencode($alamat_text);
-                        $opts = ['http' => ['header' => "User-Agent: MonalisaResto/1.0\r\n", 'timeout' => 5]];
-                        $geo_raw = @file_get_contents($geo_url, false, stream_context_create($opts));
-                        if ($geo_raw) {
-                            $geo_data = json_decode($geo_raw, true);
-                            if (!empty($geo_data[0]['lat']) && !empty($geo_data[0]['lon'])) {
-                                $stmt_geo = $pdo->prepare(
-                                    "INSERT INTO konten_halaman (halaman, bagian, isi) VALUES ('kontak', 'maps_lat', ?), ('kontak', 'maps_lng', ?)
-                                     ON DUPLICATE KEY UPDATE isi = VALUES(isi)"
-                                );
-                                $stmt_geo->execute([$geo_data[0]['lat'], $geo_data[0]['lon']]);
+                if ($halaman === 'kontak' && ($bagian === 'maps_url' || $bagian === 'alamat') && $isi !== '') {
+                    $resolved_lat = null;
+                    $resolved_lng = null;
+
+                    if ($bagian === 'maps_url') {
+                        $map_opts = ['http' => [
+                            'header' => "User-Agent: MonalisaResto/1.0\r\n",
+                            'timeout' => 5,
+                            'follow_location' => false
+                        ]];
+                        $headers = @get_headers($isi, true, stream_context_create($map_opts));
+                        $redirect_url = is_array($headers['Location']) ? end($headers['Location']) : ($headers['Location'] ?? '');
+                        if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $redirect_url, $m)) {
+                            $resolved_lat = $m[1];
+                            $resolved_lng = $m[2];
+                        }
+                    }
+
+                    if (!$resolved_lat) {
+                        $stmt_alamat = $pdo->prepare("SELECT isi FROM konten_halaman WHERE halaman='kontak' AND bagian='alamat'");
+                        $stmt_alamat->execute();
+                        $alamat_text = $stmt_alamat->fetchColumn();
+                        if ($alamat_text) {
+                            $geo_url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' . urlencode($alamat_text);
+                            $geo_opts = ['http' => ['header' => "User-Agent: MonalisaResto/1.0\r\n", 'timeout' => 5]];
+                            $geo_raw = @file_get_contents($geo_url, false, stream_context_create($geo_opts));
+                            if ($geo_raw) {
+                                $geo_data = json_decode($geo_raw, true);
+                                if (!empty($geo_data[0]['lat']) && !empty($geo_data[0]['lon'])) {
+                                    $resolved_lat = $geo_data[0]['lat'];
+                                    $resolved_lng = $geo_data[0]['lon'];
+                                }
                             }
                         }
+                    }
+
+                    if ($resolved_lat && $resolved_lng) {
+                        $stmt_geo = $pdo->prepare(
+                            "INSERT INTO konten_halaman (halaman, bagian, isi) VALUES ('kontak', 'maps_lat', ?), ('kontak', 'maps_lng', ?)
+                             ON DUPLICATE KEY UPDATE isi = VALUES(isi)"
+                        );
+                        $stmt_geo->execute([$resolved_lat, $resolved_lng]);
                     }
                 }
 
@@ -134,7 +158,7 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<style>#admin-map-preview{z-index:0;margin-bottom:1rem}</style>
+<style>#admin-map-preview{z-index:0;margin-bottom:1rem}.custom-marker{background:none!important;border:none!important}.custom-marker svg{filter:drop-shadow(0 2px 6px rgba(139,105,20,0.35));transition:transform 0.2s ease}.custom-marker:hover svg{transform:scale(1.1)}</style>
 
 <?php if ($pesan): ?>
     <div class="alert alert-<?= $tipe_pesan ?>"><?= escapeHtml($pesan) ?></div>
@@ -301,6 +325,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                         if (d.maps_url) adminMapsUrl = d.maps_url;
                                         if (d.alamat) adminAlamat = d.alamat;
                                         initAdminMap(savedLat, savedLng);
+                                        if (adminMarker) {
+                                            adminMarker.setPopupContent(
+                                                '<div style="text-align:center;padding:0.25rem 0">' +
+                                                '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
+                                                '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
+                                                '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+                                                '</div>'
+                                            );
+                                        }
                                     }
                                 })
                                 .catch(function() {});

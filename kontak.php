@@ -64,12 +64,12 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                     </div>
                     <?php endif; ?>
                     
-                    <?php if (!empty($kontak_data['whatsapp']) || !empty($kontak_data['telepon'])): ?>
+                    <?php if (!empty($kontak_data['whatsapp'])): ?>
                     <div class="reveal reveal-up delay-4">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">WhatsApp</span>
                         <p style="font-size: 1.1rem; font-weight: 600;">
                             <?php
-                            $raw_wa = $kontak_data['whatsapp'] ?? $kontak_data['telepon'];
+                            $raw_wa = $kontak_data['whatsapp'];
                             $clean_wa = preg_replace('/[^0-9]/', '', $raw_wa);
                             $whatsapp_phone = $clean_wa;
                             if (strpos($clean_wa, '0') === 0) {
@@ -163,7 +163,14 @@ initRealtimePolling('/monalisa_resto/api_kontak.php', 30000, function(data) {
         telEl.href = 'tel:' + data.telepon.replace(/[^0-9]/g, '');
     }
     var waEl = document.querySelector('[data-kontak="whatsapp"]');
-    if (waEl && data.whatsapp) waEl.href = 'https://wa.me/' + data.whatsapp;
+    if (waEl) {
+        if (data.whatsapp) {
+            waEl.href = 'https://wa.me/' + data.whatsapp;
+            waEl.closest('.reveal').style.display = '';
+        } else {
+            waEl.closest('.reveal').style.display = 'none';
+        }
+    }
     if (data.maps_url && alamatEl) {
         alamatEl.href = data.maps_url;
     }
