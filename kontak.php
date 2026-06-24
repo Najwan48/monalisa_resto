@@ -118,15 +118,8 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 var guestMap = null;
 var guestMarker = null;
 
-function extractPlaceName(url) {
-    if (!url) return 'Monalisa Resto';
-    var m = url.match(/\/place\/([^\/\?]+)/);
-    if (m) return decodeURIComponent(m[1].replace(/\+/g, ' '));
-    return 'Monalisa Resto';
-}
-
 function buildGuestPopup(data) {
-    var name = extractPlaceName(data.maps_url);
+    var name = data.maps_nama || 'Monalisa Resto';
     return '<div style="text-align:center;padding:0.25rem 0">' +
         '<b style="font-size:1rem;color:#1C1C1C">' + name + '</b><br>' +
         '<span style="font-size:0.85rem;color:#767676">' + (data.alamat || '') + '</span><br>' +

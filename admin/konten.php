@@ -76,6 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $resolved_lat = $m[1];
                                 $resolved_lng = $m[2];
                             }
+                            if (preg_match('/\/place\/([^\/\?]+)/', $final_url, $pm)) {
+                                $place_nama = urldecode(str_replace('+', ' ', $pm[1]));
+                                $stmt_nama = $pdo->prepare("INSERT INTO konten_halaman (halaman, bagian, isi) VALUES ('kontak', 'maps_nama', ?) ON DUPLICATE KEY UPDATE isi = VALUES(isi)");
+                                $stmt_nama->execute([$place_nama]);
+                            }
                         }
                     }
 
