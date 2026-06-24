@@ -284,6 +284,59 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => initAdminMap(savedLat, savedLng), 100);
     }
 
+    let geocodeTimer = null;
+    const mapsUrlInput = document.querySelector('form input[name="isi"][type="url"]');
+    const alamatInput = Array.from(document.querySelectorAll('form input[name="bagian"]')).find(b => b.value === 'alamat')?.closest('form')?.querySelector('input[name="isi"]');
+
+    function debounceGeocode(value) {
+        clearTimeout(geocodeTimer);
+        if (!value || value.length < 10) return;
+        geocodeTimer = setTimeout(() => {
+            fetch('api_geocode.php?q=' + encodeURIComponent(value))
+                .then(r => r.json())
+                .then(d => {
+                    if (d.lat && d.lng) {
+                        savedLat = parseFloat(d.lat);
+                        savedLng = parseFloat(d.lng);
+                        initAdminMap(savedLat, savedLng);
+                    }
+                })
+                .catch(() => {});
+        }, 800);
+    }
+
+    if (mapsUrlInput) {
+        mapsUrlInput.addEventListener('input', function() {
+            adminMapsUrl = this.value;
+            if (adminMarker) {
+                adminMarker.setPopupContent(
+                    '<div style="text-align:center;padding:0.25rem 0">' +
+                    '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
+                    '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
+                    '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+                    '</div>'
+                );
+            }
+            debounceGeocode(this.value);
+        });
+    }
+
+    if (alamatInput) {
+        alamatInput.addEventListener('input', function() {
+            adminAlamat = this.value;
+            if (adminMarker) {
+                adminMarker.setPopupContent(
+                    '<div style="text-align:center;padding:0.25rem 0">' +
+                    '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
+                    '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
+                    '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+                    '</div>'
+                );
+            }
+            debounceGeocode(this.value);
+        });
+    }
+
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
