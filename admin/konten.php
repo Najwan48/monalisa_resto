@@ -56,16 +56,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $resolved_lng = null;
 
                     if ($bagian === 'maps_url') {
-                        $map_opts = ['http' => [
-                            'header' => "User-Agent: MonalisaResto/1.0\r\n",
-                            'timeout' => 5,
-                            'follow_location' => false
-                        ]];
-                        $headers = @get_headers($isi, true, stream_context_create($map_opts));
-                        $redirect_url = is_array($headers['Location']) ? end($headers['Location']) : ($headers['Location'] ?? '');
-                        if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $redirect_url, $m)) {
-                            $resolved_lat = $m[1];
-                            $resolved_lng = $m[2];
+                        $ch = curl_init($isi);
+                        curl_setopt_array($ch, [
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_MAXREDIRS     => 5,
+                            CURLOPT_TIMEOUT       => 8,
+                            CURLOPT_USERAGENT     => 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/120.0.0.0 Mobile Safari/537.36',
+                            CURLOPT_SSL_VERIFYPEER => false,
+                        ]);
+                        curl_exec($ch);
+                        $final_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+                        curl_close($ch);
+                        if ($final_url) {
+                            if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $final_url, $m)) {
+                                $resolved_lat = $m[1];
+                                $resolved_lng = $m[2];
+                            } elseif (preg_match('/!3d(-?\d+\.?\d*)!4d(-?\d+\.?\d*)/', $final_url, $m)) {
+                                $resolved_lat = $m[1];
+                                $resolved_lng = $m[2];
+                            }
                         }
                     }
 
@@ -300,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(r => r.json())
                 .then(d => {
                     if (d.name) adminPlaceName = d.name;
-                    if (d.address) adminAlamat = d.address;
+                    else adminPlaceName = adminAlamat || 'Monalisa Resto';
                     if (d.lat && d.lng) {
                         savedLat = parseFloat(d.lat);
                         savedLng = parseFloat(d.lng);

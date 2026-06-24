@@ -115,40 +115,56 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const lat = <?= (float)($kontak_data['maps_lat'] ?? -6.6263927) ?>;
-        const lng = <?= (float)($kontak_data['maps_lng'] ?? 106.8214916) ?>;
-        const map = L.map('map', { attributionControl: false }).setView([lat, lng], 15);
+var guestMap = null;
+var guestMarker = null;
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
+function extractPlaceName(url) {
+    if (!url) return 'Monalisa Resto';
+    var m = url.match(/\/place\/([^\/\?]+)/);
+    if (m) return decodeURIComponent(m[1].replace(/\+/g, ' '));
+    return 'Monalisa Resto';
+}
 
-        const brandIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 0C8.059 0 0 8.059 0 18c0 12.6 18 30 18 30s18-17.4 18-30C36 8.059 27.941 0 18 0z" fill="#8B6914"/><circle cx="18" cy="17" r="8" fill="#fff"/></svg>',
-            iconSize: [36, 48],
-            iconAnchor: [18, 48],
-            popupAnchor: [0, -48]
-        });
+function buildGuestPopup(data) {
+    var name = extractPlaceName(data.maps_url);
+    return '<div style="text-align:center;padding:0.25rem 0">' +
+        '<b style="font-size:1rem;color:#1C1C1C">' + name + '</b><br>' +
+        '<span style="font-size:0.85rem;color:#767676">' + (data.alamat || '') + '</span><br>' +
+        '<a href="' + (data.maps_url || '#') + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+        '</div>';
+}
 
-        const marker = L.marker([lat, lng], { icon: brandIcon }).addTo(map);
+document.addEventListener('DOMContentLoaded', function() {
+    var lat = <?= (float)($kontak_data['maps_lat'] ?? -6.6263927) ?>;
+    var lng = <?= (float)($kontak_data['maps_lng'] ?? 106.8214916) ?>;
+    guestMap = L.map('map', { attributionControl: false }).setView([lat, lng], 15);
 
-        const googleMapsUrl = <?= json_encode($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>;
-        marker.bindPopup(
-            '<div style="text-align:center;padding:0.25rem 0">' +
-            '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-            '<span style="font-size:0.85rem;color:#767676">' + '<?= htmlspecialchars($kontak_data['alamat'] ?? '', ENT_QUOTES, 'UTF-8') ?>' + '</span><br>' +
-            '<a href="' + googleMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
-            '</div>'
-        ).openPopup();
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(guestMap);
 
-        marker.on('click', () => {
-            window.open(googleMapsUrl, '_blank');
-        });
-
-        marker.getElement().style.cursor = 'pointer';
+    var brandIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 0C8.059 0 0 8.059 0 18c0 12.6 18 30 18 30s18-17.4 18-30C36 8.059 27.941 0 18 0z" fill="#8B6914"/><circle cx="18" cy="17" r="8" fill="#fff"/></svg>',
+        iconSize: [36, 48],
+        iconAnchor: [18, 48],
+        popupAnchor: [0, -48]
     });
+
+    guestMarker = L.marker([lat, lng], { icon: brandIcon }).addTo(guestMap);
+
+    var initialData = {
+        maps_url: <?= json_encode($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>,
+        alamat: <?= json_encode($kontak_data['alamat'] ?? '') ?>
+    };
+    guestMarker.bindPopup(buildGuestPopup(initialData)).openPopup();
+
+    guestMarker.on('click', function() {
+        window.open(initialData.maps_url, '_blank');
+    });
+
+    guestMarker.getElement().style.cursor = 'pointer';
+});
 </script>
 
 <script>
@@ -174,17 +190,10 @@ initRealtimePolling('/monalisa_resto/api_kontak.php', 30000, function(data) {
     if (data.maps_url && alamatEl) {
         alamatEl.href = data.maps_url;
     }
-    if (typeof marker !== 'undefined' && data.maps_lat && data.maps_lng) {
-        var newLatLng = [parseFloat(data.maps_lat), parseFloat(data.maps_lng)];
-        marker.setLatLng(newLatLng);
-        map.setView(newLatLng, 15);
-        marker.getPopup().setContent(
-            '<div style="text-align:center;padding:0.25rem 0">' +
-            '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-            '<span style="font-size:0.85rem;color:#767676">' + (data.alamat || '') + '</span><br>' +
-            '<a href="' + (data.maps_url || '#') + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
-            '</div>'
-        );
+    if (guestMap && guestMarker && data.maps_lat && data.maps_lng) {
+        guestMap.setView([data.maps_lat, data.maps_lng], 15);
+        guestMarker.setLatLng([data.maps_lat, data.maps_lng]);
+        guestMarker.setPopupContent(buildGuestPopup(data));
     }
 });
 </script>
