@@ -25,7 +25,8 @@ function applyParallax() {
 
     elements.forEach(element => {
         const speed = parseFloat(element.getAttribute(SPEED_ATTR)) || DEFAULT_SPEED;
-        const yOffset = speed * 500;
+        const mobileFactor = window.innerWidth <= 768 ? 0.25 : 1;
+        const yOffset = speed * 500 * mobileFactor;
 
         gsap.to(element, {
             y: -yOffset,
