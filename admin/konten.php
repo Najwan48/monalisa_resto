@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bagian  = validate_input($_POST['bagian'] ?? '', 'string');
         $isi     = $_POST['isi'] ?? '';
 
-        if (in_array($bagian, ['telepon', 'whatsapp']) && !preg_match('/^[0-9+\-\s]+$/', $isi)) {
+        if (in_array($bagian, ['telepon', 'whatsapp']) && $isi !== '' && !preg_match('/^[0-9+\-\s]+$/', $isi)) {
             $pesan = "Field '$bagian' hanya boleh berisi angka.";
             $tipe_pesan = 'danger';
         } elseif ($halaman && $bagian && array_key_exists($halaman, $label_halaman) && array_key_exists($bagian, $label_bagian)) {
