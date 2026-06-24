@@ -18,6 +18,9 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     <title><?= isset($page_title) ? escapeHtml($page_title) . ' — ' : '' ?>Monalisa Resto · Authentic Javanese Cuisine</title>
     <meta name="description" content="Monalisa Resto menyajikan kelezatan otentik khas Jawa Tengah di jantung Kota Bogor. Nikmati hidangan legendaris dalam suasana yang nyaman dan penuh seni.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <?php if ($halaman_sekarang === 'galeri.php'): ?>
+    <link rel="preload" as="image" href="assets/images/galeri/IMG_4222.webp">
+    <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="assets/css/style.css?v=1.2">
