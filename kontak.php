@@ -35,13 +35,13 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                     <div class="reveal reveal-up delay-1">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Alamat</span>
                         <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);">
-                            <a href="https://maps.app.goo.gl/J5wMuZqK8dnd5nu19" target="_blank"><?= escapeHtml($kontak_data['alamat']) ?></a>
+                            <a href="<?= escapeHtml($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>" target="_blank" data-kontak="alamat"><?= escapeHtml($kontak_data['alamat']) ?></a>
                         </p>
                     </div>
 
                     <div class="reveal reveal-up delay-2">
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Jam Operasional</span>
-                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);"><?= escapeHtml($kontak_data['jam_operasional']) ?></p>
+                        <p style="font-size: 1.1rem; line-height: 1.6; color: var(--charcoal);" data-kontak="jam"><?= escapeHtml($kontak_data['jam_operasional']) ?></p>
                     </div>
                     
                     <?php if (!empty($kontak_data['telepon'])): ?>
@@ -49,6 +49,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                         <span class="eyebrow" style="margin-bottom: 0.5rem; color: var(--text-faint);">Telepon</span>
                         <p style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 1rem;">
                             <a href="tel:<?= str_replace(['-', ' ', '(', ')'], '', escapeHtml($kontak_data['telepon'])) ?>"
+                               data-kontak="telepon"
                                style="color: var(--primary); text-decoration: none;"
                                title="Klik untuk menelepon">
                                 <?= escapeHtml($kontak_data['telepon']) ?>
@@ -76,6 +77,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                             }
                             ?>
                             <a href="https://wa.me/<?= escapeHtml($whatsapp_phone) ?>"
+                               data-kontak="whatsapp"
                                target="_blank"
                                style="color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;"
                                title="Chat via WhatsApp">
@@ -114,8 +116,8 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const lat = -6.6263927;
-        const lng = 106.8214916;
+        const lat = <?= (float)($kontak_data['maps_lat'] ?? -6.6263927) ?>;
+        const lng = <?= (float)($kontak_data['maps_lng'] ?? 106.8214916) ?>;
         const map = L.map('map', { attributionControl: false }).setView([lat, lng], 15);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -132,7 +134,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
         const marker = L.marker([lat, lng], { icon: brandIcon }).addTo(map);
 
-        const googleMapsUrl = 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19';
+        const googleMapsUrl = '<?= addslashes($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>';
         marker.bindPopup(
             '<div style="text-align:center;padding:0.25rem 0">' +
             '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
@@ -142,7 +144,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         ).openPopup();
 
         marker.on('click', () => {
-            window.open('https://maps.app.goo.gl/J5wMuZqK8dnd5nu19', '_blank');
+            window.open(googleMapsUrl, '_blank');
         });
 
         marker.getElement().style.cursor = 'pointer';
@@ -150,3 +152,22 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 </script>
 
 <?php require_once 'includes/footer.php'; ?>
+<script>
+initRealtimePolling('/monalisa_resto/api_kontak.php', 30000, function(data) {
+    var alamatEl = document.querySelector('[data-kontak="alamat"]');
+    if (alamatEl && data.alamat) alamatEl.textContent = data.alamat;
+    var jamEl = document.querySelector('[data-kontak="jam"]');
+    if (jamEl && data.jam_operasional) jamEl.textContent = data.jam_operasional;
+    var telEl = document.querySelector('[data-kontak="telepon"]');
+    if (telEl && data.telepon) {
+        telEl.textContent = data.telepon;
+        telEl.href = 'tel:' + data.telepon.replace(/[^0-9]/g, '');
+    }
+    var waEl = document.querySelector('[data-kontak="whatsapp"]');
+    if (waEl && data.whatsapp) waEl.href = 'https://wa.me/' + data.whatsapp;
+    if (data.maps_url) {
+        var mapsLinkEl = document.querySelector('[data-kontak="alamat"]');
+        if (mapsLinkEl) mapsLinkEl.href = data.maps_url;
+    }
+});
+</script>

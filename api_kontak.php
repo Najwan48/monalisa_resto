@@ -2,8 +2,9 @@
 require_once 'includes/db.php';
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Cache-Control: no-store');
 
-$stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak' AND bagian IN ('telepon', 'whatsapp')");
+$stmt = $pdo->prepare("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
 $stmt->execute();
 $rows = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -19,6 +20,11 @@ if (strpos($whatsapp, '0') === 0) {
 }
 
 echo json_encode([
-    'telepon' => $phone,
-    'whatsapp' => $whatsapp
+    'telepon'         => $phone,
+    'whatsapp'        => $whatsapp,
+    'alamat'          => $rows['alamat'] ?? '',
+    'jam_operasional' => $rows['jam_operasional'] ?? '',
+    'maps_url'        => $rows['maps_url'] ?? '',
+    'maps_lat'        => (float)($rows['maps_lat'] ?? -6.6263927),
+    'maps_lng'        => (float)($rows['maps_lng'] ?? 106.8214916),
 ]);
