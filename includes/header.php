@@ -23,9 +23,9 @@ $kontak = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="assets/css/style.css?v=1.2">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/monalisa_resto/assets/css/style.css') ?>">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/main.js?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/monalisa_resto/assets/js/main.js') ?>" defer></script>
 </head>
 <body>
 
