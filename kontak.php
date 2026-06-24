@@ -83,7 +83,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
                 </div>
             </div>
 
-            <div id="map" class="reveal reveal-scale delay-5 themed-map" style="width: 100%; height: 450px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1;"></div>
+            <div id="map" class="reveal reveal-scale delay-5 themed-map" style="width: 100%; height: clamp(300px, 50vh, 450px); border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); z-index: 1; overflow: hidden;"></div>
         </div>
     </div>
 </section>
@@ -118,9 +118,24 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        const marker = L.marker([lat, lng]).addTo(map);
-        
-        marker.bindPopup('<b>Monalisa Restaurant</b><br>Klik pin untuk petunjuk arah.').openPopup();
+        const brandIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 0C8.059 0 0 8.059 0 18c0 12.6 18 30 18 30s18-17.4 18-30C36 8.059 27.941 0 18 0z" fill="#8B6914"/><circle cx="18" cy="17" r="8" fill="#fff"/></svg>',
+            iconSize: [36, 48],
+            iconAnchor: [18, 48],
+            popupAnchor: [0, -48]
+        });
+
+        const marker = L.marker([lat, lng], { icon: brandIcon }).addTo(map);
+
+        const googleMapsUrl = 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19';
+        marker.bindPopup(
+            '<div style="text-align:center;padding:0.25rem 0">' +
+            '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
+            '<span style="font-size:0.85rem;color:#767676">Jl. Raya Tajur, Bogor</span><br>' +
+            '<a href="' + googleMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+            '</div>'
+        ).openPopup();
 
         marker.on('click', () => {
             window.open('https://maps.app.goo.gl/J5wMuZqK8dnd5nu19', '_blank');

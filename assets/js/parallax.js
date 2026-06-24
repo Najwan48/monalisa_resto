@@ -5,6 +5,9 @@ const SPEED_ATTR = 'data-speed';
 const DEFAULT_SPEED = 0.3;
 
 function loadScript(src) {
+    if (document.querySelector(`script[src="${src}"]`)) {
+        return Promise.resolve();
+    }
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = src;
@@ -21,9 +24,7 @@ function prefersReducedMotion() {
 function applyParallax() {
     gsap.registerPlugin(ScrollTrigger);
 
-    const elements = document.querySelectorAll(PARALLAX_SELECTOR);
-
-    elements.forEach(element => {
+    document.querySelectorAll(PARALLAX_SELECTOR).forEach(element => {
         const speed = parseFloat(element.getAttribute(SPEED_ATTR)) || DEFAULT_SPEED;
         const mobileFactor = window.innerWidth <= 768 ? 0.25 : 1;
         const yOffset = speed * 500 * mobileFactor;
@@ -40,6 +41,8 @@ function applyParallax() {
             },
         });
     });
+
+    ScrollTrigger.refresh();
 }
 
 async function initParallax() {
@@ -48,25 +51,20 @@ async function initParallax() {
     try {
         await loadScript(GSAP_CDN);
         await loadScript(SCROLL_TRIGGER_CDN);
-        applyParallax();
+
+        requestAnimationFrame(() => {
+            applyParallax();
+            window.addEventListener('load', () => ScrollTrigger.refresh());
+        });
     } catch (loadError) {
         console.error('Parallax: failed to load GSAP dependencies.', loadError);
-        const warning = document.createElement('div');
-        warning.style.position = 'fixed';
-        warning.style.bottom = '10px';
-        warning.style.right = '10px';
-        warning.style.background = '#FEF2F2';
-        warning.style.color = '#DC2626';
-        warning.style.padding = '10px';
-        warning.style.borderRadius = '8px';
-        warning.style.zIndex = '9999';
-        warning.innerText = 'Info: Efek animasi tidak dapat dimuat.';
-        document.body.appendChild(warning);
     }
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initParallax);
-} else {
-    initParallax();
-}
+document.addEventListener('DOMContentLoaded', initParallax);
+
+window.addEventListener('pageshow', () => {
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+    }
+});
