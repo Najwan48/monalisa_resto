@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let geocodeTimer = null;
-    const mapsUrlInput = document.querySelector('form input[name="isi"][type="url"]');
+    const mapsUrlInput = Array.from(document.querySelectorAll('form input[name="bagian"]')).find(b => b.value === 'maps_url')?.closest('form')?.querySelector('input[name="isi"]');
     const alamatInput = Array.from(document.querySelectorAll('form input[name="bagian"]')).find(b => b.value === 'alamat')?.closest('form')?.querySelector('input[name="isi"]');
 
     function debounceGeocode(value) {
@@ -300,11 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(r => r.json())
                 .then(d => {
                     if (d.name) adminPlaceName = d.name;
+                    else adminPlaceName = adminAlamat || 'Monalisa Resto';
                     if (d.lat && d.lng) {
                         savedLat = parseFloat(d.lat);
                         savedLng = parseFloat(d.lng);
                         initAdminMap(savedLat, savedLng);
-                    } else if (d.name) {
+                    } else {
                         if (adminMarker) adminMarker.setPopupContent(buildPopup());
                     }
                 })
