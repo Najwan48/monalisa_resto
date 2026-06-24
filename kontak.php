@@ -134,7 +134,7 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
         const marker = L.marker([lat, lng], { icon: brandIcon }).addTo(map);
 
-        const googleMapsUrl = '<?= addslashes($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>';
+        const googleMapsUrl = <?= json_encode($kontak_data['maps_url'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>;
         marker.bindPopup(
             '<div style="text-align:center;padding:0.25rem 0">' +
             '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
@@ -151,7 +151,6 @@ $kontak_data = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     });
 </script>
 
-<?php require_once 'includes/footer.php'; ?>
 <script>
 initRealtimePolling('/monalisa_resto/api_kontak.php', 30000, function(data) {
     var alamatEl = document.querySelector('[data-kontak="alamat"]');
@@ -165,9 +164,10 @@ initRealtimePolling('/monalisa_resto/api_kontak.php', 30000, function(data) {
     }
     var waEl = document.querySelector('[data-kontak="whatsapp"]');
     if (waEl && data.whatsapp) waEl.href = 'https://wa.me/' + data.whatsapp;
-    if (data.maps_url) {
-        var mapsLinkEl = document.querySelector('[data-kontak="alamat"]');
-        if (mapsLinkEl) mapsLinkEl.href = data.maps_url;
+    if (data.maps_url && alamatEl) {
+        alamatEl.href = data.maps_url;
     }
 });
 </script>
+
+<?php require_once 'includes/footer.php'; ?>
