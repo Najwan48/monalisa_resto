@@ -226,17 +226,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let savedLat = <?= (float)($konten_db['kontak']['maps_lat']['isi'] ?? -6.6263927) ?>;
     let savedLng = <?= (float)($konten_db['kontak']['maps_lng']['isi'] ?? 106.8214916) ?>;
 
+    const adminBrandIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 0C8.059 0 0 8.059 0 18c0 12.6 18 30 18 30s18-17.4 18-30C36 8.059 27.941 0 18 0z" fill="#8B6914"/><circle cx="18" cy="17" r="8" fill="#fff"/></svg>',
+        iconSize: [36, 48],
+        iconAnchor: [18, 48],
+        popupAnchor: [0, -48]
+    });
+    const adminAlamat = <?= json_encode($konten_db['kontak']['alamat']['isi'] ?? '') ?>;
+    const adminMapsUrl = <?= json_encode($konten_db['kontak']['maps_url']['isi'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>;
+
     function initAdminMap(lat, lng) {
         if (adminMap) {
-            adminMap.setView([lat, lng], 16);
+            adminMap.setView([lat, lng], 15);
             adminMarker.setLatLng([lat, lng]);
             return;
         }
-        adminMap = L.map(mapEl).setView([lat, lng], 16);
+        adminMap = L.map(mapEl, { attributionControl: false }).setView([lat, lng], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap'
         }).addTo(adminMap);
-        adminMarker = L.marker([lat, lng]).addTo(adminMap);
+        adminMarker = L.marker([lat, lng], { icon: adminBrandIcon }).addTo(adminMap);
+        adminMarker.bindPopup(
+            '<div style="text-align:center;padding:0.25rem 0">' +
+            '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
+            '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
+            '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+            '</div>'
+        ).openPopup();
     }
 
     if (mapEl) {
@@ -281,6 +298,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     if (d.maps_lat && d.maps_lng) {
                                         savedLat = parseFloat(d.maps_lat);
                                         savedLng = parseFloat(d.maps_lng);
+                                        if (d.maps_url) adminMapsUrl = d.maps_url;
+                                        if (d.alamat) adminAlamat = d.alamat;
                                         initAdminMap(savedLat, savedLng);
                                     }
                                 })
