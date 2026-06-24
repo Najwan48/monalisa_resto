@@ -4,6 +4,7 @@ ini_set('session.use_only_cookies', 1);
 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
     ini_set('session.cookie_secure', 1);
 }
+session_name('monalisa_admin');
 session_start();
 require_once '../includes/db.php';
 require_once '../includes/functions.php';

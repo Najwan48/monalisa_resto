@@ -72,13 +72,13 @@ if (!$menu) {
                     $stmt_kontak = $pdo->query("SELECT bagian, isi FROM konten_halaman WHERE halaman = 'kontak'");
                     $kontak_data = $stmt_kontak->fetchAll(PDO::FETCH_KEY_PAIR);
 
-                    $link_gofood = !empty($konten_beranda['link_gofood']) ? $konten_beranda['link_gofood'] : 'https://gofood.link/a/BMMv8Pb';
-                    $link_grabfood = !empty($konten_beranda['link_grabfood']) ? $konten_beranda['link_grabfood'] : 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT';
-                    
+                    $link_gofood = $konten_beranda['link_gofood'] ?? '';
+                    $link_grabfood = $konten_beranda['link_grabfood'] ?? '';
+
                     $telepon = $kontak_data['telepon'] ?? '';
                     $telepon_link = 'tel:' . str_replace(['-', ' ', '(', ')'], '', $telepon);
 
-                    $raw_wa = !empty($kontak_data['whatsapp']) ? $kontak_data['whatsapp'] : $telepon;
+                    $raw_wa = $kontak_data['whatsapp'] ?? '';
                     $clean_wa = preg_replace('/[^0-9]/', '', $raw_wa);
                     $whatsapp_phone = $clean_wa;
                     if (strpos($clean_wa, '0') === 0) {
@@ -90,23 +90,19 @@ if (!$menu) {
                     <div class="reveal reveal-up delay-5" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
                         <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Pesan Menu Ini</h3>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                            <a href="<?= escapeHtml($link_gofood) ?>" class="btn btn-gofood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
-                                <img src="assets/images/logo gofood.webp" alt="GoFood"> GoFood
-                            </a>
-                            <a href="<?= escapeHtml($link_grabfood) ?>" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
-                                <img src="assets/images/logo grabfood.webp" alt="GrabFood"> GrabFood
-                            </a>
+                        <?php
+                        $detail_buttons = [];
+                        if (!empty($link_gofood)) $detail_buttons[] = '<a href="' . escapeHtml($link_gofood) . '" class="btn btn-gofood" target="_blank" rel="noopener noreferrer"><img src="assets/images/logo gofood.webp" alt="GoFood"> GoFood</a>';
+                        if (!empty($link_grabfood)) $detail_buttons[] = '<a href="' . escapeHtml($link_grabfood) . '" class="btn btn-grabfood" target="_blank" rel="noopener noreferrer"><img src="assets/images/logo grabfood.webp" alt="GrabFood"> GrabFood</a>';
+                        if (!empty($raw_wa)) $detail_buttons[] = '<a href="' . escapeHtml($wa_link) . '" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer"><i class="ri-whatsapp-line"></i> WhatsApp</a>';
+                        if (!empty($telepon)) $detail_buttons[] = '<a href="' . escapeHtml($telepon_link) . '" class="btn btn-phone"><i class="ri-phone-line"></i> Telepon</a>';
+                        $btn_count = count($detail_buttons);
+                        if ($btn_count > 0):
+                        ?>
+                        <div class="detail-order-grid" style="display: grid; grid-template-columns: repeat(<?= $btn_count >= 2 ? 2 : 1 ?>, 1fr); gap: 0.75rem;">
+                            <?= implode('', $detail_buttons) ?>
                         </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <a href="<?= escapeHtml($wa_link) ?>" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer" style="width: 100%; text-decoration: none;">
-                                <i class="ri-whatsapp-line" style="font-size: 1.2rem;"></i> WhatsApp
-                            </a>
-                            <a href="<?= escapeHtml($telepon_link) ?>" class="btn btn-phone" style="width: 100%; text-decoration: none;">
-                                <i class="ri-phone-line"></i> Telepon
-                            </a>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

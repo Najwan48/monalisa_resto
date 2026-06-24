@@ -210,6 +210,19 @@ img { max-width: 100%; height: auto; display: block; }
     border-bottom-color: var(--primary);
 }
 
+.detail-order-grid .btn-gofood,
+.detail-order-grid .btn-grabfood,
+.detail-order-grid .btn-whatsapp,
+.detail-order-grid .btn-phone {
+    padding: 0.55rem 0.5rem;
+    font-size: 0.8rem;
+    min-height: 40px;
+    gap: 6px;
+}
+.detail-order-grid .btn-gofood img,
+.detail-order-grid .btn-grabfood img {
+    height: 18px;
+}
 .btn-gofood {
     background: #fff;
     color: #EE2737;

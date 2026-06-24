@@ -14,7 +14,7 @@
 </footer>
 
 <?php
-$wa_raw = $kontak['whatsapp'] ?? $kontak['telepon'] ?? '';
+$wa_raw = $kontak['whatsapp'] ?? '';
 $clean_wa = preg_replace('/[^0-9]/', '', $wa_raw);
 $wa_number = $clean_wa;
 if (strpos($clean_wa, '0') === 0) {

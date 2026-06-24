@@ -23,8 +23,15 @@ function verify_csrf_token($token) {
 }
 
 function log_aktivitas($pdo, $user_id, $aksi) {
-    $stmt = $pdo->prepare("INSERT INTO log_aktivitas (user_id, aksi) VALUES (?, ?)");
-    $stmt->execute([$user_id, $aksi]);
+    $check = $pdo->prepare("SELECT id FROM users WHERE id = ?");
+    $check->execute([$user_id]);
+    if ($check->fetch()) {
+        $stmt = $pdo->prepare("INSERT INTO log_aktivitas (user_id, aksi) VALUES (?, ?)");
+        $stmt->execute([$user_id, $aksi]);
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO log_aktivitas (user_id, aksi) VALUES (NULL, ?)");
+        $stmt->execute([$aksi]);
+    }
 }
 
 function get_image_url($path, $is_admin = false) {
