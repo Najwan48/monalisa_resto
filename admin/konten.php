@@ -21,6 +21,7 @@ $label_bagian = [
     'jam_operasional' => 'Jam Operasional',
     'link_gofood'     => 'Link GoFood',
     'link_grabfood'   => 'Link GrabFood',
+    'maps_url'        => 'Link Google Maps',
 ];
 
 $pesan      = '';
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pesan = "Field '$bagian' hanya boleh berisi angka.";
             $tipe_pesan = 'danger';
         } elseif ($halaman && $bagian && array_key_exists($halaman, $label_halaman) && array_key_exists($bagian, $label_bagian)) {
-            if (strpos($bagian, 'link_') === 0 && !validate_input($isi, 'url')) {
+            if ((strpos($bagian, 'link_') === 0 || $bagian === 'maps_url') && $isi !== '' && !validate_input($isi, 'url')) {
                 $pesan = "Format link tidak valid.";
                 $status = 'error';
             } else {
@@ -49,6 +50,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      ON DUPLICATE KEY UPDATE isi = VALUES(isi)"
                 );
                 $stmt->execute([$halaman, $bagian, $isi]);
+
+                if ($halaman === 'kontak' && $bagian === 'maps_url') {
+                    $stmt_alamat = $pdo->prepare("SELECT isi FROM konten_halaman WHERE halaman='kontak' AND bagian='alamat'");
+                    $stmt_alamat->execute();
+                    $alamat_text = $stmt_alamat->fetchColumn();
+                    if ($alamat_text) {
+                        $geo_url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' . urlencode($alamat_text);
+                        $opts = ['http' => ['header' => "User-Agent: MonalisaResto/1.0\r\n", 'timeout' => 5]];
+                        $geo_raw = @file_get_contents($geo_url, false, stream_context_create($opts));
+                        if ($geo_raw) {
+                            $geo_data = json_decode($geo_raw, true);
+                            if (!empty($geo_data[0]['lat']) && !empty($geo_data[0]['lon'])) {
+                                $stmt_geo = $pdo->prepare(
+                                    "INSERT INTO konten_halaman (halaman, bagian, isi) VALUES ('kontak', 'maps_lat', ?), ('kontak', 'maps_lng', ?)
+                                     ON DUPLICATE KEY UPDATE isi = VALUES(isi)"
+                                );
+                                $stmt_geo->execute([$geo_data[0]['lat'], $geo_data[0]['lon']]);
+                            }
+                        }
+                    }
+                }
+
                 log_aktivitas($pdo, $_SESSION['admin_id'], "Edit konten: halaman=$halaman, bagian=$bagian");
 
                 $nama_halaman = $label_halaman[$halaman] ?? ucfirst($halaman);
@@ -87,7 +110,7 @@ foreach ($semua_konten as $k) {
 $struktur_halaman = [
     'beranda' => ['tagline', 'pengantar', 'link_gofood', 'link_grabfood'],
     'tentang_kami' => ['sejarah', 'visi'],
-    'kontak' => ['alamat', 'telepon', 'whatsapp', 'jam_operasional']
+    'kontak' => ['alamat', 'telepon', 'whatsapp', 'jam_operasional', 'maps_url']
 ];
 
 $konten_per_halaman = [];
@@ -132,13 +155,15 @@ foreach ($struktur_halaman as $halaman => $bagian_list) {
                     $nilai_input = 'https://gofood.link/a/BMMv8Pb';
                 } elseif ($bagian === 'link_grabfood') {
                     $nilai_input = 'https://r.grab.com/g/6-20260510_203031_8a7e66d9e9694765be4c04cda49c0859_MEXMPS-6-C2XANPEKCVDGNT';
+                } elseif ($bagian === 'maps_url') {
+                    $nilai_input = '';
                 }
             }
             ?>
             <?php if (strlen($nilai_input) > 120): ?>
                 <textarea name="isi" class="form-control" rows="4"><?= escapeHtml($nilai_input) ?></textarea>
             <?php else: ?>
-                <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : 'text' ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
+                <input type="<?= in_array($bagian, ['telepon', 'whatsapp']) ? 'tel' : (in_array($bagian, ['link_gofood', 'link_grabfood', 'maps_url']) ? 'url' : 'text') ?>" name="isi" class="form-control" value="<?= escapeHtml($nilai_input) ?>" <?= $bagian === 'maps_url' ? 'placeholder="https://maps.app.goo.gl/..."' : '' ?> <?= in_array($bagian, ['telepon', 'whatsapp']) ? 'pattern="[0-9+\-\s]*" inputmode="numeric" placeholder="Contoh: 0812-8114-1923"' : '' ?>>
             <?php endif; ?>
             <small style="color:#888;">Terakhir diperbarui: <?= escapeHtml(date('d M Y H:i', strtotime($data['updated_at']))) ?></small>
         </div>
