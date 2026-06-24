@@ -257,13 +257,23 @@ document.addEventListener('DOMContentLoaded', () => {
         iconAnchor: [18, 48],
         popupAnchor: [0, -48]
     });
-    const adminAlamat = <?= json_encode($konten_db['kontak']['alamat']['isi'] ?? '') ?>;
-    const adminMapsUrl = <?= json_encode($konten_db['kontak']['maps_url']['isi'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>;
+    let adminAlamat = <?= json_encode($konten_db['kontak']['alamat']['isi'] ?? '') ?>;
+    let adminMapsUrl = <?= json_encode($konten_db['kontak']['maps_url']['isi'] ?? 'https://maps.app.goo.gl/J5wMuZqK8dnd5nu19') ?>;
+    let adminPlaceName = 'Monalisa Resto';
+
+    function buildPopup() {
+        return '<div style="text-align:center;padding:0.25rem 0">' +
+            '<b style="font-size:1rem;color:#1C1C1C">' + adminPlaceName + '</b><br>' +
+            '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
+            '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
+            '</div>';
+    }
 
     function initAdminMap(lat, lng) {
         if (adminMap) {
             adminMap.setView([lat, lng], 15);
             adminMarker.setLatLng([lat, lng]);
+            adminMarker.setPopupContent(buildPopup());
             return;
         }
         adminMap = L.map(mapEl, { attributionControl: false }).setView([lat, lng], 15);
@@ -271,13 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             attribution: '&copy; OpenStreetMap'
         }).addTo(adminMap);
         adminMarker = L.marker([lat, lng], { icon: adminBrandIcon }).addTo(adminMap);
-        adminMarker.bindPopup(
-            '<div style="text-align:center;padding:0.25rem 0">' +
-            '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-            '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
-            '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
-            '</div>'
-        ).openPopup();
+        adminMarker.bindPopup(buildPopup()).openPopup();
     }
 
     if (mapEl) {
@@ -295,10 +299,13 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch('api_geocode.php?q=' + encodeURIComponent(value))
                 .then(r => r.json())
                 .then(d => {
+                    if (d.name) adminPlaceName = d.name;
                     if (d.lat && d.lng) {
                         savedLat = parseFloat(d.lat);
                         savedLng = parseFloat(d.lng);
                         initAdminMap(savedLat, savedLng);
+                    } else if (d.name) {
+                        if (adminMarker) adminMarker.setPopupContent(buildPopup());
                     }
                 })
                 .catch(() => {});
@@ -308,15 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mapsUrlInput) {
         mapsUrlInput.addEventListener('input', function() {
             adminMapsUrl = this.value;
-            if (adminMarker) {
-                adminMarker.setPopupContent(
-                    '<div style="text-align:center;padding:0.25rem 0">' +
-                    '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-                    '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
-                    '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
-                    '</div>'
-                );
-            }
+            if (adminMarker) adminMarker.setPopupContent(buildPopup());
             debounceGeocode(this.value);
         });
     }
@@ -324,15 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (alamatInput) {
         alamatInput.addEventListener('input', function() {
             adminAlamat = this.value;
-            if (adminMarker) {
-                adminMarker.setPopupContent(
-                    '<div style="text-align:center;padding:0.25rem 0">' +
-                    '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-                    '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
-                    '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
-                    '</div>'
-                );
-            }
+            if (adminMarker) adminMarker.setPopupContent(buildPopup());
             debounceGeocode(this.value);
         });
     }
@@ -378,15 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                         if (d.maps_url) adminMapsUrl = d.maps_url;
                                         if (d.alamat) adminAlamat = d.alamat;
                                         initAdminMap(savedLat, savedLng);
-                                        if (adminMarker) {
-                                            adminMarker.setPopupContent(
-                                                '<div style="text-align:center;padding:0.25rem 0">' +
-                                                '<b style="font-size:1rem;color:#1C1C1C">Monalisa Resto</b><br>' +
-                                                '<span style="font-size:0.85rem;color:#767676">' + adminAlamat + '</span><br>' +
-                                                '<a href="' + adminMapsUrl + '" target="_blank" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#8B6914;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600">Buka di Maps</a>' +
-                                                '</div>'
-                                            );
-                                        }
                                     }
                                 })
                                 .catch(function() {});
