@@ -1,0 +1,92 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Monalisa Resto" [ref=e4] [cursor=pointer]:
+        - /url: index.php
+      - navigation [ref=e5]:
+        - link "Beranda" [ref=e6] [cursor=pointer]:
+          - /url: index.php
+        - link "Menu" [ref=e7] [cursor=pointer]:
+          - /url: katalog.php
+        - link "Galeri" [ref=e8] [cursor=pointer]:
+          - /url: galeri.php
+        - link "Kontak & Lokasi" [ref=e9] [cursor=pointer]:
+          - /url: kontak.php
+        - link "Tentang" [ref=e10] [cursor=pointer]:
+          - /url: tentang.php
+  - main [ref=e11]:
+    - generic [ref=e13]:
+      - generic [ref=e14]: Hubungan Pelanggan
+      - heading "Terhubung dengan Kami" [level=1] [ref=e15]
+      - paragraph [ref=e17]: Kami selalu siap melayani Anda. Kunjungi kami untuk pengalaman kuliner autentik yang tak terlupakan.
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Kontak & Lokasi" [level=2] [ref=e22]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]: Alamat
+            - paragraph [ref=e26]:
+              - link "Jl. Raya Tajur No.30, RT.04/RW.01, Pakuan, Kec. Bogor Sel., Kota Bogor, Jawa Barat 16134" [ref=e27] [cursor=pointer]:
+                - /url: https://maps.app.goo.gl/J5wMuZqK8dnd5nu19
+          - generic [ref=e28]:
+            - generic [ref=e29]: Jam Operasional
+            - paragraph [ref=e30]: "Setiap Hari: 08.00 - 21.00 WIB"
+          - generic [ref=e31]:
+            - generic [ref=e32]: WhatsApp
+            - paragraph [ref=e33]:
+              - link " Hubungi via WhatsApp" [ref=e34] [cursor=pointer]:
+                - /url: https://wa.me/6281281141923
+                - generic [ref=e35]: 
+                - text: Hubungi via WhatsApp
+      - generic [ref=e36]:
+        - generic:
+          - button [ref=e37] [cursor=pointer]:
+            - img [ref=e38]
+          - generic [ref=e41]:
+            - generic [ref=e44]:
+              - text: Monalisa Resto
+              - text: Jl. Raya Tajur No.30, RT.04/RW.01, Pakuan, Kec. Bogor Sel., Kota Bogor, Jawa Barat 16134
+              - link "Buka di Maps" [ref=e45] [cursor=pointer]:
+                - /url: https://maps.app.goo.gl/J5wMuZqK8dnd5nu19
+            - button "Close popup" [ref=e47] [cursor=pointer]: ×
+        - generic [ref=e48]:
+          - button "Zoom in" [ref=e49] [cursor=pointer]: +
+          - button "Zoom out" [ref=e50] [cursor=pointer]: −
+    - generic [ref=e53]:
+      - generic [ref=e54]:
+        - generic [ref=e55]: Warisan Monalisa
+        - heading "Nilai Seni dalam Setiap Sajian" [level=2] [ref=e56]:
+          - text: Nilai Seni dalam
+          - text: Setiap Sajian
+        - paragraph [ref=e57]: Restoran kami tidak hanya menyajikan makanan, tetapi juga sebuah pengalaman yang menghargai keindahan. "Monalisa Art" adalah jantung dari identitas visual kami, melambangkan keanggunan dan kualitas yang tak lekang oleh waktu.
+      - img "Monalisa Art Piece" [ref=e59]
+  - contentinfo [ref=e60]:
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - paragraph [ref=e63]: Monalisa Resto
+        - paragraph [ref=e64]: Menyajikan cita rasa autentik khas Jawa Tengah dengan resep warisan keluarga yang terus dijaga kelestariannya.
+        - link "Hubungi Kami & Lokasi" [ref=e65] [cursor=pointer]:
+          - /url: kontak.php
+      - paragraph [ref=e66]: © 2026 Monalisa Resto. Hak Cipta Dilindungi.
+  - generic:
+    - generic:
+      - generic:
+        - generic: 
+      - generic:
+        - generic: Monalisa Resto
+        - generic: Online
+      - button "×"
+    - generic:
+      - generic:
+        - paragraph: Selamat datang di Monalisa Resto.
+        - paragraph: Ada yang bisa kami bantu? Anda dapat menanyakan detail menu, memesan menu, atau lokasi kami.
+      - generic:
+        - button "Detail Menu "
+        - button "Memesan Menu "
+        - button "Lokasi "
+    - generic:
+      - textbox "Ketik pesan Anda di sini..."
+      - button "":
+        - generic: 
+  - button "" [ref=e67] [cursor=pointer]:
+    - generic [ref=e68]: 

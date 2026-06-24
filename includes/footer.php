@@ -57,7 +57,7 @@ if (strpos($clean_wa, '0') === 0) {
 </button>
 <?php endif; ?>
 
-<script type="module" src="assets/js/parallax.js?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/monalisa_resto/assets/js/parallax.js') ?>"></script>
+<script type="module" src="assets/js/parallax.js?v=2"></script>
 
 </body>
 </html>
