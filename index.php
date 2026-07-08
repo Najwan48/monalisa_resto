@@ -21,7 +21,7 @@ $menus = $stmt_menu->fetchAll();
     <div class="hero-text-side">
         <div class="parallax-element" data-speed="0.15">
             <div class="reveal reveal-up">
-                <span class="eyebrow" style="letter-spacing: 0.3em; opacity: 0.8;">EST. 1998 — BOGOR</span>
+                <span class="eyebrow" style="letter-spacing: 0.3em; opacity: 0.8;">EST. 1972 — BOGOR</span>
             </div>
             <h1 class="hero-heading reveal reveal-up delay-1">
                 <?php
@@ -54,7 +54,7 @@ $menus = $stmt_menu->fetchAll();
         </div>
 
         <div class="hero-badge reveal reveal-up delay-4 parallax-element" data-speed="0.25">
-            <div class="badge-number">25</div>
+            <div class="badge-number">54</div>
             <div class="badge-label">Tahun Warisan</div>
         </div>
     </div>
