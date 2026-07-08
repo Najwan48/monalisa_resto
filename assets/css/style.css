@@ -387,7 +387,7 @@ header.scrolled {
 
 .hero-heading {
     font-size: clamp(3.5rem, 6vw, 6.5rem);
-    font-weight: 400;
+    font-weight: 500;
     font-style: italic;
     line-height: 1.2;
     color: var(--charcoal);
@@ -397,6 +397,7 @@ header.scrolled {
 .hero-sub {
     font-size: 1.05rem;
     color: var(--text-muted);
+    font-weight: 500;
     line-height: 1.85;
     max-width: 440px;
     margin-bottom: 3rem;
@@ -694,15 +695,24 @@ footer a { color: var(--primary-light); }
         border-radius: 0;
         box-shadow: none;
     }
-    .hero-image-overlay { 
-        background: linear-gradient(to bottom, rgba(245,241,235,0.1) 0%, rgba(245,241,235,0.8) 60%, var(--bg-warm) 95%); 
+    .hero-image-overlay {
+        background: linear-gradient(to bottom, rgba(245,241,235,0.15) 0%, rgba(245,241,235,0.97) 45%, var(--bg-warm) 85%);
     }
     .hero-text-side {
         padding: 8rem var(--container-padding) 4rem;
         text-align: center;
         align-items: center;
         z-index: 2;
-        background: transparent;
+        background: linear-gradient(to bottom, transparent 0%, var(--bg-warm) 40%);
+    }
+    .hero-text-side .eyebrow {
+        color: var(--primary);
+        opacity: 1 !important;
+        font-size: 0.7rem;
+        text-shadow: 0 0 8px var(--bg-warm), 0 0 16px var(--bg-warm);
+    }
+    .hero-heading, .hero-sub {
+        text-shadow: 0 0 12px var(--bg-warm), 0 0 24px var(--bg-warm);
     }
     .hero-sub { margin-left: auto; margin-right: auto; }
     .hero-actions { justify-content: center; width: 100%; }
@@ -869,6 +879,25 @@ footer a { color: var(--primary-light); }
     align-items: start;
 }
 
+.signature-grid > div:first-child .section-title {
+    font-size: clamp(3.5rem, 5.5vw, 5.5rem);
+    font-weight: 500;
+    color: var(--charcoal);
+}
+
+.signature-grid > div:first-child .eyebrow {
+    font-size: 0.85rem;
+    opacity: 1 !important;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.signature-grid > div:first-child > p {
+    font-size: 1.05rem;
+    color: var(--charcoal);
+    opacity: 0.85;
+}
+
 .signature-item {
     display: grid;
     grid-template-columns: clamp(180px, 25vw, 280px) 1fr;
@@ -919,6 +948,32 @@ footer a { color: var(--primary-light); }
     }
     .signature-item .menu-card-img {
         height: clamp(160px, 40vw, 220px);
+    }
+    .signature-grid > div:first-child .eyebrow {
+        font-size: 0.85rem;
+        letter-spacing: 0.3em;
+        color: var(--primary);
+        opacity: 1 !important;
+        font-weight: 600;
+        text-align: center;
+    }
+    .signature-grid > div:first-child .section-title {
+        font-size: clamp(3.2rem, 14vw, 5rem);
+        color: var(--charcoal);
+        font-weight: 500;
+        text-align: center;
+    }
+    .signature-grid > div:first-child p {
+        font-size: 1.05rem;
+        color: var(--charcoal);
+        line-height: 1.75;
+        opacity: 0.85;
+        text-align: center;
+    }
+    .signature-grid > div:first-child .divider-left {
+        margin-left: auto;
+        margin-right: auto;
+    }
     }
 
     .prop-item {
