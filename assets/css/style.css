@@ -1027,6 +1027,10 @@ footer a { color: var(--primary-light); }
     padding-top: clamp(8rem, 12vw, 12rem);
 }
 
+.page-header .container p {
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .page-header { padding: calc(var(--header-h-small) + 2rem) 0 2rem; }
     .page-header .container { padding-top: 0; }
