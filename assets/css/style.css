@@ -930,6 +930,25 @@ footer a { color: var(--primary-light); }
     align-items: center;
 }
 
+.order-actions .btn {
+    flex: 1;
+    min-width: 0;
+    max-width: 260px;
+    white-space: nowrap;
+}
+
+.order-actions .btn-gofood,
+.order-actions .btn-grabfood {
+    padding: 12px 20px;
+    font-size: 0.8rem;
+    gap: 8px;
+    height: 48px;
+}
+
+.order-actions .btn img {
+    height: 18px;
+}
+
 @media (max-width: 1024px) {
     .signature-grid {
         grid-template-columns: 1fr;
@@ -984,18 +1003,33 @@ footer a { color: var(--primary-light); }
     .order-actions {
         flex-direction: column;
     }
+    .order-actions .btn {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+    }
 }
 
 .page-header {
     background: var(--bg-warm);
-    padding: clamp(8rem, 15vw, 12rem) 0 clamp(4rem, 8vw, 6rem);
+    padding: calc(var(--header-h) + clamp(4rem, 8vw, 6rem)) 0 clamp(4rem, 8vw, 6rem);
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 
+.page-header .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(30vh, 40vh, 50vh);
+    padding-top: clamp(8rem, 12vw, 12rem);
+}
+
 @media (max-width: 768px) {
-    .page-header { padding: 7rem 0 3rem; }
+    .page-header { padding: calc(var(--header-h-small) + 2rem) 0 2rem; }
+    .page-header .container { padding-top: 0; }
 }
 
 .search-container {
